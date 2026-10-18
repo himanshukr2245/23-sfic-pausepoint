@@ -22,7 +22,7 @@
     "lint": "eslint",
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
-    "check:fast": "next typegen && tsc --noEmit && eslint . && node scripts/check-secrets.mjs && node scripts/check-tokens.mjs",
+    "check:fast": "next typegen && node --max-old-space-size=4096 node_modules/typescript/bin/tsc --noEmit && node --max-old-space-size=4096 node_modules/eslint/bin/eslint.js . && node scripts/check-secrets.mjs && node scripts/check-tokens.mjs",
     "check": "npm run check:fast && node scripts/check-rls.mjs && node scripts/check-honesty.mjs && node scripts/check-assets.mjs && vitest run --passWithNoTests && next build && node scripts/check-dynamic.mjs && playwright test",
     "check:release": "npm run check && node scripts/verify-lock.mjs && npm audit --omit=dev --audit-level=high && node scripts/check-bundle.mjs && node scripts/check-weight.mjs && node scripts/check-opennext.mjs && node scripts/check-licences.mjs && node scripts/check-chunks.mjs && node scripts/facts.mjs",
     "check:live": "node scripts/check-live.mjs",
