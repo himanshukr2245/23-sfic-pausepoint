@@ -1,0 +1,48 @@
+# .github/workflows/ci.yml — runs on every push and pull request (copy from HK_KIT/templates/ci.yml).
+# Job 1 repeats Cloudflare Workers Builds EXACTLY (Linux, npm 10.9.2 clean install, the real OpenNext build) so a deploy-breaking
+# change fails here, before Cloudflare: a Windows laptop cannot reproduce Linux npm's dependency tree (STK-3, ledger F-41 / F-56).
+# Job 2 runs the gate ladder. Hardened per SEC-9: read-only token, actions pinned to full commit SHAs (tags can be moved).
+name: ci
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  workers-build:
+    name: Workers Builds rehearsal (Linux · npm 10.9.2 · real OpenNext build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+      - name: Install exactly like Workers Builds (npm 10.9.2, clean install)
+        run: npx --yes npm@10.9.2 clean-install --progress=false --no-audit --no-fund
+      - name: Build exactly like Workers Builds
+        run: npx opennextjs-cloudflare build
+      - name: Worker size (Workers free plan limit 3 MB gzip)
+        run: npx wrangler deploy --dry-run
+
+  gates:
+    name: Gate ladder (npm run check)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+      - run: npx --yes npm@10.9.2 clean-install --progress=false --no-audit --no-fund
+      - name: Browser for the end-to-end tests (full Chromium, no headless shell)
+        run: npx playwright install --with-deps --no-shell chromium
+      - run: npm run check
+      - name: Lockfile installs with the deploy's npm
+        run: node scripts/verify-lock.mjs
+      - name: No high-severity production vulnerabilities
+        run: npm audit --omit=dev --audit-level=high

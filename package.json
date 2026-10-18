@@ -1,0 +1,61 @@
+{
+  "name": "hk-starter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "HK Starter — the pre-wired template for every new app (HK Universal Library v3)",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "dev": "next dev --turbo -H 127.0.0.1",
+    "dev:clean": "node scripts/clean-dev.mjs",
+    "dev:phone": "next dev --turbo -H 0.0.0.0",
+    "build": "next build",
+    "start": "next start",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "prepare": "git config core.hooksPath .githooks || echo hk: not a git repository - pre-commit hook not installed",
+    "hk:init": "node .hk-template/hk-init.mjs",
+    "lock": "node scripts/verify-lock.mjs --fix",
+    "verify:lock": "node scripts/verify-lock.mjs",
+    "lint": "eslint",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "check:fast": "next typegen && tsc --noEmit && eslint . && node scripts/check-secrets.mjs && node scripts/check-tokens.mjs",
+    "check": "npm run check:fast && node scripts/check-rls.mjs && node scripts/check-honesty.mjs && node scripts/check-assets.mjs && vitest run --passWithNoTests && next build && node scripts/check-dynamic.mjs && playwright test",
+    "check:release": "npm run check && node scripts/verify-lock.mjs && npm audit --omit=dev --audit-level=high && node scripts/check-bundle.mjs && node scripts/check-weight.mjs && node scripts/check-opennext.mjs && node scripts/check-licences.mjs && node scripts/check-chunks.mjs && node scripts/facts.mjs",
+    "check:live": "node scripts/check-live.mjs",
+    "facts": "node scripts/facts.mjs",
+    "hack:plan": "node scripts/hackathon-plan.mjs",
+    "seal": "node scripts/hk-seal.mjs"
+  },
+  "dependencies": {
+    "@opennextjs/cloudflare": "1.20.8",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.117.2",
+    "idb": "^8.0.4",
+    "next": "16.3.8",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^24.19.1",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "esbuild": "^0.27.7",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.8",
+    "fake-indexeddb": "^6.2.5",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^5.0.3",
+    "wrangler": "^4.147.0"
+  },
+  "overrides": {
+    "sharp": "0.35.5"
+  }
+}

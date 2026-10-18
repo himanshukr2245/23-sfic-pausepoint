@@ -1,0 +1,4 @@
+# Normalise line endings in the repo; git hooks run under sh, and a CRLF checkout (core.autocrlf=true on Windows) breaks them.
+* text=auto
+.githooks/* text eol=lf
+*.sh text eol=lf

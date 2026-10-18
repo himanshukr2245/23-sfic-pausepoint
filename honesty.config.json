@@ -1,0 +1,25 @@
+{
+  "scan": [
+    "src",
+    "README.md",
+    "docs"
+  ],
+  "banned": [
+    {
+      "pattern": "\\bencrypt",
+      "why": "nothing in this app encrypts notes on the device (IndexedDB is not encrypted) — add a CLAIMS.md row with proof before saying it"
+    },
+    {
+      "pattern": "\\b1[02]0\\s?FPS\\b",
+      "why": "unmeasured frame-rate claim; 60 Hz phones cannot show 120 FPS"
+    },
+    {
+      "pattern": "\\bzero latency\\b|\\b0 ?ms latency\\b",
+      "why": "unmeasurable claim"
+    },
+    {
+      "pattern": "\\bunhackable\\b|\\bmilitary[- ]grade\\b|\\b100% secure\\b",
+      "why": "NEVER claims (docs/CLAIMS.md C3)"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# next.js — Next 16 keeps `next dev` output in .next/dev and `next build` in .next
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
+# Cloudflare / OpenNext — generated on every build, never commit (STK-3)
+/.open-next/
+/.wrangler/
+.dev.vars
+
+# secrets — only the names-only example is committed (SEC-1)
+.env*
+!.env.example
+*.pem
+*.jks
+*.keystore
+
+# tests and gate output
+/coverage
+/playwright-report/
+/test-results/
+/.hk/
+
+# misc
+.DS_Store
+npm-debug.log*
+.vercel

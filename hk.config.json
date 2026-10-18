@@ -1,0 +1,80 @@
+{
+  "app": {
+    "id": "hk-starter",
+    "name": "HK Starter"
+  },
+  "paths": {
+    "src": "src",
+    "app": "src/app",
+    "public": "public",
+    "migrations": "supabase/migrations"
+  },
+  "assets": {
+    "dirs": [
+      "public"
+    ],
+    "exempt": [
+      "public/icons/**",
+      "public/fonts/**",
+      "public/og.png",
+      "public/brand/og*",
+      "public/sw.js",
+      "public/_headers"
+    ],
+    "nameLists": [],
+    "maxTotalMB": 5,
+    "maxFileKB": 200,
+    "maxWidthPx": 860
+  },
+  "weight": {
+    "budgetKB": 1300,
+    "port": 3199,
+    "routes": [],
+    "chunkExempt": [
+      {
+        "contains": "GoTrueClient",
+        "why": "supabase-js — loaded on demand (dynamic import) only when accounts are on; e2e/perf.spec.ts proves pages do not download it up front"
+      }
+    ]
+  },
+  "tokens": {
+    "scan": [
+      "src"
+    ]
+  },
+  "deploy": {
+    "npmVersion": "10.9.2"
+  },
+  "live": {
+    "adminPath": "/hk-admin",
+    "decoys": [
+      "/admin",
+      "/wp-admin"
+    ],
+    "health": "/api/health",
+    "smoke": [
+      "/",
+      "/about",
+      "/design",
+      "/notes",
+      "/login",
+      "/offline",
+      "/manifest.webmanifest",
+      "/sw.js"
+    ],
+    "expectNonceCsp": true,
+    "supabaseUrl": ""
+  },
+  "licences": {
+    "acknowledged": [
+      {
+        "file": "public/fonts/TeroxiaDemo-PersonalUse.woff",
+        "note": "owner decision 2026-10-13: kept in the template showcase; buy a licence or replace before any commercial or client use"
+      },
+      {
+        "file": "public/fonts/TeroxiaDemo-PersonalUse.otf",
+        "note": "owner decision 2026-10-13: kept in the template showcase; buy a licence or replace before any commercial or client use"
+      }
+    ]
+  }
+}

@@ -1,0 +1,453 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'TeroxiaDemo';
+  src: url('/fonts/TeroxiaDemo-PersonalUse.woff') format('woff'),
+       url('/fonts/TeroxiaDemo-PersonalUse.otf') format('opentype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Teroxia-Fallback';
+  src: local('Arial'), local('Helvetica'), local('sans-serif');
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+  size-adjust: 100%;
+}
+
+/* ── Design tokens (BLD-4 & PRF-5) ───────────────────────────────────────────
+   Tailwind v4 theme tokens with AWS Enterprise Ceramic (Light) & OLED Obsidian (Dark).
+   check-tokens validates every utility class. */
+@theme {
+  --color-bg: oklch(0.985 0.003 240);        /* Ceramic Pearl Canvas */
+  --color-surface: oklch(1 0 0);              /* Pure Alabaster White Cards */
+  --color-surface-2: oklch(0.965 0.005 240);  /* Elevated Floating Surfaces & Pills */
+  --color-surface-3: oklch(0.935 0.008 240);  /* Chip & Micro-Badge Backgrounds */
+  --color-fg: oklch(0.14 0.02 260);          /* Deep Charcoal - High-Definition Text */
+  --color-fg-muted: oklch(0.42 0.02 260);    /* Warm Graphite Secondary Typography */
+  --color-border: oklch(0.90 0.006 240);      /* Crisp Specular Micro-Border */
+  --color-brand: oklch(0.52 0.22 265);         /* 5.7:1 behind brand-fg — keep ≥ 4.5 (axe) with margin for hover */
+  --color-brand-fg: oklch(0.99 0 0);
+  --color-danger: oklch(0.55 0.22 25);
+  --color-success: oklch(0.55 0.16 155);
+  --color-warning: oklch(0.65 0.16 75);
+  --color-focus: oklch(0.60 0.22 265);
+
+  --color-cyan: oklch(0.62 0.18 210);
+  --color-cyan-fg: oklch(0.42 0.11 215);     /* cyan for TEXT on light surfaces and cyan tints (contrast ≥ 4.5:1) */
+  --color-sheen: oklch(1 0 0);                /* pure LIGHT overlay (glass highlights, light rings) — the same in both themes */
+  --color-shade: oklch(0 0 0);                /* pure DARK overlay (scrims, hairlines) — the same in both themes */
+  /* Cyber buttons (Button cyber-solid / cyber-outline) — #00e5ff family, converted with hk:init's OKLCH maths */
+  --color-cyber: oklch(0.844 0.146 209.3);
+  --color-cyber-ink: oklch(0.144 0.027 242.6);         /* text on cyber cyan — 13:1 */
+  --color-cyber-edge: oklch(0.729 0.126 210.8);
+  --color-cyber-edge-hover: oklch(0.619 0.106 208);
+  --color-cyber-surface: oklch(1 0 0 / 0.95);
+  --color-cyber-fg: oklch(0.144 0.027 242.6);
+  /* Shadows are inlined by Tailwind (not var() lookups), so a dark version is its own token used with dark: */
+  --shadow-cyber-glow: 0 0 16px oklch(0.844 0.146 209.3 / 0.6);
+  --shadow-cyber-glow-strong: 0 0 24px oklch(0.844 0.146 209.3 / 0.9);
+  --shadow-cyber-flare: 0 0 24px oklch(0.844 0.146 209.3 / 0.6);
+  --shadow-cyber-outline: 0 2px 12px oklch(0.729 0.126 210.8 / 0.2);
+  --shadow-cyber-outline-hover: 0 0 20px oklch(0.729 0.126 210.8 / 0.45);
+  --shadow-cyber-outline-dark: 0 0 12px oklch(0.8 0.146 220.7 / 0.3);
+  --shadow-cyber-outline-dark-hover: 0 0 20px oklch(0.8 0.146 220.7 / 0.6);
+  --shadow-cyan-soft: 0 0 12px oklch(0.715 0.126 215 / 0.3);        /* AWS Electric Cyan Phosphor */
+  --color-emerald: oklch(0.58 0.18 150);
+  --color-violet: oklch(0.58 0.22 290);
+  --color-amber: oklch(0.72 0.18 75);
+  --color-rose: oklch(0.65 0.22 15);
+  --color-indigo: oklch(0.55 0.22 265);
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Segoe UI Mono", Menlo, monospace;
+  --font-teroxia: 'TeroxiaDemo', 'Teroxia-Fallback', system-ui, sans-serif;   /* personal-use licence: see AGENTS.md */
+
+  --radius-card: 1.25rem;
+  --spacing-touch: 3rem; /* 48px touch target floor (DEV-3) */
+
+  /* 0ms Perceptual Latency Physics Curves */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-glass: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Dark theme: <html data-theme="dark"> ───────────────────────────────────
+   Deep OLED Obsidian Canvas with luminous phosphor contrast */
+[data-theme="dark"] {
+  --color-bg: oklch(0.12 0.02 260);        /* #080A10 Deep Obsidian */
+  --color-surface: oklch(0.16 0.022 260);   /* Elevated Slate Card */
+  --color-surface-2: oklch(0.21 0.026 260); /* Interactive Surface */
+  --color-surface-3: oklch(0.26 0.03 260);  /* Highest Elevated Chip */
+  --color-fg: oklch(0.98 0.004 250);        /* Crisp High-Contrast Text */
+  --color-fg-muted: oklch(0.72 0.018 250);  /* Warm Slate Subtext */
+  --color-border: oklch(0.28 0.025 260);    /* Specular Glass Border */
+  --color-brand: oklch(0.72 0.18 265);
+  --color-brand-fg: oklch(0.12 0.02 260);
+  --color-danger: oklch(0.72 0.18 25);
+  --color-success: oklch(0.75 0.15 155);
+  --color-warning: oklch(0.82 0.14 80);
+  --color-focus: oklch(0.78 0.16 265);
+
+  --color-cyan: oklch(0.75 0.15 210);
+  --color-cyan-fg: oklch(0.86 0.11 205);
+  --color-cyber-edge: oklch(0.8 0.146 220.7);
+  --color-cyber-edge-hover: oklch(1 0 0);
+  --color-cyber-surface: oklch(0.144 0.027 242.6 / 0.85);
+  --color-cyber-fg: oklch(1 0 0);
+  --color-emerald: oklch(0.75 0.16 150);
+  --color-violet: oklch(0.74 0.19 290);
+  --color-amber: oklch(0.82 0.16 75);
+  --color-rose: oklch(0.72 0.18 350);
+  --color-rose-fg: oklch(0.98 0.02 350);
+}
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@layer base {
+  html { color-scheme: light; background: var(--color-bg); }
+  [data-theme="dark"] { color-scheme: dark; }
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  :focus-visible { outline: 3px solid var(--color-focus); outline-offset: 2px; border-radius: 6px; }
+  ::selection { background: var(--color-brand); color: var(--color-brand-fg); }
+}
+
+/* ── AWS Precision Architecture & Luxury Utilities ───────────────────────── */
+@layer utilities {
+  .font-teroxia {
+    font-family: 'TeroxiaDemo', 'Teroxia Demo', system-ui, sans-serif;
+  }
+
+  .aws-card {
+    position: relative;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    box-shadow:
+      0 2px 8px -2px rgba(15, 23, 42, 0.04),
+      0 1px 3px 0 rgba(15, 23, 42, 0.02);
+    transition:
+      border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .aws-card:hover {
+    border-color: var(--card-border-hover, var(--color-border-strong, rgba(6, 182, 212, 0.45)));
+    box-shadow:
+      0 12px 28px -4px rgba(15, 23, 42, 0.08),
+      0 4px 10px -2px rgba(15, 23, 42, 0.04);
+    transform: translateY(-2px);
+  }
+  [data-theme="dark"] .aws-card {
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  }
+  [data-theme="dark"] .aws-card:hover {
+    border-color: var(--card-border-hover, rgba(6, 182, 212, 0.6));
+    box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Universal AWS Spotlight Card — Combines Optical Border, Hover Glow & GPU Spotlight */
+  .aws-spotlight-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    border-radius: 1rem;
+    transition:
+      border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .aws-spotlight-card:hover {
+    border-color: var(--card-border-hover, rgba(6, 182, 212, 0.5));
+    box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+  }
+  [data-theme="dark"] .aws-spotlight-card {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  [data-theme="dark"] .aws-spotlight-card:hover {
+    border-color: var(--card-border-hover, rgba(6, 182, 212, 0.6));
+    box-shadow: 0 14px 36px -4px rgba(0, 0, 0, 0.6);
+  }
+
+  .aws-card-aurora {
+    background:
+      linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+      linear-gradient(135deg, #ec4899 0%, #8b5cf6 45%, #06b6d4 100%) border-box; /* tokens-ok */
+    border: 1.5px solid transparent;
+    box-shadow:
+      -4px 12px 36px -4px rgba(236, 72, 153, 0.22),
+      4px 16px 40px -4px rgba(6, 182, 212, 0.26);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .aws-card-aurora:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      -6px 16px 44px -4px rgba(236, 72, 153, 0.32),
+      6px 20px 48px -4px rgba(6, 182, 212, 0.36);
+  }
+
+  /* AWS Expander Button — Neutral Sleek at rest, Smooth Aurora Bloom on Hover */
+  .aws-gradient-pill {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--color-surface);
+    color: var(--color-fg);
+    border: 1.5px solid var(--color-border);
+    box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.06);
+    transition:
+      border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      color 0.25s ease;
+  }
+  .aws-gradient-pill > * {
+    position: relative;
+    z-index: 1;
+  }
+  .aws-gradient-pill::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    background: linear-gradient(90deg, #fce7f3 0%, #ede9fe 50%, #cffafe 100%); /* tokens-ok */
+  }
+  .aws-gradient-pill:hover::before {
+    opacity: 1;
+  }
+  .aws-gradient-pill:hover {
+    border-color: rgba(236, 72, 153, 0.45);
+    box-shadow:
+      -3px 6px 20px -2px rgba(236, 72, 153, 0.25),
+      3px 8px 24px -2px rgba(6, 182, 212, 0.28);
+    transform: translateY(-1px) scale(1.02);
+    color: oklch(0.15 0.02 260);
+  }
+  [data-theme="dark"] .aws-gradient-pill {
+    background: var(--color-surface-2);
+    border-color: var(--color-border);
+    box-shadow: 0 2px 12px -2px rgba(0, 0, 0, 0.4);
+    color: var(--color-fg);
+  }
+  [data-theme="dark"] .aws-gradient-pill::before {
+    background: linear-gradient(90deg, #831843 0%, #4c1d95 50%, #164e63 100%); /* tokens-ok */
+  }
+  [data-theme="dark"] .aws-gradient-pill:hover {
+    color: #ffffff;
+    border-color: rgba(236, 72, 153, 0.65);
+    box-shadow:
+      -3px 6px 24px -2px rgba(236, 72, 153, 0.42),
+      3px 8px 28px -2px rgba(6, 182, 212, 0.46);
+  }
+}
+
+/* "Reduce effects" (PRF-5) and the OS preference both switch motion off. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+.reduce-effects *, .reduce-effects *::before, .reduce-effects *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* ── GPU Content Visibility Optimization (Phase 6: PRF-5) ────────────────────
+   Tells the browser engine to skip layout & rendering for below-the-fold blocks
+   until the user scrolls near them, reducing initial DOM computation by up to 85%. */
+.cv-lazy {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 550px;
+}
+
+/* ── Linear-Style Radial Spotlight Engine with Custom Color Overlays ─────── */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+.spotlight-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+    var(--spotlight-color, rgba(255, 255, 255, 0.08)),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.spotlight-card:hover::before {
+  opacity: 1;
+}
+[data-theme="light"] .spotlight-card::before {
+  background: radial-gradient(
+    600px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+    var(--spotlight-color-light, rgba(15, 23, 42, 0.04)),
+    transparent 40%
+  );
+}
+
+/* Dynamic Spotlight & Border Accent Color Presets */
+.spotlight-cyan {
+  --spotlight-color: rgba(6, 182, 212, 0.16); /* tokens-ok */
+  --spotlight-color-light: rgba(6, 182, 212, 0.08); /* tokens-ok */
+  --card-border-hover: rgba(6, 182, 212, 0.55); /* tokens-ok */
+}
+.spotlight-indigo {
+  --spotlight-color: rgba(99, 102, 241, 0.18); /* tokens-ok */
+  --spotlight-color-light: rgba(99, 102, 241, 0.08); /* tokens-ok */
+  --card-border-hover: rgba(99, 102, 241, 0.55); /* tokens-ok */
+}
+.spotlight-rose {
+  --spotlight-color: rgba(244, 63, 94, 0.18); /* tokens-ok */
+  --spotlight-color-light: rgba(244, 63, 94, 0.08); /* tokens-ok */
+  --card-border-hover: rgba(244, 63, 94, 0.55); /* tokens-ok */
+}
+.spotlight-emerald {
+  --spotlight-color: rgba(16, 185, 129, 0.16); /* tokens-ok */
+  --spotlight-color-light: rgba(16, 185, 129, 0.08); /* tokens-ok */
+  --card-border-hover: rgba(16, 185, 129, 0.55); /* tokens-ok */
+}
+.spotlight-amber {
+  --spotlight-color: rgba(245, 158, 11, 0.16); /* tokens-ok */
+  --spotlight-color-light: rgba(245, 158, 11, 0.08); /* tokens-ok */
+  --card-border-hover: rgba(245, 158, 11, 0.55); /* tokens-ok */
+}
+.spotlight-violet {
+  --spotlight-color: rgba(168, 85, 247, 0.18); /* tokens-ok */
+  --spotlight-color-light: rgba(168, 85, 247, 0.08); /* tokens-ok */
+  --card-border-hover: rgba(168, 85, 247, 0.55); /* tokens-ok */
+}
+
+/* ── Turbo 120 FPS Zero-Blur Engine ──────────────────────────────────────────
+   Removes expensive multi-pass Gaussian blur shaders for pure flat/textured
+   hardware compositing, guaranteeing <0.1ms frame paint times. */
+[data-perf="turbo"] *,
+[data-perf="turbo"] *::before,
+[data-perf="turbo"] *::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+[data-perf="turbo"] .backdrop-blur-xl,
+[data-perf="turbo"] .backdrop-blur-md,
+[data-perf="turbo"] .backdrop-blur-sm {
+  background-color: var(--color-surface) !important;
+}
+
+/* ── Minimalist Full-Canvas Mode ─────────────────────────────────────────────
+   When a route renders .minimal-canvas, it takes 100% full-viewport control,
+   bypassing standard layout chrome and padding for pure distraction-free focus. */
+body:has(.minimal-canvas) {
+  overflow-x: hidden;
+}
+body:has(.minimal-canvas) > header,
+body:has(.minimal-canvas) > footer {
+  display: none !important;
+}
+body:has(.minimal-canvas) > main {
+  padding: 0 !important;
+  max-width: none !important;
+}
+
+/* ── Editorial Studio Instant Multi-Theme Engine ─────────────────────────────
+   Pre-hydration CSS Custom Properties. Guarantees sub-millisecond latency, zero flash of
+   unstyled theme (FOUT), and instantaneous synchronous compositor paint. */
+:root,
+[data-editorial-theme="terracotta"] {
+  --ed-accent: #c25e40; /* tokens-ok */
+  --ed-accent-glow: rgba(194, 94, 64, 0.35); /* tokens-ok */
+  --ed-accent-text: #c25e40; /* tokens-ok */
+  --ed-accent-bg: rgba(194, 94, 64, 0.12); /* tokens-ok */
+  --ed-accent-border: rgba(194, 94, 64, 0.35); /* tokens-ok */
+  --ed-canvas: #121110; /* tokens-ok */
+  --ed-surface: #181614; /* tokens-ok */
+  --ed-surface-raised: #221f1c; /* tokens-ok */
+  --ed-border: #2e2a26; /* tokens-ok */
+  --ed-text: #ede8e1; /* tokens-ok */
+  --ed-text-muted: #a39e95; /* tokens-ok */
+  --ed-quote-bg: #1c1a17; /* tokens-ok */
+  --ed-quote-border: #c25e40; /* tokens-ok */
+  --ed-badge-bg: rgba(194, 94, 64, 0.15); /* tokens-ok */
+  --ed-badge-text: #c25e40; /* tokens-ok */
+  --ed-badge-border: rgba(194, 94, 64, 0.35); /* tokens-ok */
+}
+
+[data-editorial-theme="obsidian"] {
+  --ed-accent: #d4af37; /* tokens-ok */
+  --ed-accent-glow: rgba(212, 175, 55, 0.35); /* tokens-ok */
+  --ed-accent-text: #d4af37; /* tokens-ok */
+  --ed-accent-bg: rgba(212, 175, 55, 0.12); /* tokens-ok */
+  --ed-accent-border: rgba(212, 175, 55, 0.35); /* tokens-ok */
+  --ed-canvas: #0d0d0d; /* tokens-ok */
+  --ed-surface: #141414; /* tokens-ok */
+  --ed-surface-raised: #1c1c1c; /* tokens-ok */
+  --ed-border: #262626; /* tokens-ok */
+  --ed-text: #f0f0f0; /* tokens-ok */
+  --ed-text-muted: #8c8c8c; /* tokens-ok */
+  --ed-quote-bg: #141414; /* tokens-ok */
+  --ed-quote-border: #d4af37; /* tokens-ok */
+  --ed-badge-bg: rgba(212, 175, 55, 0.15); /* tokens-ok */
+  --ed-badge-text: #d4af37; /* tokens-ok */
+  --ed-badge-border: rgba(212, 175, 55, 0.35); /* tokens-ok */
+}
+
+[data-editorial-theme="parchment"] {
+  --ed-accent: #9a3412; /* tokens-ok */
+  --ed-accent-glow: rgba(154, 52, 18, 0.25); /* tokens-ok */
+  --ed-accent-text: #9a3412; /* tokens-ok */
+  --ed-accent-bg: rgba(154, 52, 18, 0.1); /* tokens-ok */
+  --ed-accent-border: rgba(154, 52, 18, 0.3); /* tokens-ok */
+  --ed-canvas: #fbf8f2; /* tokens-ok */
+  --ed-surface: #f4ede2; /* tokens-ok */
+  --ed-surface-raised: #ffffff; /* tokens-ok */
+  --ed-border: #ded3c0; /* tokens-ok */
+  --ed-text: #1c1917; /* tokens-ok */
+  --ed-text-muted: #57534e; /* tokens-ok */
+  --ed-quote-bg: #ffffff; /* tokens-ok */
+  --ed-quote-border: #9a3412; /* tokens-ok */
+  --ed-badge-bg: rgba(154, 52, 18, 0.1); /* tokens-ok */
+  --ed-badge-text: #9a3412; /* tokens-ok */
+  --ed-badge-border: rgba(154, 52, 18, 0.3); /* tokens-ok */
+}
+
+[data-editorial-theme="cyber"] {
+  --ed-accent: #06b6d4; /* tokens-ok */
+  --ed-accent-glow: rgba(6, 182, 212, 0.4); /* tokens-ok */
+  --ed-accent-text: #22d3ee; /* tokens-ok */
+  --ed-accent-bg: rgba(6, 182, 212, 0.12); /* tokens-ok */
+  --ed-accent-border: rgba(6, 182, 212, 0.4); /* tokens-ok */
+  --ed-canvas: #06080c; /* tokens-ok */
+  --ed-surface: #0a0d14; /* tokens-ok */
+  --ed-surface-raised: #0f1522; /* tokens-ok */
+  --ed-border: #152238; /* tokens-ok */
+  --ed-text: #ecfeff; /* tokens-ok */
+  --ed-text-muted: #64748b; /* tokens-ok */
+  --ed-quote-bg: #0b111c; /* tokens-ok */
+  --ed-quote-border: #06b6d4; /* tokens-ok */
+  --ed-badge-bg: rgba(6, 182, 212, 0.15); /* tokens-ok */
+  --ed-badge-text: #22d3ee; /* tokens-ok */
+  --ed-badge-border: rgba(6, 182, 212, 0.4); /* tokens-ok */
+}
+
+

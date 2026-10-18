@@ -1,0 +1,15 @@
+#!/bin/sh
+# .githooks/pre-commit — committed to the repo so every teammate gets it.
+# Activated automatically by `npm install` via:  "prepare": "git config core.hooksPath .githooks"
+# Works on Windows too (Git for Windows runs hooks with its bundled sh).
+node scripts/check-secrets.mjs --staged || {
+  echo "🚨 Commit blocked: a secret is staged. Move it to .env.local (and rotate it if it was ever pushed)."
+  exit 1
+}
+# Lockfile check (STK-3) — only when package-lock.json is staged; skipped in repos that did not copy verify-lock.mjs.
+if [ -f scripts/verify-lock.mjs ]; then
+  node scripts/verify-lock.mjs --staged || {
+    echo "🚨 Commit blocked: package-lock.json will not install on Cloudflare (its npm differs from yours). Run: npm run lock — then commit again."
+    exit 1
+  }
+fi
