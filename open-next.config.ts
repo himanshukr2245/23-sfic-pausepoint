@@ -1,3 +1,10 @@
 import { defineCloudflareConfig } from '@opennextjs/cloudflare';
-// Minimal config. Add an incremental cache (e.g. R2) later if you use ISR heavily — see the OpenNext Cloudflare caching docs.
-export default defineCloudflareConfig({});
+
+// buildCommand: 'npx next build'
+// Setting buildCommand avoids infinite recursion when package.json "build" runs opennextjs-cloudflare build
+const config = defineCloudflareConfig({});
+config.buildCommand = 'npx next build';
+
+export default config;
+
+
