@@ -10,6 +10,8 @@ import { AppearanceSwitch } from './AppearanceSwitch';
 import { AudioEqualizerPill } from '@/components/ui/AudioEqualizerPill';
 import { HeaderQuickDrawer } from './HeaderQuickDrawer';
 import { playHapticTick, playPop, unlockAudio } from '@/lib/audio/synthesizer';
+import { SeniorModeToggle } from '@/components/layout/SeniorModeToggle';
+import { LanguageToggle } from '@/components/layout/LanguageToggle';
 
 import {
   LayoutGridIcon,
@@ -113,17 +115,44 @@ export function Header() {
 
           {/* ── Center Navigation Items: Home + Showcase Bento Popover ── */}
           <div className="flex items-center gap-1.5 sm:gap-2 text-xs font-semibold">
-            {/* 1. Home Tab */}
+            {/* 1. Report (Emergency Hero) */}
+            <Link
+              href="/report"
+              onClick={handleNavClick}
+              className={`rounded-xl px-3 py-1.5 transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
+                pathname === '/report'
+                  ? 'text-danger font-bold bg-danger/10 shadow-xs border border-danger/30'
+                  : 'text-fg-muted hover:text-danger hover:bg-danger/5'
+              }`}
+            >
+              <span className="w-2 h-2 rounded-full bg-danger" />
+              <span>Report (1930)</span>
+            </Link>
+
+            {/* 2. Before You Pay (Verify Brake) */}
+            <Link
+              href="/verify"
+              onClick={handleNavClick}
+              className={`rounded-xl px-3 py-1.5 transition-all duration-200 cursor-pointer ${
+                pathname === '/verify'
+                  ? 'text-fg font-bold bg-surface-2 shadow-xs border border-border/80'
+                  : 'text-fg-muted hover:text-fg hover:bg-surface-2/80'
+              }`}
+            >
+              Before You Pay
+            </Link>
+
+            {/* 3. Decode Tab */}
             <Link
               href="/"
               onClick={handleNavClick}
-              className={`rounded-xl px-3.5 py-1.5 transition-all duration-200 cursor-pointer ${
+              className={`rounded-xl px-3 py-1.5 transition-all duration-200 cursor-pointer ${
                 pathname === '/'
                   ? 'text-fg font-bold bg-surface-2 shadow-xs border border-border/80'
                   : 'text-fg-muted hover:text-fg hover:bg-surface-2/80'
               }`}
             >
-              Home
+              Decode
             </Link>
 
             {/* 2. Showcase Dropdown Tab */}
@@ -241,8 +270,14 @@ export function Header() {
             </div>
           </div>
 
-          {/* ── Right Utility Controls (Equalizer + ⌘K + Animated Switch) ── */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* ── Right Utility Controls (Language + Senior Mode + Equalizer + ⌘K + Animated Switch) ── */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            {/* Language Switcher (EN / हिन्दी) */}
+            <LanguageToggle />
+
+            {/* Senior Citizen High-Contrast Toggle */}
+            <SeniorModeToggle />
+
             {/* Live Procedural Audio Equalizer & Mute Toggle */}
             <AudioEqualizerPill />
 

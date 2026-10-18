@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "next dev --turbo -H 127.0.0.1",
-    "test": "node --test test/golden.test.ts test/decoder.test.ts",
+    "test": "node --test test/golden.test.ts test/decoder.test.ts test/ocr.test.ts test/verify.test.ts test/i18n.test.ts",
     "dev:clean": "node scripts/clean-dev.mjs",
     "dev:phone": "next dev --turbo -H 0.0.0.0",
     "build": "next build",

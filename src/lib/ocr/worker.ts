@@ -6,6 +6,14 @@ import { extractTxn, type Txn } from '@/lib/engine/golden.ts';
 import { preprocessReceiptImage } from './canvas.ts';
 
 let workerPromise: Promise<Worker> | null = null;
+let isReady = false;
+
+/**
+ * Check if the OCR worker is already instantiated and ready.
+ */
+export function isOcrWorkerReady(): boolean {
+  return isReady;
+}
 
 /**
  * Get or lazily initialize the shared Tesseract OCR worker.
@@ -17,10 +25,22 @@ export async function getOcrWorker(onProgress?: (progress: number, status: strin
 
   if (!workerPromise) {
     workerPromise = (async () => {
+      if (onProgress) {
+        onProgress(5, 'Initializing optical character engine...');
+      }
+
       const worker = await createWorker('eng', 1, {
         logger: (m) => {
-          if (m.status === 'recognizing text' && onProgress) {
-            onProgress(Math.round(m.progress * 100), m.status);
+          if (!onProgress) return;
+          if (m.status === 'loading tesseract core') {
+            onProgress(15, 'Loading core WASM modules...');
+          } else if (m.status === 'initializing tesseract') {
+            onProgress(30, 'Initializing OCR worker...');
+          } else if (m.status === 'loading language traineddata') {
+            onProgress(45, 'Loading language dictionaries...');
+          } else if (m.status === 'recognizing text') {
+            const pct = 50 + Math.round(m.progress * 48);
+            onProgress(pct, `Scanning receipt text (${Math.round(m.progress * 100)}%)...`);
           }
         },
       });
@@ -30,11 +50,27 @@ export async function getOcrWorker(onProgress?: (progress: number, status: strin
         tessedit_pageseg_mode: '6' as never,
       });
 
+      isReady = true;
+      if (onProgress) {
+        onProgress(100, 'OCR Engine Ready');
+      }
       return worker;
     })();
   }
 
   return workerPromise;
+}
+
+/**
+ * Pre-warm the Tesseract OCR worker in the background so subsequent scans are instant.
+ */
+export async function preloadOcrWorker(): Promise<void> {
+  if (typeof window === 'undefined' || isReady || workerPromise) return;
+  try {
+    await getOcrWorker();
+  } catch (err) {
+    console.warn('Preloading OCR worker deferred:', err);
+  }
 }
 
 export interface OcrScanResult {

@@ -15,8 +15,8 @@
 const VERSION = new URL(self.location.href).searchParams.get('v') || 'dev';
 const PREFIX = 'pausepoint-';                                      // hk:init writes your app's slug here
 const CACHE = `${PREFIX}${VERSION}`;
-const SHELL = ['/', '/about', '/notes', '/offline'];                          // pages that must open with no network
-const EXTRAS = ['/manifest.webmanifest', '/fonts/TeroxiaDemo-PersonalUse.woff', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/maskable-512.png'];
+const SHELL = ['/', '/report', '/verify', '/about', '/notes', '/offline'];                          // pages that must open with no network
+const EXTRAS = ['/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/maskable-512.png'];
 const NEVER = [/^\/api\//, /^\/auth(\/|$)/, /^\/_next\/image/];
 const NAV_TIMEOUT_MS = 4000;                                       // a near-dead connection is worse than none: use the saved page
 

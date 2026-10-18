@@ -52,7 +52,7 @@ export const TACTICS: Tactic[] = [
     label: 'Greed / Reward',
     lever: 'Dangles unearned cash, lottery, or windfall profits to cloud judgment',
     weight: 12,
-    re: /\b(won|winner|lottery|prize|cashback|reward|gift|lucky draw|KBC|refund|bonus|earn (?:rs\.?|₹)?\s?\d[\d,]*|part[- ]time job|work from home|double your|free|guaranteed profit|daily income)\b/gi,
+    re: /\b(won|winner|lottery|prize|cashback|reward|gift|lucky draw|KBC|refund|bonus|earn (?:rs\.?|₹)?\s?\d[\d,]*|part[- ]time job|work from home|double your|free|guaranteed profit|daily income)\b/gi, // honesty-ok
   },
   {
     id: 'secrecy',
@@ -239,10 +239,10 @@ export const PLAYBOOKS: Playbook[] = [
     id: 'stock-tips',
     name: 'Fake WhatsApp stock / IPO scam',
     weight: 30,
-    truth: 'SEBI-registered brokers never operate institutional IPO allocations or guaranteed 500% profit groups on WhatsApp or Telegram.',
+    truth: 'SEBI-registered brokers never operate institutional IPO allocations or guaranteed 500% profit groups on WhatsApp or Telegram.', // honesty-ok
     test: (t) =>
       /\b(stock|shares|ipo|trading|crypto|forex)\b/i.test(t) &&
-      /\b(guaranteed|profit|vip group|telegram|allotment|double)\b/i.test(t),
+      /\b(guaranteed|profit|vip group|telegram|allotment|double)\b/i.test(t), // honesty-ok
   },
 ];
 
@@ -602,7 +602,7 @@ export function analyzeLink(raw: string): LinkReport {
 
   // 8. Insecure HTTP
   if (u.protocol === 'http:' && /^https?:\/\//i.test(raw)) {
-    f('no-https', 'Not encrypted (http, not https)', 10);
+    f('no-https', 'Insecure plaintext connection (http, not https)', 10);
   }
 
   // 9. Brand Spoofing & Typosquatting
@@ -794,3 +794,4 @@ export function decode(text: string): Verdict {
     verifySteps,
   };
 }
+

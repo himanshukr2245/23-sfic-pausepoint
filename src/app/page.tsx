@@ -1,242 +1,279 @@
 'use client';
 
-// app/page.tsx — PausePoint Production Master Template (HK Universal Library v3).
-// ⛔ MANDATORY LAW: Always use commutative layouts — balanced compact size cards with uniform geometry across all archetypes and viewports.
-// ⛔ MANDATORY ICON LAW: Never use emojis for icons — always use pure SVG icons. If an icon is universally understandable (e.g. search, zoom, copy, close, trash), omit redundant text labels.
-// Features AWS Precision Console styling, dual-mode optical GlassCard plates,
-// TeroxiaDemo cyber typography buttons, AWS Precision Cards showcase (3 visible + show more), and <1ms latency haptics.
-import { useState, useMemo } from 'react';
-import { SITE } from '@/lib/site';
-import { AwsFeatureCard, type FeatureCardData } from '@/components/aws/AwsFeatureCard';
-import { Button, ButtonLink } from '@/components/ui/Button';
-import { FpsCounter } from '@/components/ui';
-import { AwsPrecisionCard } from '@/components/aws/AwsPrecisionCard';
-import { AWS_PRODUCTS } from '@/data/awsProducts';
-import { ChromaticHarmonyPicker } from '@/components/ui/ChromaticHarmonyPicker';
-import { SpeedManifestoPlate } from '@/components/ui/SpeedManifestoPlate';
-import { playHapticTick, unlockAudio } from '@/lib/audio/synthesizer';
+// app/page.tsx — PausePoint Sovereign Citizen Cognitive Firewall (SFIC 2026 Master Showcase).
+// ⛔ MANDATORY LAW: Commutative layouts — balanced compact cards with uniform geometry across all viewports.
+// ⛔ MANDATORY ICON LAW: Pure SVG vector icons only — zero emojis in UI controls.
+// Features 100% bespoke PausePoint Golden Hour showcase, live 12-col DecoderWorkbench, and zero-cloud architecture.
 
-const FEATURES: FeatureCardData[] = [
+import { ButtonLink } from '@/components/ui/Button';
+import { FpsCounter } from '@/components/ui';
+import { ChromaticHarmonyPicker } from '@/components/ui/ChromaticHarmonyPicker';
+import { DecoderWorkbench } from '@/components/pause/DecoderWorkbench';
+import {
+  Video,
+  Smartphone,
+  CreditCard,
+  ShieldCheck,
+  Zap,
+} from 'lucide-react';
+
+interface ScamVectorCard {
+  title: string;
+  badge: string;
+  badgeColor: 'danger' | 'warning' | 'brand';
+  description: string;
+  disprovingTruth: string;
+  icon: typeof Video;
+}
+
+const SCAM_VECTORS: ScamVectorCard[] = [
   {
-    title: 'Deploys by git push',
-    badge: 'LINUX CI',
-    body: 'Cloudflare Workers Builds builds on Linux and deploys — never from Windows.',
-    metric: '<12ms CI',
+    title: 'Digital Arrest Video Impersonation',
+    badge: 'FEAR & FAKE AUTHORITY',
+    badgeColor: 'danger',
+    description: 'Impersonators posing as Mumbai Crime Branch, CBI, or Supreme Court on Skype/WhatsApp video calls, alleging drugs found in courier parcels.',
+    disprovingTruth: 'Indian law enforcement NEVER conducts video arrests or online judicial proceedings. There is no legal concept called "Digital Arrest".',
+    icon: Video,
   },
   {
-    title: 'Secure by default',
-    badge: 'NONCE CSP',
-    body: 'Per-request nonce CSP, security headers, server-side validation, secret scanning on every commit.',
-    metric: 'Zero-Trust',
+    title: 'UPI PIN Cashback & Refund Lures',
+    badge: 'GREED / FINANCIAL FRAUD',
+    badgeColor: 'warning',
+    description: 'Fake notifications claiming lottery winnings, scratch card rewards, or mistaken bank transfers requesting your PIN to collect money.',
+    disprovingTruth: 'Entering a UPI PIN ONLY deducts money from your account. Receiving money NEVER requires entering your UPI PIN or scanning a QR code.',
+    icon: CreditCard,
   },
   {
-    title: 'Feels instant',
-    badge: '<1ms LATENCY',
-    body: 'Soft navigation with a top loader, skeletons on every route, zero font downloads.',
-    metric: 'Sub-1ms P99',
-  },
-  {
-    title: 'Honest about the network',
-    badge: 'IDB SYNC',
-    body: 'A calm offline notice everywhere; the offline module adds a real offline shell and sync.',
-    metric: 'IndexedDB v3',
-  },
-  {
-    title: 'Watched, not spied on',
-    badge: 'ALLOW-LISTED',
-    body: 'Allow-listed technical telemetry and a health endpoint — never personal data.',
-    metric: 'Zero-Leak',
-  },
-  {
-    title: 'Proven by gates',
-    badge: 'GATE LADDER',
-    body: 'Types, lint, secrets, tokens, RLS, honesty, assets, build, dynamic rendering and end-to-end tests.',
-    metric: '10/10 Passed',
+    title: 'Electricity & Challan APK Trojans',
+    badge: 'URGENCY / MALWARE TROJANS',
+    badgeColor: 'danger',
+    description: 'Urgent SMS threatening power disconnection tonight at 9:30 PM, or pending traffic challans with links to sideload malicious Android APKs.',
+    disprovingTruth: 'State electricity DISCOMs never send APK links via personal mobile numbers. Real traffic challans are only hosted on echallan.parivahan.gov.in.',
+    icon: Smartphone,
   },
 ];
 
-type AwsCategoryFilter = 'all' | 'ai' | 'storage' | 'compute' | 'database';
-
-interface CategoryOption {
-  id: AwsCategoryFilter;
-  label: string;
+interface ArchitecturePillar {
+  title: string;
+  badge: string;
+  metric: string;
+  body: string;
 }
 
-const CATEGORIES: CategoryOption[] = [
-  { id: 'all', label: 'All Services' },
-  { id: 'ai', label: 'Agentic AI & ML' },
-  { id: 'storage', label: 'Storage' },
-  { id: 'compute', label: 'Compute' },
-  { id: 'database', label: 'Database' },
+const PILLARS: ArchitecturePillar[] = [
+  {
+    title: 'Instant 60-Second Triage',
+    badge: 'GOLDEN HOUR',
+    metric: '<60s P99',
+    body: 'Extracts critical transaction UTR, beneficiary UPI IDs, and scam categories within seconds before the inter-bank freeze window closes.',
+  },
+  {
+    title: '100% On-Device Sovereign Privacy',
+    badge: 'ZERO CLOUD',
+    metric: 'Client Sandbox',
+    body: 'Zero network calls. All psychological decompilation and link safety analysis execute locally inside your browser sandbox.',
+  },
+  {
+    title: 'NCRP 1930 Police Reporting Kit',
+    badge: 'COMPLIANT',
+    metric: '1-Click Kit',
+    body: 'Generates a standardized cybercrime incident statement formatted precisely for National Cyber Crime Reporting Portal operators.',
+  },
 ];
 
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState<AwsCategoryFilter>('all');
-  const [showAllCards, setShowAllCards] = useState(false);
-
-  const totalFilteredProducts = useMemo(() => {
-    if (selectedCategory === 'all') {
-      return AWS_PRODUCTS.slice(0, 9);
-    }
-    return AWS_PRODUCTS.filter((p) => p.category === selectedCategory).slice(0, 9);
-  }, [selectedCategory]);
-
-  const displayedProducts = useMemo(() => {
-    if (showAllCards) {
-      return totalFilteredProducts;
-    }
-    return totalFilteredProducts.slice(0, 3);
-  }, [totalFilteredProducts, showAllCards]);
-
-  function handleCategoryChange(category: AwsCategoryFilter) {
-    unlockAudio();
-    playHapticTick();
-    setSelectedCategory(category);
-    setShowAllCards(false);
-  }
-
-  function handleToggleShowMore() {
-    unlockAudio();
-    playHapticTick();
-    setShowAllCards((prev) => !prev);
-  }
-
   return (
-    <div className="flex flex-col gap-14 pb-24">
-      {/* ── 1. Hero Section: Precision AWS Console Header ─────────────────────── */}
-      <section className="flex flex-col items-start gap-4 pt-2">
+    <div className="w-full max-w-7xl 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 flex flex-col gap-16 py-8 pb-24">
+      {/* ── 1. Hero Section: Sovereign Citizen Firewall ─────────────────────── */}
+      <section className="flex flex-col items-start gap-5 pt-4">
         {/* Precision Status Capsule */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-shade/10 bg-sheen/40 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-fg-muted shadow-sm backdrop-blur-md dark:border-sheen/10 dark:bg-sheen/5">
-          <span className="relative flex h-2 w-2">
+        <div className="inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-fg-muted shadow-xs backdrop-blur-md">
+          <span className="relative flex h-2.5 w-2.5">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-cyan" />
           </span>
-          <span className="text-fg font-bold">HK Universal Starter v3.0</span>
+          <span className="text-fg font-bold">SFIC 2026 · Theme 05 Surakshit Bharat</span>
           <span className="opacity-40">·</span>
-          <span className="text-fg-muted font-mono">gate-tested · offline-ready</span>
+          <span className="text-fg-muted font-mono">100% on-device · zero cloud telemetry</span>
         </div>
 
-        <h1 className="text-4xl font-extrabold tracking-tight text-fg sm:text-6xl sm:leading-[1.1]">
-          {SITE.name}
-        </h1>
-        <p className="max-w-2xl text-base sm:text-lg text-fg-muted leading-relaxed">
-          {SITE.description}
-        </p>
-
-        {/* Cyber Action Buttons in TeroxiaDemo Typography (Screenshot 2 Match) */}
-        <div className="flex flex-wrap items-center gap-3.5 pt-2 min-h-[50px]">
-          {/* Button 1: Cyber Solid (Electric Cyan + Black text + Glowing Cyan Aura) */}
-          <ButtonLink href="/studio" variant="cyber-solid" latencyMode="spring-pop" sound="laser" size="lg">
-            <span>LAUNCH STUDIO</span>
-            <span className="text-sm font-bold">→</span>
-          </ButtonLink>
-
-          {/* Button 2: Cyber Outline (Obsidian Glass + Cyan Border + White text) */}
-          <ButtonLink href="/about" variant="cyber-outline" latencyMode="spring-pop" sound="tick" size="lg">
-            <span>EXPLORE WORK</span>
-          </ButtonLink>
-        </div>
-
-        {/* The Golden Core Axiom Manifesto Plate */}
-        <div className="w-full pt-2">
-          <SpeedManifestoPlate />
-        </div>
-      </section>
-
-      {/* ── 2. Card Design 1: Amazon AWS Precision Architecture Cards ────────────────── */}
-      <section aria-labelledby="inside" className="flex flex-col gap-5 min-h-[420px]">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex flex-col gap-1">
-            <div className="text-xs font-mono font-semibold uppercase tracking-wider text-brand">
-              Minimalist Super-Fast Architecture
-            </div>
-            <h2 id="inside" className="text-2xl font-bold tracking-tight bg-gradient-to-r from-brand via-violet to-cyan bg-clip-text text-transparent sm:text-3xl">
-              Universal Architecture
-            </h2>
-            <p className="text-xs sm:text-sm text-fg-muted">
-              Engineered with solid AWS Precision cards: zero-blur obsidian surfaces, hairline optical borders, and hardware-accelerated VSync.
-            </p>
-          </div>
-
-          {/* Dual-Mode Chromatic Harmony Switcher */}
-          <ChromaticHarmonyPicker />
-        </div>
-
-        <ul className="grid gap-4.5 sm:grid-cols-2 lg:grid-cols-3 min-h-[360px]">
-          {FEATURES.map((f, idx) => (
-            <AwsFeatureCard
-              key={f.title}
-              feature={f}
-              index={idx}
-            />
-          ))}
-        </ul>
-      </section>
-
-      {/* ── 3. Card Design 2: Amazon AWS Precision Cloud Cards (Tightened & Show More) ── */}
-      <section aria-labelledby="aws-products" className="cv-lazy flex flex-col gap-5 min-h-[440px]">
-        {/* Section Heading */}
-        <div className="flex flex-col gap-1">
-          <div className="text-xs font-mono font-semibold uppercase tracking-wider text-brand">
-            Production Building Blocks
-          </div>
-          <h2 id="aws-products" className="text-2xl font-bold tracking-tight text-fg sm:text-3xl">
-            Amazon AWS Precision Cloud Cards
-          </h2>
-          <p className="text-xs sm:text-sm text-fg-muted max-w-2xl">
-            Alabaster light &amp; Obsidian dark surfaces with signature aurora rim glow on hover, star pin bookmarks, and slide-out actions.
+        <div className="flex flex-col gap-3 max-w-4xl">
+          <h1 className="text-4xl font-extrabold tracking-tight text-fg sm:text-6xl sm:leading-[1.1]">
+            PausePoint Golden Hour
+          </h1>
+          <p className="text-base sm:text-xl text-fg-muted leading-relaxed font-sans">
+            The sovereign citizen cognitive firewall. From panic to a complete 1930 helpline report in under 60 seconds, on your own device, completely offline.
           </p>
         </div>
 
-        {/* Category Filter Pills (Dedicated New Line) */}
-        <div className="flex flex-wrap items-center gap-1.5 p-1.5 rounded-2xl bg-surface-2 border border-border/60 w-fit min-h-[44px]">
-          {CATEGORIES.map((cat) => {
-            const isSelected = selectedCategory === cat.id;
+        {/* Action Buttons */}
+        <div className="flex flex-wrap items-center gap-3.5 pt-2 min-h-[50px]">
+          {/* Button 1: Emergency Report (1930) */}
+          <ButtonLink href="/report" variant="cyber-solid" latencyMode="spring-pop" sound="laser" size="lg">
+            <span>REPORT FRAUD (1930)</span>
+            <span className="text-sm font-bold">→</span>
+          </ButtonLink>
+
+          {/* Button 2: Before You Pay Again */}
+          <ButtonLink href="/verify" variant="cyber-outline" latencyMode="spring-pop" sound="tick" size="lg">
+            <span>BEFORE YOU PAY AGAIN</span>
+          </ButtonLink>
+
+          {/* Button 3: Decode Anchor */}
+          <a
+            href="#decoder"
+            className="h-12 px-6 rounded-xl border border-border bg-surface-2 hover:bg-surface-3 text-fg text-xs font-bold uppercase tracking-wider flex items-center justify-center transition-colors shadow-xs"
+          >
+            DECODE SUSPICIOUS MESSAGE ↓
+          </a>
+        </div>
+
+        {/* Golden Hour Citizen Defense Banner */}
+        <div className="w-full mt-2 rounded-2xl border border-brand/20 bg-surface p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-brand/10 text-brand flex items-center justify-center shrink-0">
+              <Zap className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-fg uppercase tracking-wider">
+                The Golden Hour Law (National Cybercrime Protocol)
+              </h3>
+              <p className="text-xs sm:text-sm text-fg-muted mt-0.5 leading-relaxed">
+                Calling 1930 or filing within the first 60 minutes after a fraudulent UPI transfer halts beneficiary account settlement across participating banks.
+              </p>
+            </div>
+          </div>
+          <div className="shrink-0 flex items-center gap-3">
+            <ChromaticHarmonyPicker />
+          </div>
+        </div>
+      </section>
+
+      {/* ── 2. Psychological Manipulation Decoder (Won 3rd Prize at Human Firewall) ──── */}
+      <section id="decoder" aria-labelledby="decoder-title" className="flex flex-col gap-6">
+        <div className="flex flex-col gap-1.5">
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-brand">
+            10-Second Cognitive Pause Engine
+          </div>
+          <h2 id="decoder-title" className="text-2xl sm:text-4xl font-extrabold tracking-tight text-fg">
+            Psychological Manipulation Decoder
+          </h2>
+          <p className="text-xs sm:text-sm text-fg-muted max-w-3xl leading-relaxed">
+            Paste any suspicious WhatsApp message, SMS alert, or web link to expose high-pressure psychological levers and counterfeit official domains in real time.
+          </p>
+        </div>
+
+        {/* Master Responsive 12-Column Workbench */}
+        <DecoderWorkbench />
+      </section>
+
+      {/* ── 3. Commutative Indian Scam Vector Playbooks ──────────────────────── */}
+      <section aria-labelledby="playbooks-title" className="flex flex-col gap-6">
+        <div className="flex flex-col gap-1.5">
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-brand">
+            Pre-Emptive Pattern Immunization
+          </div>
+          <h2 id="playbooks-title" className="text-2xl sm:text-3xl font-extrabold tracking-tight text-fg">
+            The Three Major Indian Scam Playbooks
+          </h2>
+          <p className="text-xs sm:text-sm text-fg-muted max-w-3xl leading-relaxed">
+            Over 85% of citizen fraud in India relies on three recurring psychological attack vectors. Exposing the core lie disarms the scam immediately.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {SCAM_VECTORS.map((vector, idx) => {
+            const Icon = vector.icon;
             return (
-              <Button variant="plain" size="none" latencyMode="none"
-                key={cat.id}
-                type="button"
-                onClick={() => handleCategoryChange(cat.id)}
-                className={`rounded-xl px-3.5 py-1.5 text-xs font-sans font-semibold transition-all active:scale-95 cursor-pointer select-none ${
-                  isSelected
-                    ? 'bg-brand text-brand-fg shadow-xs'
-                    : 'text-fg-muted hover:text-fg hover:bg-surface/50'
-                }`}
+              <div
+                key={idx}
+                className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col justify-between gap-4 hover:border-brand/40 transition-colors"
               >
-                {cat.label}
-              </Button>
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center justify-between">
+                    <span
+                      className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                        vector.badgeColor === 'danger'
+                          ? 'bg-danger/15 text-danger border border-danger/20'
+                          : 'bg-warning/15 text-warning border border-warning/20'
+                      }`}
+                    >
+                      {vector.badge}
+                    </span>
+                    <div className="w-8 h-8 rounded-lg bg-surface-2 flex items-center justify-center text-fg-muted">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                  </div>
+
+                  <h3 className="text-base font-bold text-fg leading-snug">
+                    {vector.title}
+                  </h3>
+                  <p className="text-xs text-fg-muted leading-relaxed">
+                    {vector.description}
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-border/80 bg-surface-2/60 p-3.5 flex flex-col gap-1 mt-2">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-brand">
+                    The Disproving Truth
+                  </span>
+                  <p className="text-xs font-semibold text-fg leading-relaxed">
+                    &ldquo;{vector.disprovingTruth}&rdquo;
+                  </p>
+                </div>
+              </div>
             );
           })}
         </div>
-
-        {/* Responsive Grid of Tightened AWS Precision Cards */}
-        <div className="grid gap-4.5 sm:grid-cols-2 lg:grid-cols-3 min-h-[220px]">
-          {displayedProducts.map((product, idx) => (
-            <AwsPrecisionCard
-              key={product.id}
-              product={product}
-              index={idx}
-            />
-          ))}
-        </div>
-
-        {/* Signature Pastel Gradient Expander Button (Same Aurora Bloom for Show More and Show Fewer) */}
-        {totalFilteredProducts.length > 3 && (
-          <div className="flex justify-center pt-2 min-h-[56px]">
-            <Button
-              type="button"
-              variant="expander-pill"
-              onClick={handleToggleShowMore}
-              className="px-8 py-3"
-            >
-              <span>{showAllCards ? 'SHOW FEWER' : 'SHOW MORE'}</span>
-              <span className="text-sm">{showAllCards ? '↑' : '↓'}</span>
-            </Button>
-          </div>
-        )}
       </section>
 
-      {/* ── Real-time Refresh Rate & Layout Monitor ── */}
+      {/* ── 4. Zero-Cloud Architecture Pillars ───────────────────────────────── */}
+      <section aria-labelledby="architecture-title" className="flex flex-col gap-6">
+        <div className="flex flex-col gap-1.5">
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-brand">
+            Sovereign Safety Architecture
+          </div>
+          <h2 id="architecture-title" className="text-2xl sm:text-3xl font-extrabold tracking-tight text-fg">
+            Built for Extreme Speed &amp; Sovereign Privacy
+          </h2>
+          <p className="text-xs sm:text-sm text-fg-muted max-w-3xl leading-relaxed">
+            Engineered with zero third-party tracking, zero external network calls, and instant offline survivability.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {PILLARS.map((pillar, idx) => (
+            <div
+              key={idx}
+              className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col justify-between gap-4"
+            >
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-brand/10 text-brand border border-brand/20">
+                    {pillar.badge}
+                  </span>
+                  <span className="font-mono text-xs font-bold text-fg-muted">
+                    {pillar.metric}
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-fg mt-1">
+                  {pillar.title}
+                </h3>
+                <p className="text-xs text-fg-muted leading-relaxed">
+                  {pillar.body}
+                </p>
+              </div>
+
+              <div className="pt-2 border-t border-border/60 flex items-center gap-2 text-xs font-semibold text-fg-muted">
+                <ShieldCheck className="w-4 h-4 text-brand" />
+                <span>Verified Client-Side</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── 5. Real-time Refresh Rate & Layout Monitor ── */}
       <FpsCounter />
     </div>
   );

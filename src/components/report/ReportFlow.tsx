@@ -28,6 +28,8 @@ import { scanReceipt } from '@/lib/ocr/worker.ts';
 import { FieldCard } from './FieldCard.tsx';
 import { CallScriptModal } from './CallScriptModal.tsx';
 import { AckSmsParser } from './AckSmsParser.tsx';
+import { MultiPaymentList } from './MultiPaymentList.tsx';
+import { EvidenceDocket } from './EvidenceDocket.tsx';
 
 const SAMPLE_GPAY = `₹15,000
 Paid to RAHUL SHARMA
@@ -284,13 +286,29 @@ export const ReportFlow: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Review & Multi-Payment Aggregator */}
+      {/* 3. Multi-Payment Aggregator Ledger (When >1 transfer) */}
+      {txns.length > 1 && (
+        <MultiPaymentList
+          txns={txns}
+          activeIndex={activeIndex}
+          onSelect={(idx) => setActiveIndex(idx)}
+          onRemove={(idx) => {
+            setTxns((prev) => prev.filter((_, i) => i !== idx));
+            setActiveIndex(0);
+          }}
+          onAddNew={() => fileInputRef.current?.click()}
+        />
+      )}
+
+      {/* 4. Active Transaction Details Review */}
       {txns.length > 0 && activeTxn && (
         <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col gap-5">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-border">
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-lg font-bold text-fg">Transaction Details Review</h3>
+                <h3 className="text-lg font-bold text-fg">
+                  {txns.length > 1 ? `Editing Transfer #${activeIndex + 1}` : 'Transaction Details Review'}
+                </h3>
                 <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-brand/10 text-brand">
                   Total: ₹{totalAmount.toLocaleString('en-IN')} ({txns.length} payment{txns.length > 1 ? 's' : ''})
                 </span>
@@ -414,9 +432,14 @@ export const ReportFlow: React.FC = () => {
         </div>
       )}
 
-      {/* 4. Stage 2: Acknowledgement SMS & cybercrime.gov.in Draft */}
+      {/* 5. Stage 2: Acknowledgement SMS & cybercrime.gov.in Draft */}
       {txns.length > 0 && (
         <AckSmsParser txns={txns} category={category} />
+      )}
+
+      {/* 6. Stage 3: Digital Evidence Docket (BSA 2023) */}
+      {txns.length > 0 && (
+        <EvidenceDocket />
       )}
 
       {/* 5. Ordered Emergency Steps (Playbook) */}

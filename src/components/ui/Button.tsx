@@ -1,7 +1,7 @@
 'use client';
 
 // components/ui/Button.tsx — Universal <1ms Perceptual Latency Law Button Primitive (HK Universal Library v3).
-// Features TeroxiaDemo cyber typography, cyber-solid & cyber-outline variants, and <1ms procedural audio haptics.
+// Features high-impact cyber typography, cyber-solid & cyber-outline variants, and <1ms procedural audio haptics.
 import {
   forwardRef,
   useState,
@@ -38,7 +38,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   latencyMode?: LatencyMode;
   sound?: SoundType;
   size?: ButtonSize;
-  font?: 'teroxia' | 'sans' | 'mono';
+  font?: 'display' | 'teroxia' | 'sans' | 'mono';
   className?: string;
 }
 
@@ -139,8 +139,8 @@ export function buttonClassName({ variant = 'primary', latencyMode = 'spring-pop
 
   // ── 4. Typographic Token Assignment ──
   let fontClasses = variant === 'plain' ? '' : 'font-sans font-semibold tracking-normal';
-  if (font === 'teroxia' || (!font && variant === 'cyber-solid')) {
-    fontClasses = 'font-teroxia font-bold uppercase tracking-wider';
+  if (font === 'display' || font === 'teroxia' || (!font && variant === 'cyber-solid')) {
+    fontClasses = 'font-display font-bold uppercase tracking-wider';
   } else if (!font && variant === 'expander-pill') {
     fontClasses = 'font-sans font-semibold uppercase tracking-wider text-xs';
   } else if (font === 'mono') {

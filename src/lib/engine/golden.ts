@@ -327,6 +327,9 @@ const BRAKE_PATTERNS: [RegExp, string][] = [
   [/\b(?:upgrade|vip|level)\b.{0,30}?\b(?:pay|deposit|recharg)/i, 'pay to upgrade a level'],
   [/\b(?:complete|finish) (?:\d+ )?(?:more )?(?:tasks?|orders?)\b.{0,30}?\b(?:pay|deposit|recharg)/i, 'pay to finish the next task'],
   [/\b(?:negative balance|credit score (?:is )?low)\b/i, 'a made-up negative balance or score'],
+  [/\b(?:cancel|clear|avoid)\b.{0,40}?\b(?:arrest|warrant|case|fir)\b.{0,50}?\b(?:deposit|pay|transfer)/i, 'money demanded to cancel an arrest warrant or legal case'],
+  [/\b(?:rbi|supreme court|crime branch|cbi|police)\b.{0,50}?\b(?:holding|verification|safe)\s*(?:account|deposit)\b/i, 'fake government verification account deposit'],
+  [/\b(?:verify|audit|clear)\b.{0,30}?\b(?:assets?|funds?)\b.{0,50}?\b(?:deposit|transfer|pay)/i, 'demands payment for "asset verification" or bail'],
 ];
 
 /** "Before you pay again": spots the repeat-deposit hook of task and investment scams. */

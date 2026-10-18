@@ -1,22 +1,5 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: 'TeroxiaDemo';
-  src: url('/fonts/TeroxiaDemo-PersonalUse.woff') format('woff'),
-       url('/fonts/TeroxiaDemo-PersonalUse.otf') format('opentype');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Teroxia-Fallback';
-  src: local('Arial'), local('Helvetica'), local('sans-serif');
-  ascent-override: 95%;
-  descent-override: 25%;
-  line-gap-override: 0%;
-  size-adjust: 100%;
-}
 
 /* ── Design tokens (BLD-4 & PRF-5) ───────────────────────────────────────────
    Tailwind v4 theme tokens with AWS Enterprise Ceramic (Light) & OLED Obsidian (Dark).
@@ -63,8 +46,8 @@
   --color-indigo: oklch(0.55 0.22 265);
 
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
-  --font-mono: ui-monospace, "Cascadia Code", "Segoe UI Mono", Menlo, monospace;
-  --font-teroxia: 'TeroxiaDemo', 'Teroxia-Fallback', system-ui, sans-serif;   /* personal-use licence: see AGENTS.md */
+  --font-display: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-teroxia: var(--font-display);
 
   --radius-card: 1.25rem;
   --spacing-touch: 3rem; /* 48px touch target floor (DEV-3) */
@@ -120,12 +103,35 @@
   }
   :focus-visible { outline: 3px solid var(--color-focus); outline-offset: 2px; border-radius: 6px; }
   ::selection { background: var(--color-brand); color: var(--color-brand-fg); }
+
+  /* Senior Citizen High-Contrast Accessibility Mode */
+  html.senior-mode {
+    font-size: 115%;
+  }
+  html.senior-mode body {
+    line-height: 1.65;
+    letter-spacing: 0.015em;
+  }
+  html.senior-mode button,
+  html.senior-mode [role="button"] {
+    min-height: 52px;
+  }
+  html.senior-mode p,
+  html.senior-mode span,
+  html.senior-mode li {
+    font-weight: 500;
+  }
 }
 
 /* ── AWS Precision Architecture & Luxury Utilities ───────────────────────── */
 @layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.05em;
+  }
   .font-teroxia {
-    font-family: 'TeroxiaDemo', 'Teroxia Demo', system-ui, sans-serif;
+    font-family: var(--font-display);
+    letter-spacing: 0.05em;
   }
 
   .aws-card {
