@@ -8,15 +8,8 @@ test.describe.configure({ timeout: 60_000 });                      // axe scans 
 // every top-level screen of the modules you kept, plus the 404
 const PAGES = [
   '/', '/about', '/design',
-  // #if auth || offline
   '/notes',
-  // #endif
-  // #if auth
-  '/login', '/auth/confirm',
-  // #endif
-  // #if offline
   '/offline',
-  // #endif
   '/this-page-does-not-exist',
 ];
 

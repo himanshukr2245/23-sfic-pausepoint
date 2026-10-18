@@ -3,9 +3,6 @@
 // With the auth module it also refreshes the Supabase session (modules/auth/supabase/middleware.ts) — keeping the nonce intact.
 // Never the security boundary on its own: pages, Server Actions and the database still check everything themselves.
 import { NextResponse, type NextRequest } from 'next/server';
-// #if auth
-import { refreshSession } from '@/modules/auth/supabase/middleware';
-// #endif
 
 /** Nonce in script-src only: a nonce in style-src makes browsers ignore 'unsafe-inline' and silently breaks React style={{…}} attributes. */
 function cspFor(nonce: string, https: boolean) {
@@ -47,9 +44,6 @@ export async function middleware(request: NextRequest) {
 /** Modules that need the edge gate add a step (auth: Supabase session refresh). Each rebuilds the response through passThrough. */
 type EdgeStep = (request: NextRequest, passThrough: () => NextResponse) => Promise<NextResponse>;
 const EDGE_STEPS: EdgeStep[] = [
-  // #if auth
-  refreshSession,
-  // #endif
 ];
 
 export const config = {

@@ -1,7 +1,7 @@
 'use client';
 
 // components/minimal/MinimalTopBar.tsx — Master Unified Minimalist AI Chat Workspace Top-Bar (48px)
-// Fuses HK Starter brand anchor, dual-trigger 'Go To' route jumper, model selector capsule,
+// Fuses PausePoint brand anchor, dual-trigger 'Go To' route jumper, model selector capsule,
 // live hardware VSync telemetry, tactile AppearanceSwitch, and VS Code twin panel toggles.
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
@@ -107,7 +107,7 @@ export function MinimalTopBar({
           className="flex items-center gap-2 rounded-lg px-2 py-1 text-xs font-extrabold tracking-tight text-fg hover:text-cyan transition-colors"
         >
           <span className="flex h-2.5 w-2.5 rounded-full bg-cyan shadow-[0_0_8px_var(--color-cyan)]" />
-          <span className="font-sans font-bold">HK Starter</span>
+          <span className="font-sans font-bold">PausePoint</span>
         </Link>
 
         {/* 'Go To' Quick Route Jumper Dropdown (Hover + Click Dual Trigger) */}

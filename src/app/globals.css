@@ -29,7 +29,7 @@
   --color-fg: oklch(0.14 0.02 260);          /* Deep Charcoal - High-Definition Text */
   --color-fg-muted: oklch(0.42 0.02 260);    /* Warm Graphite Secondary Typography */
   --color-border: oklch(0.90 0.006 240);      /* Crisp Specular Micro-Border */
-  --color-brand: oklch(0.52 0.22 265);         /* 5.7:1 behind brand-fg — keep ≥ 4.5 (axe) with margin for hover */
+  --color-brand: oklch(0.54 0.15 237);         /* 5.7:1 behind brand-fg — keep ≥ 4.5 (axe) with margin for hover */
   --color-brand-fg: oklch(0.99 0 0);
   --color-danger: oklch(0.55 0.22 25);
   --color-success: oklch(0.55 0.16 155);
@@ -85,7 +85,7 @@
   --color-fg: oklch(0.98 0.004 250);        /* Crisp High-Contrast Text */
   --color-fg-muted: oklch(0.72 0.018 250);  /* Warm Slate Subtext */
   --color-border: oklch(0.28 0.025 260);    /* Specular Glass Border */
-  --color-brand: oklch(0.72 0.18 265);
+  --color-brand: oklch(0.72 0.15 237);
   --color-brand-fg: oklch(0.12 0.02 260);
   --color-danger: oklch(0.72 0.18 25);
   --color-success: oklch(0.75 0.15 155);

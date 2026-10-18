@@ -1,8 +1,8 @@
 {
-  "name": "hk-starter",
+  "name": "pausepoint",
   "version": "0.1.0",
   "private": true,
-  "description": "HK Starter — the pre-wired template for every new app (HK Universal Library v3)",
+  "description": "PausePoint — built from pausepoint.",
   "engines": {
     "node": ">=22.18"
   },
@@ -15,7 +15,6 @@
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "prepare": "git config core.hooksPath .githooks || echo hk: not a git repository - pre-commit hook not installed",
-    "hk:init": "node .hk-template/hk-init.mjs",
     "lock": "node scripts/verify-lock.mjs --fix",
     "verify:lock": "node scripts/verify-lock.mjs",
     "lint": "eslint",
@@ -31,8 +30,6 @@
   },
   "dependencies": {
     "@opennextjs/cloudflare": "1.20.8",
-    "@supabase/ssr": "^0.12.7",
-    "@supabase/supabase-js": "^2.117.2",
     "idb": "^8.0.4",
     "next": "16.3.8",
     "react": "19.2.8",

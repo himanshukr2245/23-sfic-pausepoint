@@ -106,7 +106,7 @@ export function HeaderQuickDrawer() {
             <Link
               href="/about"
               onClick={handleActionClick}
-              title="About HK Starter & Architecture"
+              title="About PausePoint & Architecture"
               className={`flex h-8 w-8 items-center justify-center rounded-xl transition-all cursor-pointer ${
                 pathname === '/about'
                   ? 'bg-cyan/20 text-cyan border border-cyan/40 shadow-xs'

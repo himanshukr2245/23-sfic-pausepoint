@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { MinimalWorkspace } from '@/components/minimal/MinimalWorkspace';
 
 export const metadata: Metadata = {
-  title: 'AI Chat · HK Starter',
+  title: 'AI Chat · PausePoint',
   description:
     'A high-performance conversational AI workspace with twin focus deck, multi-model cognitive streaming, real-time hardware VSync telemetry, and instant thought scratchpad.',
 };

@@ -1,4 +1,4 @@
-# PERFORMANCE BUDGET — HK Starter (owner: Himanshu, updated 2026-10-06)
+# PERFORMANCE BUDGET — PausePoint (owner: Himanshu, updated 2026-10-06)
 Budget phone: a ₹8,000–12,000-class Android, 3–4 GB RAM (DEV-1) · Network profile: DevTools "Slow 3G"
 | Metric | Target | Ceiling | Gate |
 |---|---|---|---|

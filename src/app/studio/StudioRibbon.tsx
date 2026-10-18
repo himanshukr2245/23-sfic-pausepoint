@@ -1,7 +1,7 @@
 'use client';
 
 // src/app/studio/StudioRibbon.tsx — Master Unified Studio Workspace Top-Bar (48px)
-// Merged single header with HK Starter brand, 'Go To' jump menu, centered canvas tools, and VS-Code style twin panel toggles.
+// Merged single header with PausePoint brand, 'Go To' jump menu, centered canvas tools, and VS-Code style twin panel toggles.
 import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import {
@@ -139,7 +139,7 @@ export function StudioRibbon({
           className="flex items-center gap-2 rounded-lg px-2 py-1 text-xs font-extrabold tracking-tight text-fg hover:text-cyan transition-colors"
         >
           <span className="flex h-2.5 w-2.5 rounded-full bg-cyan shadow-[0_0_8px_var(--color-cyan)]" />
-          <span className="font-sans font-bold">HK Starter</span>
+          <span className="font-sans font-bold">PausePoint</span>
         </Link>
 
         {/* 'Go To' Quick Route Jumper Dropdown (Hover + Click Dual Trigger) */}

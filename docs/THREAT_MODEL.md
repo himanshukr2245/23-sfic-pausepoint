@@ -1,4 +1,4 @@
-# THREAT MODEL — HK Starter (updated 2026-10-07)
+# THREAT MODEL — PausePoint (updated 2026-10-07)
 ## 1. Assets
 Users' notes (auth module) · the Supabase project and its keys · the Cloudflare account · the template's reputation (every new app inherits its defaults).
 ## 2. Actors

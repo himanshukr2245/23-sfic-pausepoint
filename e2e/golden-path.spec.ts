@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
 test('golden path: land → learn how it works → submit a validated form → keep a note', async ({ page }) => {
   // Beat 1 — the promise is visible
   await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1, name: 'HK Starter' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'PausePoint' })).toBeVisible();
 
   // Beat 2 — one tap to the explanation (soft navigation)
   await page.getByRole('link', { name: /explore work/i }).click();
@@ -19,7 +19,6 @@ test('golden path: land → learn how it works → submit a validated form → k
   await page.getByRole('button', { name: 'Say hello' }).click();
   await expect(page.getByText('Hello, Asha. Validated on the server.')).toBeVisible();
 
-  // #if offline
   // Beat 4 — the demo feature keeps what you write (on this device)
   await page.getByRole('link', { name: 'Notes' }).click();
   await expect(page.getByText('No notes yet. Write your first one above.')).toBeVisible();
@@ -27,7 +26,6 @@ test('golden path: land → learn how it works → submit a validated form → k
   await page.getByRole('button', { name: 'Add note' }).click();
   await page.reload();
   await expect(page.getByRole('list', { name: 'Your notes' })).toContainText('My first note');
-  // #endif
 });
 
 test('health: liveness and readiness answer for monitors', async ({ request }) => {

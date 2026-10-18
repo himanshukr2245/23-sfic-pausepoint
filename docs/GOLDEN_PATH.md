@@ -3,7 +3,7 @@ The starter is a template, so its golden path is the journey that proves the tem
 
 | Beat | What the person does | What the screen shows | Proven by |
 |---|---|---|---|
-| 1 | Opens the home page | The promise ("HK Starter") and what every app starts with | golden-path beat 1 · a11y · csp |
+| 1 | Opens the home page | The promise ("PausePoint") and what every app starts with | golden-path beat 1 · a11y · csp |
 | 2 | Taps "How it works" | The gate ladder, without a page reload | golden-path beat 2 · soft-nav |
 | 3 | Submits the form empty, then with a name | A plain-words error, then a server-validated answer | golden-path beat 3 |
 | 4 | Opens Notes, writes a note, reloads | The note is still there, "saved in this browser on this device" | golden-path beat 4 · notes spec |

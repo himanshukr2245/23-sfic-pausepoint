@@ -25,9 +25,9 @@ describe('device store — device rules', () => {
   afterEach(() => { for (const s of open.splice(0)) s.close(); });
 
   it('one database per person — a guest and a signed-in person never see each other’s notes', async () => {
-    expect(dbNameFor('hk-starter')).toBe('hk-starter:guest');
-    expect(dbNameFor('hk-starter', 'a1b2-c3')).toBe('hk-starter:a1b2-c3');
-    expect(dbNameFor('hk-starter', '../evil name')).toBe('hk-starter:guest');
+    expect(dbNameFor('pausepoint')).toBe('pausepoint:guest');
+    expect(dbNameFor('pausepoint', 'a1b2-c3')).toBe('pausepoint:a1b2-c3');
+    expect(dbNameFor('pausepoint', '../evil name')).toBe('pausepoint:guest');
     const slug = freshName();
     await make({ dbName: dbNameFor(slug, 'user-a') }).add('A’s secret');
     expect(await make({ dbName: dbNameFor(slug) }).list()).toEqual([]);

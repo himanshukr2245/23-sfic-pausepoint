@@ -1,6 +1,6 @@
 'use client';
 
-// app/page.tsx — HK Starter Production Master Template (HK Universal Library v3).
+// app/page.tsx — PausePoint Production Master Template (HK Universal Library v3).
 // ⛔ MANDATORY LAW: Always use commutative layouts — balanced compact size cards with uniform geometry across all archetypes and viewports.
 // ⛔ MANDATORY ICON LAW: Never use emojis for icons — always use pure SVG icons. If an icon is universally understandable (e.g. search, zoom, copy, close, trash), omit redundant text labels.
 // Features AWS Precision Console styling, dual-mode optical GlassCard plates,

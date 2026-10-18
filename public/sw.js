@@ -13,7 +13,7 @@
 // Debug: a response that came from the cache carries `x-hk-offline: 1` (DevTools → Network → Headers).
 
 const VERSION = new URL(self.location.href).searchParams.get('v') || 'dev';
-const PREFIX = 'hk-starter-';                                      // hk:init writes your app's slug here
+const PREFIX = 'pausepoint-';                                      // hk:init writes your app's slug here
 const CACHE = `${PREFIX}${VERSION}`;
 const SHELL = ['/', '/about', '/notes', '/offline'];                          // pages that must open with no network
 const EXTRAS = ['/manifest.webmanifest', '/fonts/TeroxiaDemo-PersonalUse.woff', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/maskable-512.png'];

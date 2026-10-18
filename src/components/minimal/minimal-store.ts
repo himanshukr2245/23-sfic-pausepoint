@@ -346,7 +346,7 @@ export const SUGGESTED_CHIPS = [
   'How does Web Audio synthesize clicks with 0 network bytes?',
   'Explain Cumulative Layout Shift (CLS = 0.000) verification.',
   'What is the difference between Obsidian and Ceramic Alabaster?',
-  'Generate an architectural summary of 00-hk-starter.',
+  'Generate an architectural summary of 00-pausepoint.',
   'How do commutative layouts prevent card jitter?',
 ];
 

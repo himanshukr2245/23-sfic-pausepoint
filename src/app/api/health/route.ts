@@ -24,7 +24,7 @@ async function dependencyChecks(): Promise<{ supabase: Check; database: Check }>
   const url = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').replace(/\/+$/, ''), key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   let supabase: Check = 'skipped', database: Check = 'skipped';
   if (url && key) {
-    [supabase, database] = await Promise.all([ping(`${url}/auth/v1/health`, key), ping(`${url}/rest/v1/starter_notes?select=id&limit=1`, key)]);
+    [supabase, database] = await Promise.all([ping(`${url}/auth/v1/health`, key), ping(`${url}/rest/v1/pausepoint_notes?select=id&limit=1`, key)]);
   }
   cached = { supabase, database, at: Date.now() };
   return { supabase, database };

@@ -51,7 +51,7 @@ export function EditorialRightInspector({
   // Copy Quote Card as Rich Markdown
   const handleCopyCard = async () => {
     playHapticTick();
-    const md = `> ${activeQuote.text}\n\n— **${activeQuote.author}**, *${activeQuote.work}* [${activeQuote.category}]\n*(Exported from HK Starter Editorial Studio · ${settings.selectedQuoteStyle})*`;
+    const md = `> ${activeQuote.text}\n\n— **${activeQuote.author}**, *${activeQuote.work}* [${activeQuote.category}]\n*(Exported from PausePoint Editorial Studio · ${settings.selectedQuoteStyle})*`;
     try {
       await navigator.clipboard.writeText(md);
       setCopiedCard(true);

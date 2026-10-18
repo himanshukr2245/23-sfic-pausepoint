@@ -13,15 +13,8 @@ test.beforeEach(async ({ page }) => {
 
 const PAGES = [
   '/', '/about', '/design',
-  // #if auth || offline
   '/notes',
-  // #endif
-  // #if auth
-  '/login', '/auth/confirm',
-  // #endif
-  // #if offline
   '/offline',
-  // #endif
   '/this-page-does-not-exist',
 ];
 

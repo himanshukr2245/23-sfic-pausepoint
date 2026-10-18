@@ -37,7 +37,7 @@ test('offline: notes open, save and survive a reload with no network; unsaved pa
 
   // a soft link while offline: the router cannot fetch, Next.js falls back to a full page load, the cache answers it
   await page.getByRole('navigation', { name: 'Main Navigation Bar' }).getByRole('link', { name: 'Home' }).click();
-  await expect(page.getByRole('heading', { level: 1, name: 'HK Starter' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'PausePoint' })).toBeVisible();
 
   // a page that was never saved → the calm offline page, with a way back to what works
   await page.goto('/a-page-this-device-never-saved');

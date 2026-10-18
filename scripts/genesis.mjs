@@ -42,7 +42,7 @@ const appName = args.find((a) => !a.startsWith('--'));
 
 if (!appName) {
   console.log(`
-⚡ HK Starter Genesis Engine v5.0
+⚡ PausePoint Genesis Engine v5.0
 
 Usage:
   node scripts/genesis.mjs "App Name" [options]
@@ -95,7 +95,7 @@ if (resetGit) {
   try {
     execSync('git init -b main', { stdio: 'ignore' });
     execSync('git add -A', { stdio: 'ignore' });
-    execSync(`git commit -m "Initial commit for ${appName} from HK Starter v5.0"`, { stdio: 'ignore' });
+    execSync(`git commit -m "Initial commit for ${appName} from PausePoint v5.0"`, { stdio: 'ignore' });
     console.log('✅ Fresh git repository initialized');
   } catch (err) {
     console.warn('⚠️ Git reset skipped or failed:', err.message);

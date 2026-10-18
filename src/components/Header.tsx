@@ -19,9 +19,6 @@ import {
   LightbulbIcon,
 } from '@/components/ui';
 
-// #if auth
-import { AccountButton } from '@/modules/auth/ui/AccountButton';
-// #endif
 
 interface DropdownItem {
   href: string;
@@ -269,9 +266,6 @@ export function Header() {
             {/* Tactile Sliding Sun/Moon Switch */}
             <AppearanceSwitch />
 
-            {/* #if auth */}
-            <AccountButton />
-            {/* #endif */}
           </div>
         </nav>
 

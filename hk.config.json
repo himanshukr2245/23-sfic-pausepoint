@@ -1,7 +1,7 @@
 {
   "app": {
-    "id": "hk-starter",
-    "name": "HK Starter"
+    "id": "pausepoint",
+    "name": "PausePoint"
   },
   "paths": {
     "src": "src",
@@ -57,24 +57,11 @@
       "/about",
       "/design",
       "/notes",
-      "/login",
       "/offline",
       "/manifest.webmanifest",
       "/sw.js"
     ],
     "expectNonceCsp": true,
     "supabaseUrl": ""
-  },
-  "licences": {
-    "acknowledged": [
-      {
-        "file": "public/fonts/TeroxiaDemo-PersonalUse.woff",
-        "note": "owner decision 2026-10-13: kept in the template showcase; buy a licence or replace before any commercial or client use"
-      },
-      {
-        "file": "public/fonts/TeroxiaDemo-PersonalUse.otf",
-        "note": "owner decision 2026-10-13: kept in the template showcase; buy a licence or replace before any commercial or client use"
-      }
-    ]
   }
 }
