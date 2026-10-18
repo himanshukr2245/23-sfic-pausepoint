@@ -2,12 +2,14 @@
   "name": "pausepoint",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "PausePoint — built from pausepoint.",
   "engines": {
     "node": ">=22.18"
   },
   "scripts": {
     "dev": "next dev --turbo -H 127.0.0.1",
+    "test": "node --test test/golden.test.ts test/decoder.test.ts",
     "dev:clean": "node scripts/clean-dev.mjs",
     "dev:phone": "next dev --turbo -H 0.0.0.0",
     "build": "next build",
@@ -31,9 +33,11 @@
   "dependencies": {
     "@opennextjs/cloudflare": "1.20.8",
     "idb": "^8.0.4",
+    "lucide-react": "^1.59.0",
     "next": "16.3.8",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "tesseract.js": "^7.0.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
