@@ -2,10 +2,10 @@
   "schema": "hk-seal/v1",
   "author": "Himanshu Kumar",
   "project": "pausepoint",
-  "createdAt": "2026-10-19T05:14:55.476Z",
-  "commit": "536913f897275119674fcc65755e1d6631a0de55",
+  "createdAt": "2026-10-19T05:28:58.956Z",
+  "commit": "770ad8c06ac152d0a2d92344152256b4d21d1fb0",
   "canary": "hke052becc83",
-  "treeSha256": "b400587dee0adf4b6cb9b640ead0514544db089b28f52f1a47c04855f342a166",
+  "treeSha256": "8596df69ac86829eee0970e6424ead0c579f1f480f440d9656adc0cf88940b81",
   "files": [
     {
       "path": ".env.example",
@@ -60,6 +60,10 @@
       "sha256": "51b7ab2db54f7d27a2a5f51268ae6713e9a87b6612e2df5e411c4db3138ecac9"
     },
     {
+      "path": "docs/FACTS.md",
+      "sha256": "64b183c046cbd40fb38bcd8e1d53b2a0705057fb599618edaa4261531852b276"
+    },
+    {
       "path": "docs/GOLDEN_PATH.md",
       "sha256": "e75a2cc1031dd93d1e3cc4ff6c79893dc20dd789ede6d8b9f6c1c14a23cd4b43"
     },
@@ -77,7 +81,7 @@
     },
     {
       "path": "docs/SUBMISSION_KIT.md",
-      "sha256": "70255af0be42c6609da1e371412446fef8ba871d90ac8aa04c0c022bee1024f3"
+      "sha256": "0324f537cca2ff700107c077e0a71871c04cd7e880f23d3cc91ea2b7cd363547"
     },
     {
       "path": "docs/THREAT_MODEL.md",
@@ -166,6 +170,14 @@
     {
       "path": "public/_headers",
       "sha256": "47388221506df1232a0d8a69331bc6f507fc927b7306b5c8af908adb8160f2fd"
+    },
+    {
+      "path": "public/fonts/TeroxiaDemo-PersonalUse.otf",
+      "sha256": "70eef07e48c3dfe080ea12cac876c0a0cfd4897ffed5afdf7a0d80eca08dcc8c"
+    },
+    {
+      "path": "public/fonts/TeroxiaDemo-PersonalUse.woff",
+      "sha256": "4d9cd73cc21c9f8fd5d7edfbb833d92df3ffd661c5ac04e7170475bc888fc39c"
     },
     {
       "path": "public/icons/icon-192.png",
@@ -428,12 +440,24 @@
       "sha256": "8439eb3e4bec07998eeff93d41d8e24fbbdba2663481dfee0274dda6e5d9592c"
     },
     {
+      "path": "src/app/studio/ForensicStudio.tsx",
+      "sha256": "071387707fef9984ab992170c4ddd9da09f10e87dfc79c1bf4cf9f38288ff9f4"
+    },
+    {
+      "path": "src/app/studio/IncidentStampCard.tsx",
+      "sha256": "e69418a23af65a1a2edd00ba26b525c94e2918ccbe7b37fd597c62a749bd26ce"
+    },
+    {
       "path": "src/app/studio/StudioRibbon.tsx",
       "sha256": "8c9fd45c2484662671acb7f6441c1927908859ccbf77ec82222a04fbabc04ac6"
     },
     {
       "path": "src/app/studio/StudioStage.tsx",
       "sha256": "dff66b6fc5880f91615875a9d95d0d6a184240c7e94e8f87837b4c651a5454cf"
+    },
+    {
+      "path": "src/app/studio/forensic-store.ts",
+      "sha256": "e882baf754c942259bd2f0a6cd8fcb477b134ba6938fe7bcc9186ab013533896"
     },
     {
       "path": "src/app/studio/page.tsx",
@@ -580,6 +604,14 @@
       "sha256": "81d63f5db0c70b133f85300b2a55603bb28686c78216ee01f0d63869ef13c440"
     },
     {
+      "path": "src/components/pause/LiveThreatTicker.tsx",
+      "sha256": "d2dd2609c178f58346063d06f253b36950f0bc1fc1a0e0afc68ae2af9daecbe3"
+    },
+    {
+      "path": "src/components/pause/ScamSimulator.tsx",
+      "sha256": "da7a91693ff64665382e998774aa145f5507eb3965e89a721084d393db716e48"
+    },
+    {
       "path": "src/components/report/AckSmsParser.tsx",
       "sha256": "c2a2aab815a98ea5685f6a4237e27ac91af9431df4548db83b426e4f5fa2bd74"
     },
@@ -708,12 +740,20 @@
       "sha256": "fde5877c184c1d100ba57a480cb87c04e60675bfc00ff6186698f630992c045a"
     },
     {
+      "path": "src/lib/draft.ts",
+      "sha256": "05b439265d0b4e92fc6e4412b39b81cc3c1b8242a37013f70e204fa8dd664e4d"
+    },
+    {
       "path": "src/lib/engine/decoder.ts",
       "sha256": "3b817b0265bab1d4eade8be7b20df33df0f7c67dc405fcd0825394a31fc69980"
     },
     {
       "path": "src/lib/engine/golden.ts",
       "sha256": "6c6d71911f78a70bef0f22c76f84a10028dd942d69ae9aeb443a941c8703590a"
+    },
+    {
+      "path": "src/lib/engine/simulator.ts",
+      "sha256": "34858b5d2e03a80388e35776e1a8a5c4822dc135e31e4a4345271b95bb4dbc8a"
     },
     {
       "path": "src/lib/i18n.ts",
@@ -766,6 +806,18 @@
     {
       "path": "src/lib/preferences.ts",
       "sha256": "97c7886483c9d7780527b394845897bd9c1ff38e378afd77c36b6558f6955e55"
+    },
+    {
+      "path": "src/lib/qr/incident-digest.ts",
+      "sha256": "477eb3075bd8b08c09f849b3d0f61133c1e4e0d48c7e3f0b7b626a7d72ee005c"
+    },
+    {
+      "path": "src/lib/qr/qrcode.ts",
+      "sha256": "0b34945ce8c03073f33e595cd01dc02e4c750c579b8622f15c349b0c52be3996"
+    },
+    {
+      "path": "src/lib/share-target.ts",
+      "sha256": "8dd95b07235f2dfe4c4de33fda69ee0326e848c3b7a3b3c1c14537462df6134f"
     },
     {
       "path": "src/lib/site.ts",
@@ -844,6 +896,10 @@
       "sha256": "8840b19672690e2d990e39c3de44e97269265d52e66fc2cbea36c8a9e771c415"
     },
     {
+      "path": "test/draft.test.ts",
+      "sha256": "6e0524101e2c26563e793e80160e126ec2c8d12184dc9bad6f678b15edba57cf"
+    },
+    {
       "path": "test/golden.test.ts",
       "sha256": "418c2af15387735d0f99fc8b382e8083b3d7b7c8298ddd595d4589abe35a0fd7"
     },
@@ -852,8 +908,20 @@
       "sha256": "2021ff28d70b64e0929eaf5cd17ff656dcf8be64bc6017a40374b04f39e4eb33"
     },
     {
+      "path": "test/incident-stamp.test.ts",
+      "sha256": "e0db39194f2a2fa46904a0c61d0b8fadf8ff6faef3dc4bed019834c9d93b6ac3"
+    },
+    {
       "path": "test/ocr.test.ts",
       "sha256": "c8ef622da10b66b71846df29e16ff90206744cc51c129c6f67072f48a4169202"
+    },
+    {
+      "path": "test/share-target.test.ts",
+      "sha256": "a6d7193f576cb37ad1e24cfd7334509d126aec4b8af669f1124587ee48e49f30"
+    },
+    {
+      "path": "test/simulator.test.ts",
+      "sha256": "b0a7ff1824127cbee5a818ba7d823068104bbccd7092fc9e45224cce14e419a4"
     },
     {
       "path": "test/verify.test.ts",
@@ -873,5 +941,5 @@
     }
   ],
   "publicKey": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAqidgoIL1/eAk4E+2Do+EhGk9eduFlocDFLCqPWu52CQ=\n-----END PUBLIC KEY-----\n",
-  "signature": "hU2rX0EfA05/58kn5PYbSNQNJrO5cD36cWP2zOVJpWs5dT3GEgQBBMH+JFbcQIfFGpSr3gZIfNWl6un4Hff1Bw=="
+  "signature": "OMaB4FhgbLt9tBi6qdg1TDvLh5A/+n8qUrhe4ePyrS+AjTeVvpnl6QzMz0spgQQ+XZY8aUXRa40QaQzZHo5NAg=="
 }

@@ -331,25 +331,21 @@ To advance PausePoint Golden Hour from a validated working prototype to a state-
 
 ---
 
-### 19. Concept Document, Video & Document Links*
-
-* **Live Production Web App (Publicly Accessible):**  
-  `https://pausepoint.hkr.dpdns.org/`
-
-* **Concept Document Drive Link (Public Access):**
+### 19 .Concept Document Drive Link (Public Access):
   `[INSERT_PUBLIC_GOOGLE_DRIVE_LINK_TO_PDF_DOSSIER]`  
   *(Generated from `docs/FACTS.md`, `docs/CLAIMS.md`, and `docs/STATUS.md`)*
 
-* **Video Link (Drive or YouTube Public Access):**
-  `[INSERT_YOUTUBE_OR_DRIVE_DEMO_VIDEO_LINK]`  
-  *(Adhering to the verified 120-second walkthrough script in `docs/DEMO_SCRIPT.md`)*
-
-* **Other Supporting Files (Optional Drive Link):**
+### 20. Other files / documents (Optional) (Public Access Drive Link) (50MB MAX)
   `[INSERT_PUBLIC_GOOGLE_DRIVE_LINK_FOR_TEST_CORPUS_AND_DATA]`  
   *(Contains the 40-receipt testing corpus, survey sheets, and Playwright test artifacts)*
 
-* **GitHub Source Repository:**
-  `https://github.com/himanshukr2245/pausepoint-golden-hour`
+### 21. Video Link (Drive or Youtube Link Public Access):
+  `[INSERT_YOUTUBE_OR_DRIVE_DEMO_VIDEO_LINK]`  
+  *(Adhering to the verified 120-second walkthrough script in `docs/DEMO_SCRIPT.md`)*
+
+• Live Production Web App (Publicly Accessible): `https://pausepoint.hkr.dpdns.org/`
+
+• GitHub Source Repository: `https://github.com/himanshukr2245/pausepoint-golden-hour`
 
 ---
 
