@@ -2,10 +2,10 @@
   "schema": "hk-seal/v1",
   "author": "Himanshu Kumar",
   "project": "pausepoint",
-  "createdAt": "2026-10-19T05:28:58.956Z",
-  "commit": "770ad8c06ac152d0a2d92344152256b4d21d1fb0",
+  "createdAt": "2026-10-19T06:00:26.638Z",
+  "commit": "1ab23984520967366c71d0d7ac0d0712609e58bb",
   "canary": "hke052becc83",
-  "treeSha256": "8596df69ac86829eee0970e6424ead0c579f1f480f440d9656adc0cf88940b81",
+  "treeSha256": "be93a4ab83a87fac8486d07071861bb2f12de03dcc1fcdaf6f3e7093c4d9b82f",
   "files": [
     {
       "path": ".env.example",
@@ -52,6 +52,10 @@
       "sha256": "e1cf2f179a973ad8f9ef14d3f2db46524b89be09487128c2a556c23817dafae1"
     },
     {
+      "path": "docs/CONCEPT_DOCUMENT.md",
+      "sha256": "9b7c1b24d359627f67965658183e121cdfcfdba4a77a01a5330f1ec8d4c597cb"
+    },
+    {
       "path": "docs/DECISIONS.md",
       "sha256": "e3fbc7d28d53032d61b7e1e2dfb63ac2308bcb588e50490b553bca2f83720c58"
     },
@@ -81,7 +85,11 @@
     },
     {
       "path": "docs/SUBMISSION_KIT.md",
-      "sha256": "0324f537cca2ff700107c077e0a71871c04cd7e880f23d3cc91ea2b7cd363547"
+      "sha256": "85370acae6b37448a7d1536d5ced29d04a0ace86d98df8e7c7773a00ad5861fc"
+    },
+    {
+      "path": "docs/SUPPLEMENTARY_DOSSIER.md",
+      "sha256": "43b2f1213fecaf76ece35320236d474ce39b358e5b350e3dca7f64522f3662a6"
     },
     {
       "path": "docs/THREAT_MODEL.md",
@@ -941,5 +949,5 @@
     }
   ],
   "publicKey": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAqidgoIL1/eAk4E+2Do+EhGk9eduFlocDFLCqPWu52CQ=\n-----END PUBLIC KEY-----\n",
-  "signature": "OMaB4FhgbLt9tBi6qdg1TDvLh5A/+n8qUrhe4ePyrS+AjTeVvpnl6QzMz0spgQQ+XZY8aUXRa40QaQzZHo5NAg=="
+  "signature": "t9fa7hx7hbXhnDC2myBl/R81yorDpBt5iNq+qhb4lcCHetKCoYYMawjeRHZclsPKc7lko2XhnQ11ZBBrVTk7Dw=="
 }
