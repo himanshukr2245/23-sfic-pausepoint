@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   AlertOctagon,
@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { payAgainBrake } from '@/lib/engine/golden.ts';
 import { TruthCards } from './TruthCards.tsx';
+import { onPanicPurge } from '@/lib/draft';
 
 const SAMPLE_TASK_UNLOCK = `Dear user, your total earnings of ₹45,000 are ready to withdraw. To unlock your withdrawal, you must pay a 15% platform clearance tax of ₹6,750 within 30 minutes.`;
 const SAMPLE_CRYPTO_UPGRADE = `Withdrawal frozen by liquidity pool. Please deposit 0.05 ETH (approx ₹12,000) security deposit to upgrade your account to VIP level and release your full balance.`;
@@ -45,6 +46,15 @@ export const PayAgainBrake: React.FC = () => {
   });
   const [newContactName, setNewContactName] = useState('');
   const [newContactPhone, setNewContactPhone] = useState('');
+
+  // Reset all sensitive state when panic purge is triggered
+  useEffect(() => {
+    return onPanicPurge(() => {
+      setInputText('');
+      setContacts([]);
+      setCodeWord('');
+    });
+  }, []);
 
   const handleSaveCodeWord = (word: string) => {
     setCodeWord(word);
@@ -116,7 +126,7 @@ export const PayAgainBrake: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto flex flex-col gap-6 py-6 px-4">
+    <div className="flex flex-col gap-8 pb-24">
       {/* 1. Header Banner */}
       <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -129,16 +139,19 @@ export const PayAgainBrake: React.FC = () => {
               100% Client-Side Privacy
             </span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-fg tracking-tight">
+          <h1 className="text-2xl md:text-4xl font-extrabold text-fg tracking-tight">
             Before You Pay Again: Repeat Deposit Brake
           </h1>
-          <p className="text-sm text-fg-muted mt-1">
+          <p className="text-xs sm:text-sm text-fg-muted mt-1 max-w-3xl leading-relaxed">
             Were you asked to pay a &ldquo;withdrawal fee&rdquo;, &ldquo;tax&rdquo;, &ldquo;upgrade&rdquo;, or &ldquo;court clearance&rdquo; to unlock money? Paste the message below before sending any money.
           </p>
         </div>
       </div>
 
-      {/* 2. Message Input */}
+      {/* 2. Responsive 12-Column Cognitive Cockpit */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left Column (7 cols): Message Input & Trusted Family Shield */}
+        <div className="lg:col-span-7 flex flex-col gap-6">
       <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col gap-4">
         <label className="text-xs font-semibold text-fg-muted uppercase tracking-wide block">
           Paste the message asking you to send money
@@ -250,99 +263,188 @@ export const PayAgainBrake: React.FC = () => {
         </div>
       )}
 
-      {/* 4. Immutable Truth Cards (Always Visible) */}
-      <TruthCards />
+          {/* 5. Trusted Family Contacts & Secret Code-Word SOS */}
+          <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-border">
+              <div>
+                <h3 className="text-base font-bold text-fg flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-brand" />
+                  <span>Trusted Family Shield & Secret Code-Word</span>
+                </h3>
+                <p className="text-xs text-fg-muted mt-0.5">
+                  Scammers try to isolate you on the call. Set a secret family code-word to verify real calls from your relatives vs AI deepfakes.
+                </p>
+              </div>
+            </div>
 
-      {/* 5. Trusted Family Contacts & Secret Code-Word SOS */}
-      <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col gap-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-border">
-          <div>
-            <h3 className="text-base font-bold text-fg flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-brand" />
-              <span>Trusted Family Shield & Secret Code-Word</span>
-            </h3>
-            <p className="text-xs text-fg-muted mt-0.5">
-              Scammers try to isolate you on the call. Set a secret family code-word to verify real calls from your relatives vs AI deepfakes.
-            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-semibold text-fg-muted uppercase tracking-wide">
+                  Secret Family Safety Word
+                </label>
+                <input
+                  type="text"
+                  value={codeWord}
+                  onChange={(e) => handleSaveCodeWord(e.target.value)}
+                  placeholder="e.g. MangoTree2026"
+                  className="text-sm font-mono rounded-xl border border-border bg-surface-2 px-3.5 py-2.5 text-fg outline-none focus:border-brand/60"
+                />
+                <p className="text-[11px] text-fg-muted">
+                  If someone calls claiming a family member is in jail/hospital, ask for this secret word before believing them.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-semibold text-fg-muted uppercase tracking-wide">
+                  Add Trusted Contact
+                </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    placeholder="Name (e.g. Dad)"
+                    value={newContactName}
+                    onChange={(e) => setNewContactName(e.target.value)}
+                    className="text-xs rounded-xl border border-border bg-surface-2 px-3 py-2 text-fg outline-none flex-1"
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Phone (e.g. 9876543210)"
+                    value={newContactPhone}
+                    onChange={(e) => setNewContactPhone(e.target.value)}
+                    className="text-xs rounded-xl border border-border bg-surface-2 px-3 py-2 text-fg outline-none flex-1 font-mono"
+                  />
+                  <button
+                    onClick={handleAddContact}
+                    className="h-9 px-3 rounded-xl bg-brand text-brand-fg text-xs font-bold hover:bg-brand/90 transition-colors shrink-0"
+                  >
+                    Save
+                  </button>
+                </div>
+
+                {contacts.length > 0 && (
+                  <div className="flex flex-col gap-1.5 mt-1">
+                    {contacts.map((c, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center justify-between p-2 rounded-lg bg-surface-2 border border-border text-xs"
+                      >
+                        <span className="font-semibold text-fg">{c.name}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-fg-muted text-[11px]">{c.phone}</span>
+                          <a
+                            href={`https://wa.me/91${c.phone.replace(/\D/g, '').slice(-10)}?text=${encodeURIComponent(
+                              `SAFETY ALERT: I am on a suspicious call or message asking for money. Our safety word is [${codeWord || 'FAMILY_CHECK'}]. Please call me immediately to verify.`
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-2 py-0.5 rounded text-[10px] font-bold bg-success/15 text-success hover:bg-success/25 transition-colors"
+                          >
+                            WhatsApp SOS
+                          </a>
+                          <button
+                            onClick={() => handleDeleteContact(idx)}
+                            className="text-fg-muted hover:text-danger text-[11px] px-1"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-fg-muted uppercase tracking-wide">
-              Secret Family Safety Word
-            </label>
-            <input
-              type="text"
-              value={codeWord}
-              onChange={(e) => handleSaveCodeWord(e.target.value)}
-              placeholder="e.g. MangoTree2026"
-              className="text-sm font-mono rounded-xl border border-border bg-surface-2 px-3.5 py-2.5 text-fg outline-none focus:border-brand/60"
-            />
-            <p className="text-[11px] text-fg-muted">
-              If someone calls claiming a family member is in jail/hospital, ask for this secret word before believing them.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-fg-muted uppercase tracking-wide">
-              Add Trusted Contact
-            </label>
-            <div className="flex items-center gap-2">
-              <input
-                type="text"
-                placeholder="Name (e.g. Dad)"
-                value={newContactName}
-                onChange={(e) => setNewContactName(e.target.value)}
-                className="text-xs rounded-xl border border-border bg-surface-2 px-3 py-2 text-fg outline-none flex-1"
-              />
-              <input
-                type="tel"
-                placeholder="Phone (e.g. 9876543210)"
-                value={newContactPhone}
-                onChange={(e) => setNewContactPhone(e.target.value)}
-                className="text-xs rounded-xl border border-border bg-surface-2 px-3 py-2 text-fg outline-none flex-1 font-mono"
-              />
-              <button
-                onClick={handleAddContact}
-                className="h-9 px-3 rounded-xl bg-brand text-brand-fg text-xs font-bold hover:bg-brand/90 transition-colors shrink-0"
-              >
-                Save
-              </button>
-            </div>
-
-            {contacts.length > 0 && (
-              <div className="flex flex-col gap-1.5 mt-1">
-                {contacts.map((c, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center justify-between p-2 rounded-lg bg-surface-2 border border-border text-xs"
-                  >
-                    <span className="font-semibold text-fg">{c.name}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-fg-muted text-[11px]">{c.phone}</span>
-                      <a
-                        href={`https://wa.me/91${c.phone.replace(/\D/g, '').slice(-10)}?text=${encodeURIComponent(
-                          `SAFETY ALERT: I am on a suspicious call or message asking for money. Our safety word is [${codeWord || 'FAMILY_CHECK'}]. Please call me immediately to verify.`
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-2 py-0.5 rounded text-[10px] font-bold bg-success/15 text-success hover:bg-success/25 transition-colors"
-                      >
-                        WhatsApp SOS
-                      </a>
-                      <button
-                        onClick={() => handleDeleteContact(idx)}
-                        className="text-fg-muted hover:text-danger text-[11px] px-1"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  </div>
-                ))}
+        {/* Right Column (5 cols): Live Verdict & Immutable Truth Cards */}
+        <div className="lg:col-span-5 flex flex-col gap-6">
+          {/* 3. Analysis Verdict Result */}
+          {brakeResult ? (
+            <div
+              className={`rounded-2xl border p-6 shadow-sm flex flex-col gap-4 animate-in fade-in duration-200 ${
+                isStop
+                  ? 'border-danger/40 bg-danger/5'
+                  : 'border-success/40 bg-success/5'
+              }`}
+            >
+              <div className="flex items-start gap-3.5">
+                <div
+                  className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${
+                    isStop ? 'bg-danger text-brand-fg' : 'bg-success text-brand-fg'
+                  }`}
+                >
+                  {isStop ? <AlertOctagon className="w-6 h-6" /> : <ShieldCheck className="w-6 h-6" />}
+                </div>
+                <div>
+                  <h2 className="text-xl font-extrabold text-fg">
+                    {isStop ? 'STOP! DO NOT SEND MONEY' : 'No Immediate Repeat Deposit Trap Detected'}
+                  </h2>
+                  <p className="text-xs md:text-sm text-fg-muted mt-1">
+                    {isStop
+                      ? 'This message contains classic repeat-payment hooks used in task and investment fraud to extract more money from victims.'
+                      : 'This message does not show withdrawal-fee or bail-demand triggers. Always verify independently.'}
+                  </p>
+                </div>
               </div>
-            )}
-          </div>
+
+              {/* Reasons */}
+              {isStop && brakeResult.reasons.length > 0 && (
+                <div className="rounded-xl border border-danger/20 bg-surface/80 p-4">
+                  <h4 className="text-xs font-bold uppercase text-danger mb-2 tracking-wide">
+                    Why this was flagged:
+                  </h4>
+                  <ul className="flex flex-col gap-1.5 text-xs text-fg">
+                    {brakeResult.reasons.map((r, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="text-danger font-bold">•</span>
+                        <span>{r}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Action Row */}
+              <div className="flex flex-col gap-2.5 pt-2">
+                <Link
+                  href="/report"
+                  className="w-full h-12 rounded-xl bg-danger text-brand-fg font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-danger/20 hover:bg-danger/90 transition-colors"
+                >
+                  <span>I&apos;ve Already Paid Money ➔ Report to 1930</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={handleShareAlert}
+                    className="h-11 px-3 rounded-xl border border-border bg-surface hover:bg-surface-2 text-fg font-semibold text-xs flex items-center justify-center gap-2 transition-colors"
+                  >
+                    {copiedAlert ? <Check className="w-4 h-4 text-success" /> : <Share2 className="w-4 h-4" />}
+                    <span>{copiedAlert ? 'Copied' : 'Tell Family'}</span>
+                  </button>
+
+                  <button
+                    onClick={handleSpeak}
+                    className="h-11 px-3 rounded-xl border border-border bg-surface hover:bg-surface-2 text-fg font-semibold text-xs flex items-center justify-center gap-2 transition-colors"
+                  >
+                    <Volume2 className="w-4 h-4" />
+                    <span>{isSpeaking ? 'Stop' : 'Read Aloud'}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-dashed border-border bg-surface/40 p-6 flex flex-col items-center justify-center text-center gap-2 min-h-[160px]">
+              <ShieldCheck className="w-8 h-8 text-fg-muted/60" />
+              <p className="text-xs font-semibold text-fg-muted">
+                Paste suspicious message on the left to see instant manipulation analysis &amp; withdrawal brake verdict.
+              </p>
+            </div>
+          )}
+
+          {/* 4. Immutable Truth Cards */}
+          <TruthCards />
         </div>
       </div>
     </div>

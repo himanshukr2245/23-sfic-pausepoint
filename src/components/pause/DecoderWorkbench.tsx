@@ -81,6 +81,18 @@ export const DecoderWorkbench: React.FC = () => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }, [goldenHourSeconds]);
 
+  // Listen for sample payload load events from ScamSimulator
+  useEffect(() => {
+    const handleLoadSample = (e: Event) => {
+      const customEvt = e as CustomEvent<{ text?: string }>;
+      if (customEvt.detail?.text) {
+        setInputText(customEvt.detail.text);
+      }
+    };
+    window.addEventListener('pausepoint:load-sample', handleLoadSample);
+    return () => window.removeEventListener('pausepoint:load-sample', handleLoadSample);
+  }, []);
+
   // Auto-decode on input change with slight debounce
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -197,7 +209,7 @@ ${verdict.links.map((l) => `- ${l.url} (${l.official ? 'Verified Official' : `Ri
               <AlertTriangle className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[11px] font-bold text-warning uppercase tracking-wider block">Demanding a Fee to Withdraw?</span>
+              <span className="text-[11px] font-bold text-fg dark:text-warning uppercase tracking-wider block">Demanding a Fee to Withdraw?</span>
               <span className="text-sm font-semibold text-fg">Check Repeat Deposit Brake</span>
             </div>
           </div>
@@ -213,7 +225,7 @@ ${verdict.links.map((l) => `- ${l.url} (${l.official ? 'Verified Official' : `Ri
           <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col gap-4">
             <div className="flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-brand/10 text-brand border border-brand/20">
+                <span className="px-2.5 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-surface-2 text-fg border border-border">
                   Cognitive Firewall
                 </span>
                 <span className="text-xs text-fg-muted font-medium">
@@ -308,10 +320,10 @@ ${verdict.links.map((l) => `- ${l.url} (${l.official ? 'Verified Official' : `Ri
                       <span
                         className={`px-2 py-0.5 rounded text-xs font-black uppercase tracking-wider ${
                           verdict.level === 'danger'
-                            ? 'bg-danger/20 text-danger'
+                            ? 'bg-danger text-brand-fg shadow-xs'
                             : verdict.level === 'suspicious'
-                            ? 'bg-warning/20 text-warning'
-                            : 'bg-success/20 text-success'
+                            ? 'bg-warning/15 text-fg border border-warning/40 dark:text-warning'
+                            : 'bg-success/15 text-fg border border-success/40 dark:text-success'
                         }`}
                       >
                         {verdict.level === 'danger' ? 'STOP' : verdict.level === 'suspicious' ? 'PAUSE' : 'LOW RISK'}
@@ -432,7 +444,7 @@ ${verdict.links.map((l) => `- ${l.url} (${l.official ? 'Verified Official' : `Ri
           {/* Cockpit Card 1: Live Golden Hour Triage Countdown */}
           <div className="rounded-2xl border border-danger/30 bg-surface p-6 shadow-xs flex flex-col gap-4">
             <div className="flex items-center justify-between">
-              <span className="px-2.5 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-danger/10 text-danger border border-danger/20">
+              <span className="px-2.5 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-danger/10 text-fg border border-danger/30 dark:bg-danger/20 dark:text-danger">
                 Golden Window Active
               </span>
               <span className="text-xs font-mono font-semibold text-fg-muted flex items-center gap-1">

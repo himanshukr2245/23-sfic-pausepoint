@@ -139,7 +139,7 @@ export function buttonClassName({ variant = 'primary', latencyMode = 'spring-pop
 
   // ── 4. Typographic Token Assignment ──
   let fontClasses = variant === 'plain' ? '' : 'font-sans font-semibold tracking-normal';
-  if (font === 'display' || font === 'teroxia' || (!font && variant === 'cyber-solid')) {
+  if (font === 'display' || font === 'teroxia' || (!font && (variant === 'cyber-solid' || variant === 'cyber-outline'))) {
     fontClasses = 'font-display font-bold uppercase tracking-wider';
   } else if (!font && variant === 'expander-pill') {
     fontClasses = 'font-sans font-semibold uppercase tracking-wider text-xs';

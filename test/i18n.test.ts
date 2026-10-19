@@ -47,4 +47,27 @@ describe('Phase 4: Bilingual Localisation & i18n Dictionary Integrity', () => {
       stopSpeaking();
     });
   });
+
+  test('Phase E: crisis reporting dictionary covers multi-payment, panic purge, and evidence docket', () => {
+    const requiredKeys = [
+      'emergencyActionBadge',
+      'panicPurgeButton',
+      'panicPurgeAlert',
+      'draftRestoredNotice',
+      'multiPaymentLedgerTitle',
+      'totalStolenLost',
+      'checkThisTag',
+      'criticalForLienBadge',
+      'callScriptModalTitle',
+      'filingOnBehalfLabel',
+      'attachScreenshotsButton',
+      'ackSmsStageTitle',
+    ] as const;
+
+    for (const key of requiredKeys) {
+      assert.ok(TRANSLATIONS.en[key], `Missing English key for ${key}`);
+      assert.ok(TRANSLATIONS.hi[key], `Missing Hindi key for ${key}`);
+      assert.ok(/[\u0900-\u097F]/.test(TRANSLATIONS.hi[key]), `Hindi key for ${key} must contain Devanagari`);
+    }
+  });
 });

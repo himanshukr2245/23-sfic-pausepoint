@@ -6,12 +6,14 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { playHapticTick, playSuccessChime, unlockAudio } from '@/lib/audio/synthesizer';
 import { CHROMATIC_PRESETS } from '@/components/ui/ChromaticHarmonyPicker';
+import { toggleLanguage } from '@/lib/i18n';
+import { panicPurgeAllData } from '@/lib/draft';
 
 interface CommandItem {
   id: string;
   title: string;
   subtitle?: string;
-  category: 'Navigation' | 'Appearance & Theme' | 'System & Cache';
+  category: 'Emergency Response' | 'Safety Intelligence' | 'Accessibility & Language' | 'Appearance & Theme' | 'System & Cache';
   shortcut?: string;
   badge?: string;
   run: (context: {
@@ -33,40 +35,138 @@ export function CommandPalette() {
 
   // Command definitions
   const commands: CommandItem[] = [
-    // ── Navigation ──
+    // ── Emergency Response ──
     {
-      id: 'nav-home',
-      title: 'Go to Home',
-      subtitle: 'Overview, AWS cloud cards, and precision specs',
-      category: 'Navigation',
-      shortcut: 'G H',
-      badge: 'PAGE',
+      id: 'nav-report',
+      title: 'Report Fraud to 1930 (Golden Hour)',
+      subtitle: 'Instant on-device OCR receipt triage, 12-digit UTR isolation & police call script',
+      category: 'Emergency Response',
+      shortcut: 'G R',
+      badge: '1930',
       run: ({ router, close }) => {
-        router.push('/');
+        router.push('/report');
+        close();
+      },
+    },
+    {
+      id: 'nav-verify',
+      title: 'Before You Pay Again (Deposit Brake)',
+      subtitle: 'Halt extortionate withdrawal clearance taxes & fake digital arrest bail',
+      category: 'Emergency Response',
+      shortcut: 'G V',
+      badge: 'BRAKE',
+      run: ({ router, close }) => {
+        router.push('/verify');
+        close();
+      },
+    },
+    {
+      id: 'action-dial-1930',
+      title: 'Direct Dial 1930 Police Helpline',
+      subtitle: 'Launch phone dialer for National Cybercrime Reporting Helpline',
+      category: 'Emergency Response',
+      shortcut: '⌘ 9',
+      badge: 'DIAL',
+      run: ({ close }) => {
+        if (typeof window !== 'undefined') {
+          window.location.href = 'tel:1930';
+        }
+        close();
+      },
+    },
+    {
+      id: 'action-panic-purge',
+      title: 'Panic Purge (Instant Trace Erasure)',
+      subtitle: 'Instantly clear all local drafts, scanned receipts, and contact lists',
+      category: 'Emergency Response',
+      shortcut: '⌘ ⌫',
+      badge: 'PURGE',
+      run: ({ close }) => {
+        unlockAudio();
+        panicPurgeAllData();
+        close();
+      },
+    },
+
+    // ── Safety Intelligence ──
+    {
+      id: 'nav-decode',
+      title: 'Psychological Manipulation Decoder',
+      subtitle: '10-second cognitive pause & deceptive link autopsy workbench',
+      category: 'Safety Intelligence',
+      shortcut: 'G D',
+      badge: 'DECODE',
+      run: ({ router, close }) => {
+        router.push('/#decoder');
+        close();
+      },
+    },
+    {
+      id: 'nav-truths',
+      title: 'Three Permanent Truths That Break Frauds',
+      subtitle: 'Permanent disproving axioms against cyber extortion and fake arrest',
+      category: 'Safety Intelligence',
+      shortcut: 'G T',
+      badge: 'TRUTHS',
+      run: ({ router, close }) => {
+        router.push('/verify');
+        close();
+      },
+    },
+    {
+      id: 'nav-docket',
+      title: 'Digital Evidence Integrity Docket',
+      subtitle: 'On-device SHA-256 cryptographic file digests under BSA 2023',
+      category: 'Safety Intelligence',
+      shortcut: 'G E',
+      badge: 'BSA-2023',
+      run: ({ router, close }) => {
+        router.push('/report#docket');
         close();
       },
     },
     {
       id: 'nav-about',
-      title: 'Go to About',
-      subtitle: 'Universal architecture, standards, and security specifications',
-      category: 'Navigation',
+      title: 'Surakshit Bharat Architecture & Specs',
+      subtitle: 'SFIC 2026 Level 3 Open Track specifications & privacy baseline',
+      category: 'Safety Intelligence',
       shortcut: 'G A',
-      badge: 'PAGE',
+      badge: 'SPECS',
       run: ({ router, close }) => {
         router.push('/about');
         close();
       },
     },
+
+    // ── Accessibility & Language ──
     {
-      id: 'nav-notes',
-      title: 'Open Storage & Notes Vault',
-      subtitle: 'Your notes — saved on this device first',
-      category: 'Navigation',
-      shortcut: 'G N',
-      badge: 'IDB',
-      run: ({ router, close }) => {
-        router.push('/notes');
+      id: 'toggle-senior',
+      title: 'Toggle Senior Citizen Mode',
+      subtitle: 'Enlarge typography to 22px, expand touch targets to 64px, and maximize contrast',
+      category: 'Accessibility & Language',
+      shortcut: '⌘ S',
+      badge: 'SENIOR',
+      run: ({ close }) => {
+        if (typeof window !== 'undefined') {
+          const isSenior = document.documentElement.classList.toggle('senior-mode');
+          try {
+            localStorage.setItem('pausepoint_senior_mode', String(isSenior));
+          } catch {
+            // Ignore storage errors
+          }
+        }
+        close();
+      },
+    },
+    {
+      id: 'toggle-lang',
+      title: 'Toggle Language (English ⇄ हिन्दी)',
+      subtitle: 'Switch between English and Hindi across emergency crisis interfaces',
+      category: 'Accessibility & Language',
+      shortcut: '⌘ L',
+      badge: 'LANG',
+      run: ({ close }) => {
+        toggleLanguage();
         close();
       },
     },

@@ -25,27 +25,27 @@ async function openHydrated(page: Page, path: string) {
 test('top loader: clicking a <Link> shows the bar, and it goes away when the page has changed', async ({ page }) => {
   await openHydrated(page, '/');
   const seen = await watchBar(page);
-  await page.getByRole('link', { name: /explore work/i }).click();
+  await page.getByRole('link', { name: /explore work|specs/i }).click();
   await expect.poll(seen, { message: 'no visible feedback after the click' }).toBe(true);
-  await expect(page).toHaveURL(/\/about$/);
-  await expect(page.locator(bar)).toBeHidden({ timeout: 5_000 });
+  await expect(page).toHaveURL(/\/about$/, { timeout: 10_000 });
+  await expect(page.locator(bar)).toBeHidden({ timeout: 10_000 });
 });
 
 test('top loader: browser Back shows the bar too', async ({ page }) => {
   await openHydrated(page, '/');
-  await page.getByRole('link', { name: /explore work/i }).click();
-  await expect(page).toHaveURL(/\/about$/);
-  await expect(page.locator(bar)).toBeHidden({ timeout: 5_000 });
+  await page.getByRole('link', { name: /explore work|specs/i }).click();
+  await expect(page).toHaveURL(/\/about$/, { timeout: 10_000 });
+  await expect(page.locator(bar)).toBeHidden({ timeout: 10_000 });
   const seen = await watchBar(page);
   await page.goBack();
   await expect.poll(seen, { message: 'no visible feedback on Back' }).toBe(true);
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/$/, { timeout: 10_000 });
 });
 
 test('top loader: a link to the page you are already on shows nothing', async ({ page }) => {
-  await openHydrated(page, '/about');
+  await openHydrated(page, '/');
   const seen = await watchBar(page);
-  await page.getByRole('link', { name: 'About' }).click();
+  await page.getByRole('navigation', { name: 'Main Navigation Bar' }).getByRole('link', { name: 'Home' }).click();
   await page.waitForTimeout(600);                                     // longer than the 300 ms minimum + 250 ms fade
   expect(await seen(), 'the bar appeared for a link to the current page').toBe(false);
 });

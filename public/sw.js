@@ -46,10 +46,47 @@ self.addEventListener('message', (event) => {
   if (event.data === 'SKIP_WAITING') self.skipWaiting();           // sent only after the person tapped "Reload"
 });
 
+const SHARE_CACHE = 'pausepoint-shared-receipts';
+const SHARED_IMAGE_KEY = '/shared-receipt-incoming';
+const SHARED_TEXT_KEY = '/shared-text-incoming';
+
 self.addEventListener('fetch', (event) => {
   const req = event.request;
-  if (req.method !== 'GET') return;
   const url = new URL(req.url);
+
+  // Handle native Android Web Share Target POST requests
+  if (req.method === 'POST' && url.pathname === '/share-target') {
+    event.respondWith((async () => {
+      try {
+        const formData = await req.formData();
+        const file = formData.get('receipt') || formData.get('file');
+        const text = formData.get('text') || formData.get('title');
+
+        const cache = await caches.open(SHARE_CACHE);
+
+        if (file && typeof file === 'object') {
+          await cache.put(SHARED_IMAGE_KEY, new Response(file, {
+            headers: {
+              'content-type': file.type || 'image/png',
+              'x-shared-name': encodeURIComponent(file.name || 'shared-receipt.png'),
+            },
+          }));
+        }
+
+        if (text && typeof text === 'string' && text.trim().length > 0) {
+          await cache.put(SHARED_TEXT_KEY, new Response(text, {
+            headers: { 'content-type': 'text/plain; charset=utf-8' },
+          }));
+        }
+      } catch (err) {
+        console.warn('sw: share-target extraction error', err);
+      }
+      return Response.redirect('/report?shared=1', 303);
+    })());
+    return;
+  }
+
+  if (req.method !== 'GET') return;
   if (url.origin !== self.location.origin) return;
   if (NEVER.some((re) => re.test(url.pathname))) return;
   if (req.headers.get('rsc') === '1' || url.searchParams.has('_rsc')) return;

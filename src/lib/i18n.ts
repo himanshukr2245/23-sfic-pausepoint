@@ -99,6 +99,61 @@ export interface TranslationDict {
   seniorModeOn: string;
   seniorModeOff: string;
   seniorModeTooltip: string;
+
+  // Crisis Flow Extended (Phase E)
+  emergencyActionBadge: string;
+  reportingWindowLabel: string;
+  minSincePayment: string;
+  panicPurgeButton: string;
+  panicPurgeTitle: string;
+  panicPurgeAlert: string;
+  draftRestoredNotice: string;
+  discardDraftButton: string;
+  uploadScreenshotInstead: string;
+  pasteSmsInstead: string;
+  extractDetailsButton: string;
+  dropScreenshotPrompt: string;
+  supportedAppsHint: string;
+  quickTestSamples: string;
+  multiPaymentLedgerTitle: string;
+  multiPaymentSub: string;
+  addAnotherTransfer: string;
+  transferLabel: string;
+  editingTransfer: string;
+  txnDetailsReviewTitle: string;
+  txnDetailsReviewSub: string;
+  totalStolenLost: string;
+  checkThisTag: string;
+  criticalForLienBadge: string;
+  bankLienHelper: string;
+  recipientNameLabel: string;
+  recipientUpiLabel: string;
+  paymentChannelLabel: string;
+  call1930Action: string;
+  alertFamilyAction: string;
+  alertCopiedLabel: string;
+  recoveryChecklistTitle: string;
+  call1930HeroTitle: string;
+  call1930HeroSub: string;
+  openCallScriptButton: string;
+  addReceiptPromptRight: string;
+  callScriptModalTitle: string;
+  callScriptModalSub: string;
+  filingOnBehalfLabel: string;
+  victimFullNameLabel: string;
+  yourRelationshipLabel: string;
+  grandchildRel: string;
+  sonDaughterRel: string;
+  spouseRel: string;
+  closeButton: string;
+  attachScreenshotsButton: string;
+  hashingInProgress: string;
+  bsaIntegrityBadge: string;
+  copyManifestButton: string;
+  ackSmsStageTitle: string;
+  scamStoryLabel: string;
+  scamStoryPlaceholder: string;
+  officialComplaintLabel: string;
 }
 
 export const TRANSLATIONS: Record<Language, TranslationDict> = {
@@ -185,6 +240,61 @@ export const TRANSLATIONS: Record<Language, TranslationDict> = {
     seniorModeOn: 'Senior Mode: ON',
     seniorModeOff: 'Senior Mode',
     seniorModeTooltip: 'Enlarge text to 22px, enhance touch targets, and optimize contrast for seniors.',
+
+    // Crisis Flow Extended (Phase E)
+    emergencyActionBadge: 'Emergency Action',
+    reportingWindowLabel: 'Reporting Window',
+    minSincePayment: 'min since payment',
+    panicPurgeButton: 'Panic Purge',
+    panicPurgeTitle: 'Instantly wipes all local draft receipts, codeword, and evidence traces from this device',
+    panicPurgeAlert: 'All incident traces have been permanently erased from this device.',
+    draftRestoredNotice: 'Previous Incident Draft Restored:',
+    discardDraftButton: 'Discard Draft',
+    uploadScreenshotInstead: 'Upload Screenshot instead',
+    pasteSmsInstead: 'Paste SMS Text instead',
+    extractDetailsButton: 'Extract Details Now',
+    dropScreenshotPrompt: 'Drop screenshot here or tap to select from gallery',
+    supportedAppsHint: 'Google Pay, PhonePe, Paytm, BHIM, or Mobile Banking screenshots',
+    quickTestSamples: 'Quick Test Samples:',
+    multiPaymentLedgerTitle: 'Multi-Payment Fraud Ledger',
+    multiPaymentSub: 'Task and investment scams coerce victims into multiple transfers. Every transaction is added to your 1930 case.',
+    addAnotherTransfer: 'Add Another Transfer',
+    transferLabel: 'Transfer',
+    editingTransfer: 'Editing Transfer',
+    txnDetailsReviewTitle: 'Transaction Details Review',
+    txnDetailsReviewSub: 'Confirm extracted fields before calling 1930. Any uncertain OCR reading is flagged in amber.',
+    totalStolenLost: 'Total Lost',
+    checkThisTag: 'Check this',
+    criticalForLienBadge: 'Critical for Bank Lien',
+    bankLienHelper: 'The bank-side reference that traces money across banks (not the app ID)',
+    recipientNameLabel: 'Recipient Name / Business',
+    recipientUpiLabel: 'Recipient UPI ID / VPA',
+    paymentChannelLabel: 'Bank & Payment Channel',
+    call1930Action: 'Call 1930 Helpline (View Script)',
+    alertFamilyAction: 'Alert Family Member',
+    alertCopiedLabel: 'Alert Copied',
+    recoveryChecklistTitle: 'Ordered Recovery Checklist (NCRP & Bank Protocol)',
+    call1930HeroTitle: 'Call 1930 Right Now',
+    call1930HeroSub: 'Calling 1930 flags your transaction in the inter-bank freeze portal.',
+    openCallScriptButton: 'Open Operator Call Script',
+    addReceiptPromptRight: 'Add receipt screenshot or bank SMS on the left to activate 1930 police script and NCRP incident docket.',
+    callScriptModalTitle: '1930 Helpline Call Script',
+    callScriptModalSub: 'Read these exact lines to the police officer',
+    filingOnBehalfLabel: 'I am filing on behalf of a family member (Grandparent / Parent)',
+    victimFullNameLabel: "Victim's Full Name",
+    yourRelationshipLabel: 'Your Relationship',
+    grandchildRel: 'Grandchild',
+    sonDaughterRel: 'Son / Daughter',
+    spouseRel: 'Spouse',
+    closeButton: 'Close',
+    attachScreenshotsButton: 'Attach Screenshots',
+    hashingInProgress: 'Hashing...',
+    bsaIntegrityBadge: 'BSA 2023 Integrity Aid',
+    copyManifestButton: 'Copy Docket',
+    ackSmsStageTitle: 'Stage 2: 1930 Acknowledgement SMS & Portal Draft',
+    scamStoryLabel: 'Brief description of how the scam occurred (Optional)',
+    scamStoryPlaceholder: 'e.g. Contacted on WhatsApp offering part-time YouTube video like job',
+    officialComplaintLabel: 'Official Complaint Description (for cybercrime.gov.in)',
   },
 
   hi: {
@@ -270,6 +380,61 @@ export const TRANSLATIONS: Record<Language, TranslationDict> = {
     seniorModeOn: 'सीनियर मोड: चालू',
     seniorModeOff: 'सीनियर मोड',
     seniorModeTooltip: 'अक्षरों को 22px बड़ा करें, बटन का आकार बढ़ाएं और उच्च कंट्रास्ट सक्षम करें।',
+
+    // Crisis Flow Extended (Phase E)
+    emergencyActionBadge: 'आपातकालीन कार्रवाई',
+    reportingWindowLabel: 'रिपोर्टिंग समय सीमा',
+    minSincePayment: 'मिनट पहले भुगतान हुआ',
+    panicPurgeButton: 'तत्काल डेटा मिटाएं',
+    panicPurgeTitle: 'इस डिवाइस से सभी रसीदें, ड्राफ्ट और साक्ष्य तुरंत हमेशा के लिए मिटाएं',
+    panicPurgeAlert: 'इस डिवाइस से घटना के सभी रिकॉर्ड और साक्ष्य पूरी तरह मिटा दिए गए हैं।',
+    draftRestoredNotice: 'पिछला ड्राफ्ट पुनर्प्राप्त किया गया:',
+    discardDraftButton: 'ड्राफ्ट हटाएं',
+    uploadScreenshotInstead: 'इसके बजाय स्क्रीनशॉट अपलोड करें',
+    pasteSmsInstead: 'इसके बजाय SMS टेक्स्ट पेस्ट करें',
+    extractDetailsButton: 'विवरण अभी निकालें',
+    dropScreenshotPrompt: 'रसीद का स्क्रीनशॉट यहाँ डालें या गैलरी से चुनें',
+    supportedAppsHint: 'Google Pay, PhonePe, Paytm, BHIM या नेट बैंकिंग के स्क्रीनशॉट',
+    quickTestSamples: 'त्वरित परीक्षण नमूने:',
+    multiPaymentLedgerTitle: 'एकाधिक भुगतान धोखाधड़ी बहीखाता',
+    multiPaymentSub: 'टास्क और फर्जी निवेश ठगी में कई बार पैसे ऐंठे जाते हैं। हर लेनदेन आपके 1930 केस में जोड़ा जाएगा।',
+    addAnotherTransfer: 'एक और भुगतान जोड़ें',
+    transferLabel: 'भुगतान',
+    editingTransfer: 'भुगतान विवरण संपादन',
+    txnDetailsReviewTitle: 'लेनदेन विवरण की समीक्षा',
+    txnDetailsReviewSub: '1930 पर कॉल करने से पहले निकाले गए विवरण की जांच करें। संदेहास्पद अक्षर पीले रंग में चिह्नित हैं।',
+    totalStolenLost: 'कुल हानि',
+    checkThisTag: 'जांचें',
+    criticalForLienBadge: 'खाता फ्रीज हेतु अति महत्वपूर्ण',
+    bankLienHelper: 'बैंक संदर्भ संख्या जो अंतर-बैंक ट्रांसफर को ट्रैक करती है (ऐप आईडी नहीं)',
+    recipientNameLabel: 'प्राप्तकर्ता का नाम / फर्म',
+    recipientUpiLabel: 'प्राप्तकर्ता की UPI ID / VPA',
+    paymentChannelLabel: 'बैंक और भुगतान माध्यम',
+    call1930Action: '1930 हेल्पलाइन पर कॉल करें (स्क्रिप्ट देखें)',
+    alertFamilyAction: 'परिवार को सूचित करें',
+    alertCopiedLabel: 'अलर्ट संदेश कॉपी हुआ',
+    recoveryChecklistTitle: 'क्रमबद्ध रिकवरी चेकलिस्ट (NCRP एवं बैंक प्रक्रिया)',
+    call1930HeroTitle: 'तुरंत 1930 पर कॉल करें',
+    call1930HeroSub: '1930 पर कॉल करने से अंतर-बैंक पोर्टल में आरोपी खातों पर तुरंत रोक (lien) लगाई जाती है।',
+    openCallScriptButton: 'पुलिस ऑपरेटर कॉल स्क्रिप्ट खोलें',
+    addReceiptPromptRight: '1930 पुलिस स्क्रिप्ट और NCRP डॉकेट सक्रिय करने के लिए बाईं ओर रसीद का स्क्रीनशॉट या बैंक SMS जोड़ें।',
+    callScriptModalTitle: '1930 हेल्पलाइन पुलिस स्क्रिप्ट',
+    callScriptModalSub: 'पुलिस ऑपरेटर को ठीक यही वाक्य पढ़कर सुनाएं',
+    filingOnBehalfLabel: 'मैं अपने परिवार के सदस्य (माता-पिता / बुजुर्ग) की ओर से रिपोर्ट कर रहा हूँ',
+    victimFullNameLabel: 'पीड़ित का पूरा नाम',
+    yourRelationshipLabel: 'पीड़ित से आपका संबंध',
+    grandchildRel: 'पोता / पोती / नाती / नातिन',
+    sonDaughterRel: 'बेटा / बेटी',
+    spouseRel: 'पति / पत्नी',
+    closeButton: 'बंद करें',
+    attachScreenshotsButton: 'स्क्रीनशॉट संलग्न करें',
+    hashingInProgress: 'डिजिटल हैश निकाला जा रहा है...',
+    bsaIntegrityBadge: 'BSA 2023 साक्ष्य सहायता',
+    copyManifestButton: 'डॉकेट कॉपी करें',
+    ackSmsStageTitle: 'चरण 2: 1930 पावती SMS और पोर्टल शिकायत',
+    scamStoryLabel: 'ठगी कैसे हुई इसका संक्षिप्त विवरण (वैकल्पिक)',
+    scamStoryPlaceholder: 'उदा. WhatsApp पर पार्ट-टाइम यूट्यूब लाइक जॉब का ऑफर देकर संपर्क किया गया',
+    officialComplaintLabel: 'आधिकारिक शिकायत विवरण (cybercrime.gov.in हेतु)',
   },
 };
 

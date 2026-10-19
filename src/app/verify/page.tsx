@@ -8,9 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function VerifyPage() {
-  return (
-    <main className="min-h-screen bg-bg text-fg">
-      <PayAgainBrake />
-    </main>
-  );
+  return <PayAgainBrake />;
 }

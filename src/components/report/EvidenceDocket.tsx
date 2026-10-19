@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { ShieldCheck, FileCheck, Download, Copy, Check, Hash } from 'lucide-react';
 import { evidenceManifest, type EvidenceItem } from '@/lib/engine/golden.ts';
+import { useTranslation } from '@/lib/i18n';
 
 interface AttachedFile {
   name: string;
@@ -11,6 +12,7 @@ interface AttachedFile {
 }
 
 export const EvidenceDocket: React.FC = () => {
+  const { t } = useTranslation();
   const [items, setItems] = useState<AttachedFile[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -83,20 +85,20 @@ export const EvidenceDocket: React.FC = () => {
           </div>
           <div>
             <h4 className="text-base font-bold text-fg flex items-center gap-2">
-              <span>Stage 3: Digital Evidence Docket & Hashes</span>
+              <span>{t.evidenceDocketTitle}</span>
               <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-surface-2 text-fg-muted border border-border">
-                BSA 2023 Integrity Aid
+                {t.bsaIntegrityBadge}
               </span>
             </h4>
             <p className="text-xs text-fg-muted mt-0.5">
-              Generate SHA-256 cryptographic fingerprints of your screenshots on-device. Proves your payment receipts were not altered after the fraud.
+              {t.evidenceDocketSub}
             </p>
           </div>
         </div>
 
         <label className="cursor-pointer shrink-0 inline-flex items-center gap-1.5 h-9 px-3.5 rounded-xl bg-surface-2 hover:bg-surface-3 text-fg text-xs font-semibold border border-border transition-colors">
           <FileCheck className="w-4 h-4 text-brand" />
-          <span>{isProcessing ? 'Hashing...' : 'Attach Screenshots'}</span>
+          <span>{isProcessing ? t.hashingInProgress : t.attachScreenshotsButton}</span>
           <input
             type="file"
             multiple
@@ -140,21 +142,21 @@ export const EvidenceDocket: React.FC = () => {
                 className="h-8 px-2.5 rounded-lg border border-border bg-surface hover:bg-surface-2 text-fg text-xs font-semibold flex items-center gap-1.5 transition-colors"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-success" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copied ? 'Copied' : 'Copy Hashes'}</span>
+                <span>{copied ? t.copiedFeedback : t.copyManifestButton}</span>
               </button>
               <button
                 onClick={handleDownloadManifest}
                 className="h-8 px-2.5 rounded-lg border border-border bg-surface hover:bg-surface-2 text-fg text-xs font-semibold flex items-center gap-1.5 transition-colors"
               >
                 <Download className="w-3.5 h-3.5 text-brand" />
-                <span>Export Dossier (.txt)</span>
+                <span>{t.downloadDocketButton}</span>
               </button>
             </div>
           </div>
         </div>
       ) : (
         <div className="p-4 rounded-xl border border-dashed border-border/80 bg-surface-2/30 text-center text-xs text-fg-muted">
-          Attach payment screenshots to calculate SHA-256 fingerprints before filing at the police station or 1930 portal.
+          {t.evidenceDocketSub}
         </div>
       )}
     </div>

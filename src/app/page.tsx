@@ -9,6 +9,8 @@ import { ButtonLink } from '@/components/ui/Button';
 import { FpsCounter } from '@/components/ui';
 import { ChromaticHarmonyPicker } from '@/components/ui/ChromaticHarmonyPicker';
 import { DecoderWorkbench } from '@/components/pause/DecoderWorkbench';
+import { LiveThreatTicker } from '@/components/pause/LiveThreatTicker';
+import { ScamSimulator } from '@/components/pause/ScamSimulator';
 import {
   Video,
   Smartphone,
@@ -83,9 +85,9 @@ const PILLARS: ArchitecturePillar[] = [
 
 export default function Home() {
   return (
-    <div className="w-full max-w-7xl 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 flex flex-col gap-16 py-8 pb-24">
+    <div className="flex flex-col gap-14 pb-24">
       {/* ── 1. Hero Section: Sovereign Citizen Firewall ─────────────────────── */}
-      <section className="flex flex-col items-start gap-5 pt-4">
+      <section className="flex flex-col items-start gap-5 pt-2">
         {/* Precision Status Capsule */}
         <div className="inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-fg-muted shadow-xs backdrop-blur-md">
           <span className="relative flex h-2.5 w-2.5">
@@ -97,9 +99,12 @@ export default function Home() {
           <span className="text-fg-muted font-mono">100% on-device · zero cloud telemetry</span>
         </div>
 
-        <div className="flex flex-col gap-3 max-w-4xl">
+        <div className="flex flex-col gap-3 max-w-5xl">
           <h1 className="text-4xl font-extrabold tracking-tight text-fg sm:text-6xl sm:leading-[1.1]">
-            PausePoint Golden Hour
+            PausePoint
+            <span className="block text-2xl sm:text-4xl text-brand font-bold mt-1">
+              Golden Hour Defense Engine
+            </span>
           </h1>
           <p className="text-base sm:text-xl text-fg-muted leading-relaxed font-sans">
             The sovereign citizen cognitive firewall. From panic to a complete 1930 helpline report in under 60 seconds, on your own device, completely offline.
@@ -119,13 +124,20 @@ export default function Home() {
             <span>BEFORE YOU PAY AGAIN</span>
           </ButtonLink>
 
-          {/* Button 3: Decode Anchor */}
-          <a
-            href="#decoder"
-            className="h-12 px-6 rounded-xl border border-border bg-surface-2 hover:bg-surface-3 text-fg text-xs font-bold uppercase tracking-wider flex items-center justify-center transition-colors shadow-xs"
-          >
-            DECODE SUSPICIOUS MESSAGE ↓
-          </a>
+          {/* Button 3: Simulator Anchor */}
+          <ButtonLink href="#simulator" variant="cyber-outline" latencyMode="spring-pop" sound="tick" size="lg">
+            <span>SCAM SIMULATOR ↓</span>
+          </ButtonLink>
+
+          {/* Button 4: Decode Anchor */}
+          <ButtonLink href="#decoder" variant="cyber-outline" latencyMode="spring-pop" sound="tick" size="lg">
+            <span>DECODE MESSAGE ↓</span>
+          </ButtonLink>
+
+          {/* Button 5: Explore Architecture & Specs */}
+          <ButtonLink href="/about" variant="secondary" latencyMode="spring-pop" sound="tick" size="lg">
+            <span>EXPLORE WORK &amp; SPECS ↗</span>
+          </ButtonLink>
         </div>
 
         {/* Golden Hour Citizen Defense Banner */}
@@ -149,7 +161,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 2. Psychological Manipulation Decoder (Won 3rd Prize at Human Firewall) ──── */}
+      {/* ── 2. Live Telemetry & National Fraud Loss Ticker ──────────────────── */}
+      <section aria-labelledby="telemetry-title" className="flex flex-col gap-2">
+        <LiveThreatTicker />
+      </section>
+
+      {/* ── 3. Interactive Cyber Attack Simulator Arena ─────────────────────── */}
+      <section id="simulator" aria-labelledby="simulator-title" className="flex flex-col gap-4">
+        <ScamSimulator />
+      </section>
+
+      {/* ── 4. Psychological Manipulation Decoder (Won 3rd Prize at Human Firewall) ──── */}
       <section id="decoder" aria-labelledby="decoder-title" className="flex flex-col gap-6">
         <div className="flex flex-col gap-1.5">
           <div className="text-xs font-mono font-bold uppercase tracking-wider text-brand">
@@ -194,8 +216,8 @@ export default function Home() {
                     <span
                       className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
                         vector.badgeColor === 'danger'
-                          ? 'bg-danger/15 text-danger border border-danger/20'
-                          : 'bg-warning/15 text-warning border border-warning/20'
+                          ? 'bg-danger/10 text-fg border border-danger/30 dark:bg-danger/20 dark:text-danger'
+                          : 'bg-warning/10 text-fg border border-warning/30 dark:bg-warning/20 dark:text-warning'
                       }`}
                     >
                       {vector.badge}
@@ -249,7 +271,7 @@ export default function Home() {
             >
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-brand/10 text-brand border border-brand/20">
+                  <span className="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-surface-2 text-fg border border-border">
                     {pillar.badge}
                   </span>
                   <span className="font-mono text-xs font-bold text-fg-muted">

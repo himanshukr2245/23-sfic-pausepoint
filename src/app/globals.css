@@ -1,5 +1,24 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'TeroxiaDemo';
+  src: url('/fonts/TeroxiaDemo-PersonalUse.woff') format('woff'),
+       url('/fonts/TeroxiaDemo-PersonalUse.otf') format('opentype');
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-002F, U+003A-00FF;
+}
+
+@font-face {
+  font-family: 'Teroxia';
+  src: url('/fonts/TeroxiaDemo-PersonalUse.woff') format('woff'),
+       url('/fonts/TeroxiaDemo-PersonalUse.otf') format('opentype');
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-002F, U+003A-00FF;
+}
 
 /* ── Design tokens (BLD-4 & PRF-5) ───────────────────────────────────────────
    Tailwind v4 theme tokens with AWS Enterprise Ceramic (Light) & OLED Obsidian (Dark).
@@ -12,10 +31,10 @@
   --color-fg: oklch(0.14 0.02 260);          /* Deep Charcoal - High-Definition Text */
   --color-fg-muted: oklch(0.42 0.02 260);    /* Warm Graphite Secondary Typography */
   --color-border: oklch(0.90 0.006 240);      /* Crisp Specular Micro-Border */
-  --color-brand: oklch(0.54 0.15 237);         /* 5.7:1 behind brand-fg — keep ≥ 4.5 (axe) with margin for hover */
+  --color-brand: oklch(0.49 0.15 237);         /* >5.1:1 on white canvas (WCAG AA compliant) */
   --color-brand-fg: oklch(0.99 0 0);
-  --color-danger: oklch(0.55 0.22 25);
-  --color-success: oklch(0.55 0.16 155);
+  --color-danger: oklch(0.52 0.22 25);
+  --color-success: oklch(0.40 0.16 150);        /* >6.2:1 on white canvas (WCAG AA compliant) */
   --color-warning: oklch(0.65 0.16 75);
   --color-focus: oklch(0.60 0.22 265);
 
@@ -46,7 +65,7 @@
   --color-indigo: oklch(0.55 0.22 265);
 
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
-  --font-display: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-display: 'TeroxiaDemo', 'Teroxia', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   --font-teroxia: var(--font-display);
 
   --radius-card: 1.25rem;

@@ -8,9 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function ReportPage() {
-  return (
-    <main className="min-h-screen bg-bg text-fg">
-      <ReportFlow />
-    </main>
-  );
+  return <ReportFlow />;
 }

@@ -1,31 +1,27 @@
-// e2e/golden-path.spec.ts — if this is red, the core journey is broken (docs/GOLDEN_PATH.md). Runs on a phone and a laptop viewport.
+// e2e/golden-path.spec.ts — PausePoint Golden Hour core citizen journey (docs/GOLDEN_PATH.md).
 import { test, expect } from '@playwright/test';
 
-test('golden path: land → learn how it works → submit a validated form → keep a note', async ({ page }) => {
-  // Beat 1 — the promise is visible
+test('golden path: land → report fraud → verify repeat deposit brake → forensic studio', async ({ page }) => {
+  // Beat 1 — Sovereign Citizen Firewall lands with clear title
   await page.goto('/');
+  await expect(page.getByTestId('theme-toggle')).toHaveText(/Light|Dark|System/);
   await expect(page.getByRole('heading', { level: 1, name: 'PausePoint' })).toBeVisible();
 
-  // Beat 2 — one tap to the explanation (soft navigation)
-  await page.getByRole('link', { name: /explore work/i }).click();
-  await expect(page).toHaveURL(/\/about$/);
-  await expect(page.getByRole('heading', { level: 1, name: 'Architecture & Quality Gates' })).toBeVisible();
+  // Beat 2 — One tap to the Emergency Report Flow (/report)
+  await page.locator('a[href="/report"]').first().click();
+  await expect(page).toHaveURL(/\/report$/);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(/1930/);
 
-  // Beat 3 — the server validates and answers in plain words
-  const name = page.getByLabel('Your name');
-  await page.getByRole('button', { name: 'Say hello' }).click();
-  await expect(page.getByRole('status').filter({ hasText: 'Please enter your name.' })).toBeVisible();
-  await name.fill('Asha');
-  await page.getByRole('button', { name: 'Say hello' }).click();
-  await expect(page.getByText('Hello, Asha. Validated on the server.')).toBeVisible();
+  // Beat 3 — One tap to Before You Pay Again (/verify) & Cognitive Deposit Brake
+  await page.goto('/verify');
+  await expect(page.getByText(/Before You Pay Again/i).first()).toBeVisible();
+  await page.getByRole('button', { name: /Task Scam/i }).click();
+  await expect(page.getByText(/STOP! DO NOT SEND MONEY/i).first()).toBeVisible();
 
-  // Beat 4 — the demo feature keeps what you write (on this device)
-  await page.getByRole('link', { name: 'Notes' }).click();
-  await expect(page.getByText('No notes yet. Write your first one above.')).toBeVisible();
-  await page.getByLabel('New note').fill('My first note');
-  await page.getByRole('button', { name: 'Add note' }).click();
-  await page.reload();
-  await expect(page.getByRole('list', { name: 'Your notes' })).toContainText('My first note');
+  // Beat 4 — Forensic Studio (/studio) generates BSA 2023 certificate
+  await page.goto('/studio');
+  await expect(page.getByText(/Forensic Investigation Studio/i)).toBeVisible();
+  await expect(page.getByText(/Emergency 1930 Call Script/i)).toBeVisible();
 });
 
 test('health: liveness and readiness answer for monitors', async ({ request }) => {
@@ -33,6 +29,6 @@ test('health: liveness and readiness answer for monitors', async ({ request }) =
   expect(live.status()).toBe(200);
   expect(await live.json()).toMatchObject({ status: 'ok' });
   const ready = await request.get('/api/health?deep=1');
-  expect(ready.status()).toBe(200);                                // no Supabase configured → "skipped", never degraded
+  expect(ready.status()).toBe(200);
   expect((await ready.json()).checks).toBeDefined();
 });

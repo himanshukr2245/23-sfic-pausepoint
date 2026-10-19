@@ -30,11 +30,11 @@ interface DropdownItem {
   desc: string;
 }
 
-const SHOWCASE_ITEMS: DropdownItem[] = [
-  { href: '/studio', label: 'Studio Canvas', icon: LayoutGridIcon, badge: '<0.5ms', desc: 'QuoteMaker visual workspace' },
-  { href: '/ai', label: 'AI Chat', icon: BoltIcon, badge: 'VSync', desc: 'AI conversation stream & live scratchpad' },
-  { href: '/editorial', label: 'Editorial & Typography', icon: BookOpenIcon, badge: '<0.8ms', desc: 'Literary immersion & quote cards' },
-  { href: '/#template-law', label: 'Custom Template Law', icon: ScaleIcon, badge: 'Golden Axiom', desc: 'Build unlisted apps by core law' },
+const DEFENSE_MODULES: DropdownItem[] = [
+  { href: '/report', label: '1930 Emergency Report', icon: BoltIcon, badge: '<60s Triage', desc: 'Instant OCR receipt extraction & telephonic script' },
+  { href: '/verify', label: 'Repeat Deposit Brake', icon: ScaleIcon, badge: 'Stop Loss', desc: 'Brake against extortionate withdrawal & bail fees' },
+  { href: '/#decoder', label: 'Manipulation Decoder', icon: BookOpenIcon, badge: '10s Pause', desc: 'Decompile urgency traps & deceptive links' },
+  { href: '/about', label: 'Surakshit Bharat Specs', icon: LayoutGridIcon, badge: 'SFIC 2026', desc: 'IISc / MoE Level 3 sovereign architecture' },
 ];
 
 export function Header() {
@@ -83,8 +83,7 @@ export function Header() {
   }
 
   const isShowcaseActive =
-    pathname === '/showcase' ||
-    SHOWCASE_ITEMS.some((item) => pathname === item.href);
+    DEFENSE_MODULES.some((item) => pathname === item.href);
 
   return (
     <header
@@ -101,6 +100,7 @@ export function Header() {
             <Link
               href="/"
               onClick={handleNavClick}
+              aria-label="Home"
               className="flex items-center gap-2.5 pr-3 sm:pr-4 border-r border-border hover:opacity-90 transition-opacity cursor-pointer group"
             >
               <span className="relative flex h-2.5 w-2.5">
@@ -176,7 +176,7 @@ export function Header() {
                     : 'text-fg-muted hover:text-fg hover:bg-surface-2/80'
                 }`}
               >
-                <span>Showcase</span>
+                <span>Defense Hub</span>
                 <svg
                   className={`h-3 w-3 transition-transform duration-200 ${
                     showcaseOpen ? 'rotate-180 text-cyan' : 'rotate-0 text-fg-muted'
@@ -203,23 +203,23 @@ export function Header() {
                         <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan" />
                       </span>
                       <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-cyan">
-                        Universal Archetype Foundry
+                        Sovereign Defense Modules
                       </span>
                     </div>
 
                     <Link
-                      href="/showcase"
+                      href="/about"
                       onClick={handleNavClick}
                       className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-fg-muted hover:text-cyan transition-colors"
                     >
-                      <span>Explore Hub</span>
+                      <span>System Specs</span>
                       <span>↗</span>
                     </Link>
                   </div>
 
                   {/* 2-Column Bento Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                    {SHOWCASE_ITEMS.map((item) => {
+                    {DEFENSE_MODULES.map((item) => {
                       const isActive = pathname === item.href;
                       return (
                         <Link

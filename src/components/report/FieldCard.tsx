@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
+import { useTranslation } from '@/lib/i18n';
 
 interface FieldCardProps {
   label: string;
@@ -26,6 +27,7 @@ export const FieldCard: React.FC<FieldCardProps> = ({
   badge,
   helperText,
 }) => {
+  const { t } = useTranslation();
   const isFilled = value !== undefined && String(value).trim().length > 0;
   const hasWarning = Boolean(warning);
 
@@ -52,7 +54,7 @@ export const FieldCard: React.FC<FieldCardProps> = ({
         {hasWarning ? (
           <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-warning bg-warning/10 px-2 py-0.5 rounded-full">
             <AlertCircle className="w-3.5 h-3.5" />
-            Check this
+            {t.checkThisTag}
           </span>
         ) : isFilled ? (
           <CheckCircle2 className="w-4 h-4 text-success/80" />

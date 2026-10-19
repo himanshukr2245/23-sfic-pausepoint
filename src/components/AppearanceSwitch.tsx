@@ -112,6 +112,7 @@ export function AppearanceSwitch({ className = '', compact = false }: Appearance
       <button
         type="button"
         role="switch"
+        data-testid="theme-toggle"
         aria-checked={isDark}
         aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
         title={isDark ? 'Active: Dark mode (Click for Light mode)' : 'Active: Light mode (Click for Dark mode)'}
@@ -120,6 +121,8 @@ export function AppearanceSwitch({ className = '', compact = false }: Appearance
           compact ? 'h-7 w-[60px]' : 'h-8 w-[68px]'
         }`}
       >
+        <span className="sr-only">{isDark ? 'Dark' : 'Light'}</span>
+
         {/* Animated Sliding Thumb */}
         <span
           className={`pointer-events-none absolute rounded-full shadow-md transition-all duration-300 cubic-bezier(0.16, 1, 0.3, 1) ${

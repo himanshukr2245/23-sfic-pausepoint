@@ -321,6 +321,7 @@ export function suggestCategory(...texts: (string | undefined)[]): { category: C
 
 const BRAKE_PATTERNS: [RegExp, string][] = [
   [/\b(?:pay|deposit|transfer|send)\b[^.]{0,40}\b(?:to|before you can|for)\b[^.]{0,20}\b(?:withdraw|unlock|release|activate|claim|recover)/i, 'asks for money before you can withdraw, unlock or recover'],
+  [/\b(?:to|in order to|before you can)\b[^.]{0,40}\b(?:withdraw|unlock|release|activate|claim|recover)\b[^.]{0,40}\b(?:pay|deposit|transfer|send)/i, 'demands payment to withdraw or unlock funds'],
   [/\b(?:withdrawal|processing|unlock|release|activation|clearance|verification|recovery) (?:fee|charge|tax)\b/i, 'a fee to get your own money out'],
   [/\b(?:gst|income tax|tds|tax) (?:on|for) (?:your )?(?:profit|earning|commission|winning)s?\b/i, 'tax demanded on fake earnings'],
   [/\b(?:account|wallet|funds?) (?:is |are |has been |have been )?(?:frozen|locked|on hold)\b.{0,60}?\b(?:pay|deposit)/i, '"frozen account" that needs a payment'],

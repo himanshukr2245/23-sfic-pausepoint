@@ -30,11 +30,11 @@ for (const path of PAGES) {
 
 test('csp: the app hydrates — the theme toggle changes the theme', async ({ page }) => {
   await page.goto('/');
-  const lightBtn = page.getByRole('button', { name: /light/i }).first();
-  const darkBtn = page.getByRole('button', { name: /dark/i }).first();
-  await lightBtn.click();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-  await darkBtn.click();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  const toggle = page.getByTestId('theme-toggle');
+  await toggle.click();
+  const themeAfterFirst = await page.locator('html').getAttribute('data-theme');
+  await toggle.click();
+  const themeAfterSecond = await page.locator('html').getAttribute('data-theme');
+  expect(themeAfterFirst).not.toBe(themeAfterSecond);
   expect(await page.evaluate(() => window.__cspViolations)).toEqual([]);
 });

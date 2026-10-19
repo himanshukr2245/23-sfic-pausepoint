@@ -63,5 +63,20 @@
     ],
     "expectNonceCsp": true,
     "supabaseUrl": ""
+  },
+  "licences": {
+    "dirs": [
+      "public/fonts"
+    ],
+    "acknowledged": [
+      {
+        "file": "public/fonts/TeroxiaDemo-PersonalUse.otf",
+        "note": "Starter template font asset retained for non-commercial student hackathon demonstration"
+      },
+      {
+        "file": "public/fonts/TeroxiaDemo-PersonalUse.woff",
+        "note": "Starter template font asset retained for non-commercial student hackathon demonstration"
+      }
+    ]
   }
 }

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Phone, Volume2, Copy, Check, X, ShieldAlert, UserCheck } from 'lucide-react';
 import { type Txn, callScript, type Category } from '@/lib/engine/golden.ts';
+import { useTranslation } from '@/lib/i18n';
 
 interface CallScriptModalProps {
   txns: Txn[];
@@ -17,6 +18,7 @@ export const CallScriptModal: React.FC<CallScriptModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const { t, lang } = useTranslation();
   const [onBehalf, setOnBehalf] = useState(false);
   const [victimName, setVictimName] = useState('');
   const [relation, setRelation] = useState('grandchild');
@@ -49,7 +51,7 @@ export const CallScriptModal: React.FC<CallScriptModalProps> = ({
 
     const utterance = new SpeechSynthesisUtterance(fullScript);
     utterance.rate = 0.95;
-    utterance.lang = 'en-IN';
+    utterance.lang = lang === 'hi' ? 'hi-IN' : 'en-IN';
 
     utterance.onend = () => setIsSpeaking(false);
     utterance.onerror = () => setIsSpeaking(false);
@@ -68,8 +70,8 @@ export const CallScriptModal: React.FC<CallScriptModalProps> = ({
               <Phone className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-fg">1930 Helpline Call Script</h3>
-              <p className="text-xs text-fg-muted">Read these exact lines to the police officer</p>
+              <h3 className="text-lg font-bold text-fg">{t.callScriptModalTitle}</h3>
+              <p className="text-xs text-fg-muted">{t.callScriptModalSub}</p>
             </div>
           </div>
           <button
@@ -92,7 +94,7 @@ export const CallScriptModal: React.FC<CallScriptModalProps> = ({
             />
             <span className="flex items-center gap-1.5">
               <UserCheck className="w-3.5 h-3.5 text-brand" />
-              I am filing on behalf of a family member (Grandparent / Parent)
+              {t.filingOnBehalfLabel}
             </span>
           </label>
 
@@ -100,7 +102,7 @@ export const CallScriptModal: React.FC<CallScriptModalProps> = ({
             <div className="grid grid-cols-2 gap-2 mt-2.5 pt-2">
               <input
                 type="text"
-                placeholder="Family Member's Name"
+                placeholder={t.victimFullNameLabel}
                 value={victimName}
                 onChange={(e) => setVictimName(e.target.value)}
                 className="text-xs rounded-lg border border-border bg-surface-2 px-2.5 py-1.5 text-fg outline-none"
@@ -110,10 +112,9 @@ export const CallScriptModal: React.FC<CallScriptModalProps> = ({
                 onChange={(e) => setRelation(e.target.value)}
                 className="text-xs rounded-lg border border-border bg-surface-2 px-2.5 py-1.5 text-fg outline-none"
               >
-                <option value="grandchild">Grandchild</option>
-                <option value="child">Son / Daughter</option>
-                <option value="spouse">Spouse</option>
-                <option value="relative">Relative</option>
+                <option value="grandchild">{t.grandchildRel}</option>
+                <option value="child">{t.sonDaughterRel}</option>
+                <option value="spouse">{t.spouseRel}</option>
               </select>
             </div>
           )}
@@ -136,7 +137,7 @@ export const CallScriptModal: React.FC<CallScriptModalProps> = ({
               }`}
             >
               <Volume2 className="w-4 h-4" />
-              <span>{isSpeaking ? 'Stop Audio' : 'Listen Script'}</span>
+              <span>{isSpeaking ? t.stopAudioPrompt : t.audioPlaybackPrompt}</span>
             </button>
 
             <button
@@ -144,7 +145,7 @@ export const CallScriptModal: React.FC<CallScriptModalProps> = ({
               className="flex-1 flex items-center justify-center gap-2 h-11 rounded-xl text-xs font-semibold border border-border bg-surface hover:bg-surface-2 text-fg transition-colors"
             >
               {copied ? <Check className="w-4 h-4 text-success" /> : <Copy className="w-4 h-4" />}
-              <span>{copied ? 'Copied Script' : 'Copy Script'}</span>
+              <span>{copied ? t.copiedFeedback : t.speakScriptPrompt}</span>
             </button>
           </div>
 
@@ -153,12 +154,12 @@ export const CallScriptModal: React.FC<CallScriptModalProps> = ({
             className="w-full h-14 rounded-xl bg-danger text-brand-fg font-bold text-base flex items-center justify-center gap-2 shadow-lg shadow-danger/25 hover:bg-danger/90 active:scale-[0.98] transition-all"
           >
             <Phone className="w-5 h-5 fill-current" />
-            <span>Call 1930 Emergency Helpline</span>
+            <span>{t.dial1930Button}</span>
           </a>
 
           <p className="text-[11px] text-center text-fg-muted flex items-center justify-center gap-1">
             <ShieldAlert className="w-3.5 h-3.5 text-danger shrink-0" />
-            <span>Speed is critical: high-value fraud funds move across accounts within minutes.</span>
+            <span>{t.goldenHourDesc}</span>
           </p>
         </div>
       </div>
