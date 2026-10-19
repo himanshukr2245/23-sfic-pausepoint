@@ -219,25 +219,31 @@ export default function Home() {
 
         {/* ── Dual-Crisis Actions: The 3-Second Rule ── */}
         <div className="flex flex-wrap items-center gap-3.5 pt-1 w-full max-w-3xl">
-          {/* Action 1: Primary Emergency Action (Lost Money) */}
+          {/* Action 1: Primary Emergency Action (Lost Money) — Urgent Crimson Red */}
           <div className="flex-1 min-w-[280px]">
             <ButtonLink
               href="/report"
-              variant="cyber-solid"
+              variant="danger"
               latencyMode="spring-pop"
               sound="laser"
               size="lg"
-              className="w-full flex items-center justify-between shadow-md"
+              className="w-full flex items-center justify-between shadow-lg shadow-danger/30 hover:shadow-danger/50 border-danger/60 group transition-all"
             >
               <div className="flex flex-col items-start text-left">
-                <span className="text-sm font-extrabold tracking-wider">REPORT FRAUD (1930)</span>
-                <span className="text-[11px] font-normal opacity-85">Just lost money? Stop mule dispersion</span>
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-fg opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-fg" />
+                  </span>
+                  <span className="text-sm font-extrabold tracking-wider text-brand-fg">REPORT FRAUD (1930)</span>
+                </div>
+                <span className="text-[11px] font-normal text-brand-fg/90 mt-0.5">Just lost money? Stop mule dispersion</span>
               </div>
-              <ArrowRight className="w-5 h-5 ml-2 shrink-0" />
+              <ArrowRight className="w-5 h-5 ml-2 shrink-0 text-brand-fg group-hover:translate-x-1 transition-transform" />
             </ButtonLink>
           </div>
 
-          {/* Action 2: Secondary Preventive Action (Repeat Demand Brake) */}
+          {/* Action 2: Secondary Preventive Action (Repeat Demand Brake) — Protective Shield */}
           <div className="flex-1 min-w-[280px]">
             <ButtonLink
               href="/verify"
@@ -245,13 +251,13 @@ export default function Home() {
               latencyMode="spring-pop"
               sound="tick"
               size="lg"
-              className="w-full flex items-center justify-between border-brand/50"
+              className="w-full flex items-center justify-between border-brand/50 group"
             >
               <div className="flex flex-col items-start text-left">
-                <span className="text-sm font-extrabold tracking-wider">BEFORE YOU PAY AGAIN</span>
-                <span className="text-[11px] font-normal text-fg-muted">Suspicious demand or withdrawal fee</span>
+                <span className="text-sm font-extrabold tracking-wider text-fg">BEFORE YOU PAY AGAIN</span>
+                <span className="text-[11px] font-normal text-fg-muted mt-0.5">Suspicious demand or withdrawal fee</span>
               </div>
-              <ShieldCheck className="w-5 h-5 ml-2 text-brand shrink-0" />
+              <ShieldCheck className="w-5 h-5 ml-2 text-brand shrink-0 group-hover:scale-110 transition-transform" />
             </ButtonLink>
           </div>
         </div>
@@ -404,10 +410,11 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div className="rounded-xl border border-border/80 bg-surface-2/60 p-3.5 flex flex-col gap-1 mt-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-brand">
-                    The Disproving Truth
-                  </span>
+                <div className="rounded-xl border border-success/30 bg-success/5 dark:bg-success/10 p-3.5 flex flex-col gap-1.5 mt-2">
+                  <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-success">
+                    <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
+                    <span>The Disproving Statutory Truth</span>
+                  </div>
                   <p className="text-xs font-semibold text-fg leading-relaxed">
                     &ldquo;{vector.disprovingTruth}&rdquo;
                   </p>

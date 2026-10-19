@@ -14,7 +14,6 @@ import { SeniorModeToggle } from '@/components/layout/SeniorModeToggle';
 import { LanguageToggle } from '@/components/layout/LanguageToggle';
 
 import {
-  LayoutGridIcon,
   BoltIcon,
   BookOpenIcon,
   ScaleIcon,
@@ -35,7 +34,7 @@ const DEFENSE_MODULES: DropdownItem[] = [
   { href: '/verify', label: 'Repeat Deposit Brake', icon: ScaleIcon, badge: 'Stop Loss', desc: 'Brake against extortionate withdrawal & bail fees' },
   { href: '/decode', label: 'Manipulation Decoder', icon: BookOpenIcon, badge: '10s Pause', desc: 'Decompile urgency traps, deceptive links & tactics' },
   { href: '/simulator', label: 'Attack Simulator Arena', icon: LightbulbIcon, badge: 'Live Drills', desc: 'Realistic drills for Digital Arrest, APKs & UPI fraud' },
-  { href: '/about', label: 'Surakshit Bharat Specs', icon: LayoutGridIcon, badge: 'SFIC 2026', desc: 'IISc / MoE Level 3 sovereign architecture' },
+  { href: '/studio', label: 'Evidence Studio', icon: ScaleIcon, badge: 'BSA 2023', desc: 'Court-grade Section 63 cryptographic certificate & timeline' },
 ];
 
 export function Header() {
@@ -53,7 +52,6 @@ export function Header() {
   if (
     pathname?.startsWith('/ai') ||
     pathname?.startsWith('/minimal') ||
-    pathname?.startsWith('/studio') ||
     pathname?.startsWith('/editorial')
   ) {
     return null;
@@ -96,23 +94,40 @@ export function Header() {
           aria-label="Main Navigation Bar"
           className="relative flex items-center justify-between gap-2 sm:gap-4 rounded-2xl border border-border/80 bg-surface/95 p-2 px-3 sm:px-5 shadow-md backdrop-blur-xl transition-all"
         >
-          {/* ── Brand Lead: Hand-Crafted Adaptive Sovereign Brand Logo ── */}
+          {/* ── Brand Lead: Hand-Crafted Adaptive Sovereign Brand Logo (Icon + Wordmark) ── */}
           <div className="flex items-center gap-3 shrink-0">
             <Link
               href="/"
               onClick={handleNavClick}
               aria-label="PausePoint Golden Hour Defence"
-              className="flex items-center gap-2 pr-3 sm:pr-4 border-r border-border hover:opacity-90 transition-opacity cursor-pointer group"
+              className="flex items-center gap-2 sm:gap-2.5 pr-2 sm:pr-3 hover:opacity-90 transition-opacity cursor-pointer group"
             >
-              <div className="relative h-7 sm:h-8 flex items-center">
+              {/* 1. Official App Crest Icon */}
+              <picture className="flex items-center justify-center">
+                <source srcSet="/brand/app-logo.webp" type="image/webp" />
+                <img
+                  src="/brand/app-logo.png"
+                  alt="PausePoint App Crest"
+                  width={34}
+                  height={34}
+                  className="h-7 w-7 sm:h-8 sm:w-8 rounded-xl object-contain shadow-xs border border-border/80 p-0.5 group-hover:scale-105 group-hover:border-cyan/50 transition-all duration-200"
+                  loading="eager"
+                />
+              </picture>
+
+              {/* 2. Thin Optical Divider */}
+              <div className="hidden xs:block h-5 w-px bg-border/80" />
+
+              {/* 3. Horizontal Wordmark (Adaptive Dark/Light) */}
+              <div className="relative h-6 sm:h-7 flex items-center">
                 <picture className="hidden dark:block">
                   <source srcSet="/brand/logo-dark.webp" type="image/webp" />
                   <img
                     src="/brand/logo-dark.png"
                     alt={`${SITE.name} Golden Hour Defence`}
-                    width={150}
-                    height={50}
-                    className="h-7 sm:h-8 w-auto object-contain transition-all"
+                    width={135}
+                    height={40}
+                    className="h-5 sm:h-6 w-auto object-contain transition-all"
                     loading="eager"
                   />
                 </picture>
@@ -121,9 +136,9 @@ export function Header() {
                   <img
                     src="/brand/logo-light.png"
                     alt={`${SITE.name} Golden Hour Defence`}
-                    width={150}
-                    height={50}
-                    className="h-7 sm:h-8 w-auto object-contain transition-all"
+                    width={135}
+                    height={40}
+                    className="h-5 sm:h-6 w-auto object-contain transition-all"
                     loading="eager"
                   />
                 </picture>
@@ -131,8 +146,22 @@ export function Header() {
             </Link>
           </div>
 
-          {/* ── Center Navigation Item: Streamlined Unified Defense Hub ── */}
-          <div className="flex items-center text-xs font-semibold">
+          {/* ── Center Navigation Items: Home + Defense Hub + About ── */}
+          <div className="flex items-center gap-1 sm:gap-1.5 text-xs font-semibold">
+            {/* 1. Home Tab */}
+            <Link
+              href="/"
+              onClick={handleNavClick}
+              className={`rounded-xl px-3 py-1.5 transition-all duration-200 cursor-pointer ${
+                pathname === '/'
+                  ? 'text-fg font-bold bg-surface-2 shadow-xs border border-border/80'
+                  : 'text-fg-muted hover:text-fg hover:bg-surface-2/80 border border-transparent'
+              }`}
+            >
+              Home
+            </Link>
+
+            {/* 2. Defense Hub Dropdown Trigger */}
             <div
               onMouseEnter={handleOpenShowcase}
               onMouseLeave={handleCloseShowcase}
@@ -147,7 +176,7 @@ export function Header() {
                 }}
                 aria-expanded={showcaseOpen}
                 aria-haspopup="true"
-                className={`flex items-center gap-2 rounded-xl px-4 py-2 transition-all duration-200 cursor-pointer ${
+                className={`flex items-center gap-2 rounded-xl px-3.5 py-1.5 transition-all duration-200 cursor-pointer ${
                   isShowcaseActive || showcaseOpen
                     ? 'text-brand font-bold bg-brand/10 shadow-xs border border-brand/40'
                     : 'text-fg-muted hover:text-fg hover:bg-surface-2/80 border border-transparent'
@@ -249,6 +278,19 @@ export function Header() {
                 </div>
               )}
             </div>
+
+            {/* 3. About Tab (Dossier & Specifications) */}
+            <Link
+              href="/about"
+              onClick={handleNavClick}
+              className={`rounded-xl px-3 py-1.5 transition-all duration-200 cursor-pointer ${
+                pathname === '/about'
+                  ? 'text-fg font-bold bg-surface-2 shadow-xs border border-border/80'
+                  : 'text-fg-muted hover:text-fg hover:bg-surface-2/80 border border-transparent'
+              }`}
+            >
+              About
+            </Link>
           </div>
 
           {/* ── Right Utility Controls (Language + Senior Mode + Equalizer + ⌘K + Animated Switch) ── */}
