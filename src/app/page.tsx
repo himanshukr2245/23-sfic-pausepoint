@@ -219,27 +219,21 @@ export default function Home() {
 
         {/* ── Dual-Crisis Actions: The 3-Second Rule ── */}
         <div className="flex flex-wrap items-center gap-3.5 pt-1 w-full max-w-3xl">
-          {/* Action 1: Primary Emergency Action (Lost Money) — Urgent Crimson Red */}
+          {/* Action 1: Primary Emergency Action (Lost Money) — Pure Electric Emergency Red */}
           <div className="flex-1 min-w-[280px]">
             <ButtonLink
               href="/report"
-              variant="danger"
+              variant="cyber-danger"
               latencyMode="spring-pop"
               sound="laser"
               size="lg"
-              className="w-full flex items-center justify-between shadow-lg shadow-danger/30 hover:shadow-danger/50 border-danger/60 group transition-all"
+              className="w-full flex items-center justify-between"
             >
               <div className="flex flex-col items-start text-left">
-                <div className="flex items-center gap-2">
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-fg opacity-75" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-fg" />
-                  </span>
-                  <span className="text-sm font-extrabold tracking-wider text-brand-fg">REPORT FRAUD (1930)</span>
-                </div>
-                <span className="text-[11px] font-normal text-brand-fg/90 mt-0.5">Just lost money? Stop mule dispersion</span>
+                <span className="text-sm font-extrabold tracking-wider">REPORT FRAUD [1930]</span>
+                <span className="text-[11px] font-normal tracking-normal font-sans opacity-90">Just lost money? Stop mule dispersion</span>
               </div>
-              <ArrowRight className="w-5 h-5 ml-2 shrink-0 text-brand-fg group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-5 h-5 ml-2 shrink-0 group-hover:translate-x-1 transition-transform" />
             </ButtonLink>
           </div>
 
@@ -251,11 +245,11 @@ export default function Home() {
               latencyMode="spring-pop"
               sound="tick"
               size="lg"
-              className="w-full flex items-center justify-between border-brand/50 group"
+              className="w-full flex items-center justify-between border-brand/50"
             >
               <div className="flex flex-col items-start text-left">
-                <span className="text-sm font-extrabold tracking-wider text-fg">BEFORE YOU PAY AGAIN</span>
-                <span className="text-[11px] font-normal text-fg-muted mt-0.5">Suspicious demand or withdrawal fee</span>
+                <span className="text-sm font-extrabold tracking-wider">BEFORE YOU PAY AGAIN</span>
+                <span className="text-[11px] font-normal tracking-normal font-sans text-fg-muted">Suspicious demand or withdrawal fee</span>
               </div>
               <ShieldCheck className="w-5 h-5 ml-2 text-brand shrink-0 group-hover:scale-110 transition-transform" />
             </ButtonLink>

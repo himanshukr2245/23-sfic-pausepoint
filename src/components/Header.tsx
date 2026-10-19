@@ -278,19 +278,6 @@ export function Header() {
                 </div>
               )}
             </div>
-
-            {/* 3. About Tab (Dossier & Specifications) */}
-            <Link
-              href="/about"
-              onClick={handleNavClick}
-              className={`rounded-xl px-3 py-1.5 transition-all duration-200 cursor-pointer ${
-                pathname === '/about'
-                  ? 'text-fg font-bold bg-surface-2 shadow-xs border border-border/80'
-                  : 'text-fg-muted hover:text-fg hover:bg-surface-2/80 border border-transparent'
-              }`}
-            >
-              About
-            </Link>
           </div>
 
           {/* ── Right Utility Controls (Language + Senior Mode + Equalizer + ⌘K + Animated Switch) ── */}

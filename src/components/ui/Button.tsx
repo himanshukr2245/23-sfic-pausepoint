@@ -25,6 +25,7 @@ export type ButtonVariant =
   | 'secondary'
   | 'quiet'
   | 'danger'
+  | 'cyber-danger'
   | 'glass'
   | 'cyber-solid'
   | 'cyber-outline'
@@ -56,6 +57,12 @@ export function buttonClassName({ variant = 'primary', latencyMode = 'spring-pop
         'bg-cyber text-cyber-ink border border-transparent shadow-cyber-glow hover:shadow-cyber-glow-strong hover:brightness-105 active:brightness-95';
       break;
 
+    case 'cyber-danger':
+      // Solid cyber electric emergency pure red button with white typography and luminous red laser glow
+      variantClasses =
+        'bg-danger text-danger-fg border border-danger/80 shadow-danger-glow hover:shadow-danger-glow-strong hover:brightness-110 active:brightness-95';
+      break;
+
     case 'cyber-outline':
       // Dual-mode high-contrast cyber button:
       // Light Mode: ceramic background, sharp electric cyan border, deep obsidian text (never washes out!)
@@ -81,7 +88,7 @@ export function buttonClassName({ variant = 'primary', latencyMode = 'spring-pop
 
     case 'danger':
       variantClasses =
-        'bg-danger text-brand-fg shadow-sm hover:brightness-110 active:brightness-95 border border-danger/50';
+        'bg-danger text-danger-fg shadow-sm hover:brightness-110 active:brightness-95 border border-danger/50';
       break;
 
     case 'glass':
@@ -139,7 +146,7 @@ export function buttonClassName({ variant = 'primary', latencyMode = 'spring-pop
 
   // ── 4. Typographic Token Assignment ──
   let fontClasses = variant === 'plain' ? '' : 'font-sans font-semibold tracking-normal';
-  if (font === 'display' || font === 'teroxia' || (!font && (variant === 'cyber-solid' || variant === 'cyber-outline'))) {
+  if (font === 'display' || font === 'teroxia' || (!font && (variant === 'cyber-solid' || variant === 'cyber-outline' || variant === 'cyber-danger'))) {
     fontClasses = 'font-display font-bold uppercase tracking-wider';
   } else if (!font && variant === 'expander-pill') {
     fontClasses = 'font-sans font-semibold uppercase tracking-wider text-xs';
