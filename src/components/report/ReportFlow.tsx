@@ -85,14 +85,8 @@ UTR: 612345678901`;
 
 export const ReportFlow: React.FC = () => {
   const { t } = useTranslation();
-  const [txns, setTxns] = useState<Txn[]>(() => {
-    if (typeof window === 'undefined') return [];
-    return loadDraft()?.txns ?? [];
-  });
-  const [activeIndex, setActiveIndex] = useState<number>(() => {
-    if (typeof window === 'undefined') return 0;
-    return loadDraft()?.activeIndex ?? 0;
-  });
+  const [txns, setTxns] = useState<Txn[]>([]);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isScanning, setIsScanning] = useState<boolean>(false);
   const [scanProgress, setScanProgress] = useState<number>(0);
   const [scanStatus, setScanStatus] = useState<string>('');
@@ -101,20 +95,31 @@ export const ReportFlow: React.FC = () => {
   const [isScriptOpen, setIsScriptOpen] = useState<boolean>(false);
   const [familyAlertCopied, setFamilyAlertCopied] = useState<boolean>(false);
   const [now, setNow] = useState<Date>(new Date());
-  const [draftRestored, setDraftRestored] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    const d = loadDraft();
-    return (d?.txns.length ?? 0) > 0;
-  });
-  const [lastSaved, setLastSaved] = useState<string | null>(() => {
-    if (typeof window === 'undefined') return null;
-    const d = loadDraft();
-    return d?.updatedAt
-      ? new Date(d.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      : null;
-  });
+  const [draftRestored, setDraftRestored] = useState<boolean>(false);
+  const [lastSaved, setLastSaved] = useState<string | null>(null);
   const [purgeToast, setPurgeToast] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const hasLoadedDraftRef = useRef<boolean>(false);
+
+  // Restore draft on client mount (avoids SSR hydration mismatch with localStorage)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const d = loadDraft();
+      if (d && d.txns && d.txns.length > 0) {
+        setTxns(d.txns);
+        setActiveIndex(d.activeIndex ?? 0);
+        setDraftRestored(true);
+        if (d.updatedAt) {
+          setLastSaved(
+            new Date(d.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          );
+        }
+      }
+      hasLoadedDraftRef.current = true;
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Update clock every 15 seconds
   useEffect(() => {
@@ -136,8 +141,10 @@ export const ReportFlow: React.FC = () => {
     return unsub;
   }, [t.panicPurgeAlert]);
 
-  // Auto-save draft on transaction changes (debounced by 400ms)
+  // Auto-save draft on transaction changes (debounced by 400ms, only after initial draft load)
   useEffect(() => {
+    if (!hasLoadedDraftRef.current) return;
+
     if (txns.length === 0) {
       clearDraft();
       return;
@@ -307,17 +314,26 @@ export const ReportFlow: React.FC = () => {
         {/* Telemetry & Crisis Actions */}
         <div className="flex flex-wrap items-center gap-3 shrink-0">
           {/* Live Golden Hour Clock Card */}
-          <div className={`rounded-xl border p-3.5 flex items-center gap-3 transition-all ${
-            isUrgent
-              ? 'border-danger/60 bg-danger/10 shadow-md shadow-danger/20'
-              : 'border-border/80 bg-surface-2'
-          }`}>
+          <div
+            suppressHydrationWarning
+            className={`rounded-xl border p-3.5 flex items-center gap-3 transition-all ${
+              isUrgent
+                ? 'border-danger/60 bg-danger/10 shadow-md shadow-danger/20'
+                : 'border-border/80 bg-surface-2'
+            }`}
+          >
             <Clock className={`w-5 h-5 shrink-0 ${isUrgent ? 'text-danger animate-pulse' : 'text-warning'}`} />
             <div>
-              <div className={`text-xs font-mono font-extrabold ${isUrgent ? 'text-danger' : 'text-fg'}`}>
+              <div
+                suppressHydrationWarning
+                className={`text-xs font-mono font-extrabold ${isUrgent ? 'text-danger' : 'text-fg'}`}
+              >
                 {clockStatus.minutes === null ? t.reportingWindowLabel : `${clockStatus.minutes} ${t.minSincePayment}`}
               </div>
-              <div className="text-[11px] text-fg-muted font-medium max-w-[200px] leading-tight mt-0.5">
+              <div
+                suppressHydrationWarning
+                className="text-[11px] text-fg-muted font-medium max-w-[200px] leading-tight mt-0.5"
+              >
                 {clockStatus.message}
               </div>
             </div>
