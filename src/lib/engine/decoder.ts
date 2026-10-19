@@ -80,7 +80,7 @@ export const TACTICS: Tactic[] = [
     label: 'Money Request',
     lever: 'The ultimate extraction: pressuring you to transfer funds or scan a QR',
     weight: 10,
-    re: /\b(pay(?:ment)?|transfer|send (?:money|rs|₹)|scan (?:the |this )?QR|processing fee|registration fee|security deposit|clearance fee|UPI|bhejo|jama karo)\b/gi,
+    re: /\b(pay(?:ment)?|transfer|deposit|send (?:money|rs|₹)|scan (?:the |this )?QR|(?:processing|registration|security|clearance|tax|gas)?\s*fee|clearance fee|UPI|bhejo|jama karo)\b/gi,
   },
   {
     id: 'familiarity',
@@ -174,7 +174,7 @@ export const PLAYBOOKS: Playbook[] = [
     truth: "Real companies don't pay you to like YouTube videos or write Google reviews, and never ask for a 'prepaid deposit' to unlock earnings.",
     test: (t) =>
       /\b(part[- ]time|work from home|daily income|task)\b/i.test(t) &&
-      /\b(earn|income|salary|like|review|telegram|prepaid)\b/i.test(t),
+      /\b(earn|income|salary|commission|withdraw(?:al)?|unlock|profit|like|review|telegram|prepaid)\b/i.test(t),
   },
   {
     id: 'parcel',

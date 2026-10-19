@@ -1,0 +1,278 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "version": "2026.11.1",
+  "description": "PausePoint Shield Canonical Rule Pack — Shared between TypeScript Web & Kotlin shield-core",
+  "thresholds": {
+    "danger": 25,
+    "caution": 12
+  },
+  "levers": [
+    {
+      "id": "urgency",
+      "label": "Urgency",
+      "lever": "Rushes you so you skip thinking and act on impulse",
+      "weight": 12,
+      "pattern": "\\b(urgent(?:ly)?|immediately|right now|act now|asap|within \\d+\\s*(?:hours?|hrs?|minutes?|mins?)|today only|last (?:chance|warning|reminder|date)|expires? (?:today|tonight|soon)|tonight|turant|abhi|jaldi|bina deri)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "fear",
+      "label": "Fear / Threat",
+      "lever": "Scares you into obeying through penalties, arrest, or disconnection",
+      "weight": 15,
+      "pattern": "\\b(blocked|suspended|deactivated|disconnected|disconnection|legal action|arrest(?:ed)?|warrant|penalty|fine of|FIR|seized|frozen|money laundering|drugs?|illegal|band ho jayega|kat jayegi|police karyawahi|giraftar)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "authority",
+      "label": "Fake Authority",
+      "lever": "Borrows the power of a government body, police, or bank to demand compliance",
+      "weight": 12,
+      "pattern": "\\b(RBI|SEBI|CBI|ED officer|customs|income ?tax|TRAI|DOT|police|cyber ?cell|crime branch|narcotics|NCB|court|judge|UIDAI|government|bank manager|officer|electricity (?:board|department)|parivahan|traffic police)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "reward",
+      "label": "Greed / Reward",
+      "lever": "Dangles unearned cash, lottery, or windfall profits to cloud judgment",
+      "weight": 12,
+      "pattern": "\\b(won|winner|lottery|prize|cashback|reward|gift|lucky draw|KBC|refund|bonus|earn (?:rs\\.?|₹)?\\s?\\d[\\d,]*|part[- ]time job|work from home|double your|free|guaranteed profit|daily income)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "secrecy",
+      "label": "Secrecy / Isolation",
+      "lever": "Cuts you off from family, friends, or advisors who would warn you",
+      "weight": 15,
+      "pattern": "\\b(don'?t tell (?:anyone|anybody|your family)|do not (?:tell|inform|share with) (?:anyone|anybody|your family)|keep (?:this )?(?:confidential|secret)|stay on (?:the )?(?:call|video)|don'?t disconnect|kisi ko mat batana|raaz rakhna)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "credentials",
+      "label": "Asks for Secrets",
+      "lever": "Wants the master keys to your bank account, email, or identity",
+      "weight": 20,
+      "pattern": "\\b(OTP|UPI PIN|PIN|CVV|password|passcode|login details|card number|netbanking (?:id|password)|verification code|expiry date)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "remote",
+      "label": "Remote Control / APK Trojan",
+      "lever": "Attempts to gain screen control or install surveillance software on your device",
+      "weight": 20,
+      "pattern": "\\b(AnyDesk|TeamViewer|QuickSupport|RustDesk|screen ?share|install (?:this|the) app|download (?:this|the) app|\\S+\\.apk)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "payment",
+      "label": "Money Request",
+      "lever": "The ultimate extraction: pressuring you to transfer funds or scan a QR",
+      "weight": 10,
+      "pattern": "\\b(pay(?:ment)?|transfer|deposit|send (?:money|rs|₹)|scan (?:the |this )?QR|(?:processing|registration|security|clearance|tax|gas)?\\s*fee|clearance fee|UPI|bhejo|jama karo)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "familiarity",
+      "label": "Fake Familiarity",
+      "lever": "Pretends to be a loved one, family member, or close contact in distress",
+      "weight": 12,
+      "pattern": "\\b(hi (?:mom|mum|maa|dad|papa)|this is my new number|my (?:old )?phone (?:is )?(?:lost|broken|stolen)|it'?s me|beta|bhai)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "curiosity",
+      "label": "Curiosity / Sextortion Bait",
+      "lever": "Tricks you into clicking through shock, leaked photos, or scandal bait",
+      "weight": 10,
+      "pattern": "\\b(you won'?t believe|see who|your (?:photo|video) (?:is )?(?:viral|leaked)|private video|check this out|is this you|morphed clip|viral video)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "scarcity",
+      "label": "Scarcity / Social Proof",
+      "lever": "Manufactures fear of missing out with limited slots or fake testimonials",
+      "weight": 6,
+      "pattern": "\\b(only \\d+ (?:left|seats|slots)|limited (?:offer|slots|time)|thousands (?:have|already)|everyone is joining|hurry up)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "link_bait",
+      "label": "Click / Visit Bait",
+      "lever": "Directs you to open an external web address or portal",
+      "weight": 8,
+      "pattern": "\\b(click (?:here|on|this)|open (?:this|the) link|visit (?:https?:\\/\\/|\\S+\\.\\S+|this)|tap (?:here|on)|link given below|given link)\\b",
+      "flags": "i"
+    }
+  ],
+  "playbooks": [
+    {
+      "id": "digital-arrest",
+      "name": "Digital Arrest / Fake Police",
+      "truth": "Police, CBI, ED, and courts NEVER conduct trials or make arrests over Skype, WhatsApp, or video call. There is no legal procedure called 'digital arrest'.",
+      "weight": 35,
+      "requiredTactics": ["authority"],
+      "pattern": "\\b(digital arrest|skype|video call|cbi|ed officer|narcotics|ncb|mumbai police|crime branch|warrant|customs parcel)\\b",
+      "verifySteps": [
+        "Hang up immediately — real law enforcement never investigates on Skype or WhatsApp.",
+        "Tell a family member or friend right now; isolation is how they keep you trapped.",
+        "Report the caller's number to Chakshu (sancharsaathi.gov.in) and 1930."
+      ]
+    },
+    {
+      "id": "kyc",
+      "name": "Bank / SIM KYC Block Trap",
+      "truth": "Banks never send SMS with external links (.xyz, .top, .live) to update KYC. SIM cards are never disconnected with a 24-hour SMS ultimatum.",
+      "weight": 30,
+      "requiredTactics": ["fear"],
+      "pattern": "\\b(kyc|account (?:blocked|suspended)|de-?activated|pan card|sim (?:block|blocked)|update immediately)\\b",
+      "verifySteps": [
+        "Do not click the link in the message.",
+        "Open your bank app directly, or check your account by logging in normally.",
+        "Call the customer service number printed on the back of your debit card."
+      ]
+    },
+    {
+      "id": "upi-receive",
+      "name": "UPI 'Receive Money' Scam",
+      "truth": "You NEVER need to enter your UPI PIN, password, or scan a QR code to RECEIVE money. UPI PIN is exclusively used to SEND money out.",
+      "weight": 40,
+      "requiredTactics": ["credentials"],
+      "pattern": "\\b(upi pin|enter pin|scan qr to receive|cashback.*pin|receive.*pin)\\b",
+      "verifySteps": [
+        "Never enter your UPI PIN unless YOU are making a payment.",
+        "If someone says 'scan this QR to get your refund', hang up.",
+        "Check your account balance directly in your UPI app — no PIN needed to receive."
+      ]
+    },
+    {
+      "id": "task-job",
+      "name": "Task / Part-Time Job Scam",
+      "truth": "Legitimate employers never ask you to pay 'recharge fees', 'security deposits', or 'crypto upgrades' to withdraw your earned commission.",
+      "weight": 30,
+      "requiredTactics": ["reward"],
+      "pattern": "\\b(part[- ]time|work from home|daily income|task)\\b.*\\b(earn|income|salary|commission|withdraw(?:al)?|unlock|profit|like|review|telegram|prepaid)\\b",
+      "verifySteps": [
+        "Stop paying immediately. Paying more will NOT release your earlier deposits.",
+        "Leave the Telegram group — the 'colleagues' showing payouts are all fake or accomplices.",
+        "Call 1930 immediately with transaction UTRs to freeze the receiver's account."
+      ]
+    },
+    {
+      "id": "electricity",
+      "name": "Electricity Disconnection Scam",
+      "truth": "Electricity boards never send SMS from personal 10-digit mobile numbers threatening same-night disconnection with an officer's phone number.",
+      "weight": 30,
+      "requiredTactics": ["fear"],
+      "pattern": "\\b(electricity (?:will be|bill)|power (?:will be|cut)|disconnected tonight|electricity officer|bill unpaid)\\b",
+      "verifySteps": [
+        "Do not call the 10-digit mobile number given in the SMS.",
+        "Check your electricity bill status on the official state electricity board app or portal.",
+        "Pay only through official bill payment apps (BESCOM, TNEB, Tata Power, etc.)."
+      ]
+    },
+    {
+      "id": "apk",
+      "name": "Malicious APK / Trojan Delivery",
+      "truth": "Traffic police (e-challan), banks, and courier companies NEVER deliver apps via .apk links in SMS or WhatsApp. APKs steal OTPs silently.",
+      "weight": 40,
+      "requiredTactics": ["remote"],
+      "pattern": "\\b(\\.apk|install (?:this|the) app|mparivahan\\.apk|sbi_reward\\.apk|challan\\.apk)\\b",
+      "verifySteps": [
+        "Do not install or download any file ending in .apk sent over chat or SMS.",
+        "If already downloaded, do NOT open it. Immediately go to Settings > Apps and uninstall.",
+        "Turn on Google Play Protect in Play Store > Settings."
+      ]
+    },
+    {
+      "id": "parcel",
+      "name": "Customs / Courier Drug Parcel Trap",
+      "truth": "FedEx, DHL, and India Post do not call customers claiming illegal narcotics were found in their parcel and threatening police arrest.",
+      "weight": 30,
+      "requiredTactics": ["fear"],
+      "pattern": "\\b(customs|parcel.*(?:narcotics|drugs|illegal)|fedex|dhl|passport.*parcel|taiwan parcel)\\b",
+      "verifySteps": [
+        "Track your package on the carrier's official website using your tracking number.",
+        "No courier company will transfer your call to 'Mumbai Police' or 'NCB'.",
+        "Hang up and do not transfer any 'customs clearance fee'."
+      ]
+    },
+    {
+      "id": "sextortion",
+      "name": "Video Call Sextortion / Blackmail",
+      "truth": "Blackmailers use morphed footage and automated video bots. Paying them NEVER deletes the video; they demand higher amounts every time.",
+      "weight": 35,
+      "requiredTactics": ["fear"],
+      "pattern": "\\b(private video|morphed (?:video|clip)|viral on (?:youtube|facebook)|relatives|social media.*video)\\b",
+      "verifySteps": [
+        "Do NOT pay any money. Extortionists never stop asking once you pay once.",
+        "Block the number immediately across WhatsApp and phone calls.",
+        "Report the incident on cybercrime.gov.in under 'Crime against Women' or call 1930."
+      ]
+    },
+    {
+      "id": "pan-aadhaar",
+      "name": "PAN-Aadhaar Deactivation Scare",
+      "truth": "Income Tax department does not send frantic SMS links threatening Rs 10,000 penalties for Aadhaar-PAN linking via unverified URLs.",
+      "weight": 25,
+      "requiredTactics": ["fear"],
+      "pattern": "\\b(pan.*aadhaar|inoperative|penalty fine.*1000|link aadhaar immediately|income tax notice)\\b",
+      "verifySteps": [
+        "Check your PAN-Aadhaar linking status on incometax.gov.in directly.",
+        "Never pay linking fines through unknown web links."
+      ]
+    },
+    {
+      "id": "cc-points",
+      "name": "Credit Card Reward Points Expiry Trap",
+      "truth": "Banks never convert reward points to cash via external .cc or .live websites requiring debit/credit card CVV and OTP.",
+      "weight": 25,
+      "requiredTactics": ["reward"],
+      "pattern": "\\b(reward points|points.*expire today|redeem cash|points.*worth rs)\\b",
+      "verifySteps": [
+        "Redeem reward points only inside your official bank mobile app or netbanking.",
+        "Never enter your card CVV or OTP on any website sent in an SMS."
+      ]
+    },
+    {
+      "id": "trai-sim",
+      "name": "TRAI / DoT SIM Deconnection Notice",
+      "truth": "TRAI is a regulatory authority; it does NOT communicate directly with individual telecom subscribers to disconnect mobile numbers.",
+      "weight": 30,
+      "requiredTactics": ["authority"],
+      "pattern": "\\b(trai|department of telecommunications|dot.*blocked|sim.*blocked within 24 hours)\\b",
+      "verifySteps": [
+        "TRAI does not disconnect numbers. DoT communicates only through telecom operators.",
+        "Call your mobile operator's official customer care (198 or 121) to verify SIM status."
+      ]
+    }
+  ],
+  "linkChecks": {
+    "shorteners": [
+      "bit.ly", "tinyurl.com", "t.co", "is.gd", "cutt.ly", "rb.gy", "shorturl.at"
+    ],
+    "dangerousExtensions": [".apk", ".exe", ".scr", ".bat"],
+    "suspiciousTlds": [
+      ".xyz", ".top", ".live", ".work", ".click", ".link", ".cc", ".icu", ".vip"
+    ],
+    "officialAllowlist": [
+      "sbi.co.in", "onlinesbi.sbi", "hdfcbank.com", "icicibank.com",
+      "axisbank.com", "npci.org.in", "gov.in", "cybercrime.gov.in",
+      "sancharsaathi.gov.in", "incometax.gov.in", "uidai.gov.in"
+    ]
+  },
+  "senderRules": {
+    "officialBankHeaderPattern": "^[A-Za-z]{2}-[A-Za-z0-9]{6}$",
+    "personalMobilePattern": "^(?:\\+91|91)?[6-9]\\d{9}$",
+    "internationalCallPattern": "^\\+(?!91)\\d{7,15}$",
+    "trai1600SeriesPattern": "^1600\\d{6,8}$"
+  },
+  "brakeRules": {
+    "pattern": "\\b(fee|tax|deposit|commission|gas fee|clearance|tds|gst)\\b.*\\b(withdraw|unlock|release|upgrade|payout)\\b",
+    "flags": "i",
+    "truth": "STOP. Legitimate platforms deduct fees from earnings. Demanding upfront deposits to release funds is the signature of a fee-advance trap."
+  },
+  "acknowledgementRules": {
+    "pattern": "\\b(3\\d{13})\\b",
+    "triggerWords": ["complaint", "acknowledgement", "ack", "1930", "ncrp", "cybercrime"]
+  }
+}
