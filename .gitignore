@@ -21,6 +21,8 @@ next-env.d.ts
 *.pem
 *.jks
 *.keystore
+*.apk
+*.aab
 
 # tests and gate output
 /coverage

@@ -11,15 +11,13 @@ import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
 import com.getcapacitor.PluginMethod
 import com.getcapacitor.annotation.CapacitorPlugin
-import org.pausepoint.app.BuildConfig
-
 @CapacitorPlugin(name = "ShieldPlugin")
 class ShieldPlugin : Plugin() {
 
     @PluginMethod
     fun getStatus(call: PluginCall) {
         val context = context
-        val flavor = if (BuildConfig.FLAVOR.contains("shield", ignoreCase = true)) "shield" else "public"
+        val flavor = if (context.packageName.contains("shield", ignoreCase = true)) "shield" else "public"
 
         val roleManager = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             context.getSystemService(RoleManager::class.java)
@@ -31,6 +29,12 @@ class ShieldPlugin : Plugin() {
 
         val notifEnabled = isNotificationAccessGranted(context)
 
+        val versionName = try {
+            context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.0"
+        } catch (_: Exception) {
+            "1.0"
+        }
+
         val ret = JSObject().apply {
             put("active", true)
             put("flavor", flavor)
@@ -39,7 +43,7 @@ class ShieldPlugin : Plugin() {
             put("notificationAccessGranted", notifEnabled)
             put("casesCount", 3)
             put("retentionDays", 7)
-            put("version", BuildConfig.VERSION_NAME)
+            put("version", versionName)
         }
         call.resolve(ret)
     }
