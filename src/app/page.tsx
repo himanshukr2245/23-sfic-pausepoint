@@ -3,11 +3,12 @@
 // app/page.tsx — PausePoint Sovereign Citizen Cognitive Firewall (SFIC 2026 Master Showcase).
 // ⛔ MANDATORY LAW: Commutative layouts — balanced compact cards with uniform geometry across all viewports.
 // ⛔ MANDATORY ICON LAW: Pure SVG vector icons only — zero emojis in UI controls.
-// Master Balanced-Minimalist Super-Fast Home Page with Dual-Crisis Actions and Unified Defense Deck.
+// Master Balanced-Minimalist Super-Fast Home Page with Defense Hub Bento Matrix & Radial Spotlight Physics.
 
+import Link from 'next/link';
 import { ButtonLink } from '@/components/ui/Button';
 import { FpsCounter } from '@/components/ui';
-import { UnifiedDefenseDeck } from '@/components/pause/UnifiedDefenseDeck';
+import { AwsSpotlightCard } from '@/components/ui/AwsSpotlightCard';
 import { GoldenHourCurveCard } from '@/components/pause/GoldenHourCurveCard';
 import {
   Video,
@@ -20,7 +21,90 @@ import {
   Scale,
   ArrowRight,
   Sparkles,
+  Search,
+  ShieldAlert,
+  LayoutGrid,
 } from 'lucide-react';
+
+interface DefenseModule {
+  href: string;
+  title: string;
+  badge: string;
+  metric: string;
+  description: string;
+  colorAccent: 'rose' | 'amber' | 'cyan' | 'indigo' | 'emerald' | 'neutral';
+  icon: typeof Zap;
+  actionText: string;
+}
+
+const DEFENSE_MODULES: DefenseModule[] = [
+  {
+    href: '/report',
+    title: '1930 Emergency Report',
+    badge: 'GOLDEN HOUR TRIAGE',
+    metric: '<60s P99',
+    description:
+      'Instant on-device OCR payment receipt extraction, 1-tap telephonic script, and automated NCRP portal draft before bank funds disperse.',
+    colorAccent: 'rose',
+    icon: Zap,
+    actionText: 'Open 1930 Triage',
+  },
+  {
+    href: '/verify',
+    title: 'Before You Pay Again',
+    badge: 'STOP LOSS BRAKE',
+    metric: 'Cognitive Brake',
+    description:
+      'Halts compounding financial losses from fake task withdrawals, crypto release taxes, and digital arrest bail demands with 3 Immutable Truth Cards.',
+    colorAccent: 'amber',
+    icon: ShieldAlert,
+    actionText: 'Test Verification Brake',
+  },
+  {
+    href: '/decode',
+    title: 'Manipulation Decoder',
+    badge: '10S COGNITIVE PAUSE',
+    metric: '12 Tactics & Links',
+    description:
+      'Decompiles fear, urgency, and fake authority levers from WhatsApp messages and SMS alerts. Includes forensic link X-ray and immunity drills.',
+    colorAccent: 'cyan',
+    icon: Search,
+    actionText: 'Launch Decoder',
+  },
+  {
+    href: '/simulator',
+    title: 'Attack Simulator Arena',
+    badge: 'INTERACTIVE DRILLS',
+    metric: '4 Threat Scenarios',
+    description:
+      'Experience live interactive drills for Digital Arrest video calls, Electricity APKs, and UPI PIN scams to watch PausePoint disarm each vector.',
+    colorAccent: 'indigo',
+    icon: Video,
+    actionText: 'Enter Simulator Arena',
+  },
+  {
+    href: '/studio',
+    title: 'Electronic Evidence Studio',
+    badge: 'BSA 2023 COMPLIANT',
+    metric: 'SHA-256 Digest',
+    description:
+      'Generates tamper-evident cryptographic incident certificates and printable statutory evidence dockets with verifiable QR matrices for court proceedings.',
+    colorAccent: 'emerald',
+    icon: Scale,
+    actionText: 'Open Evidence Studio',
+  },
+  {
+    href: '/about',
+    title: 'Surakshit Bharat Specs',
+    badge: 'SFIC 2026 LEVEL 3',
+    metric: 'IISc Bengaluru',
+    description:
+      'Review technical architecture, JAIN University Team DELTA whitepaper, and National Cybercrime Reporting Portal Level 3 compliance specifications.',
+    colorAccent: 'neutral',
+    icon: LayoutGrid,
+    actionText: 'Read System Specs',
+  },
+];
 
 interface ScamVectorCard {
   title: string;
@@ -29,6 +113,7 @@ interface ScamVectorCard {
   description: string;
   disprovingTruth: string;
   icon: typeof Video;
+  colorAccent: 'rose' | 'amber' | 'cyan';
 }
 
 const SCAM_VECTORS: ScamVectorCard[] = [
@@ -41,6 +126,7 @@ const SCAM_VECTORS: ScamVectorCard[] = [
     disprovingTruth:
       'Indian law enforcement NEVER conducts video arrests or online judicial proceedings. There is no statutory concept called "Digital Arrest".',
     icon: Video,
+    colorAccent: 'rose',
   },
   {
     title: 'UPI PIN Cashback & Refund Lures',
@@ -51,6 +137,7 @@ const SCAM_VECTORS: ScamVectorCard[] = [
     disprovingTruth:
       'Entering a UPI PIN ONLY deducts money from your bank account. Receiving money NEVER requires entering your UPI PIN or scanning a QR code.',
     icon: CreditCard,
+    colorAccent: 'amber',
   },
   {
     title: 'Electricity & Challan APK Trojans',
@@ -61,6 +148,7 @@ const SCAM_VECTORS: ScamVectorCard[] = [
     disprovingTruth:
       'State electricity DISCOMs never send APK links via personal mobile numbers. Real traffic challans are strictly hosted on echallan.parivahan.gov.in.',
     icon: Smartphone,
+    colorAccent: 'cyan',
   },
 ];
 
@@ -70,6 +158,7 @@ interface ArchitecturePillar {
   metric: string;
   body: string;
   icon: typeof Zap;
+  colorAccent: 'cyan' | 'emerald' | 'indigo';
 }
 
 const PILLARS: ArchitecturePillar[] = [
@@ -79,6 +168,7 @@ const PILLARS: ArchitecturePillar[] = [
     metric: '<60s P99',
     body: 'Extracts critical transaction UTRs, beneficiary UPI IDs, and scam categories within seconds before the inter-bank freeze window closes.',
     icon: Zap,
+    colorAccent: 'cyan',
   },
   {
     title: '100% On-Device Sovereign Privacy',
@@ -86,6 +176,7 @@ const PILLARS: ArchitecturePillar[] = [
     metric: 'Client Sandbox',
     body: 'Zero network calls. All psychological decompilation, link safety analysis, and OCR run locally inside your browser sandbox.',
     icon: Lock,
+    colorAccent: 'emerald',
   },
   {
     title: 'NCRP 1930 Complaint Docket',
@@ -93,12 +184,13 @@ const PILLARS: ArchitecturePillar[] = [
     metric: '1-Click Kit',
     body: 'Generates a standardized incident statement formatted precisely for National Cyber Crime Reporting Portal (NCRP) operators with SHA-256 evidence.',
     icon: FileCheck2,
+    colorAccent: 'indigo',
   },
 ];
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-12 sm:gap-16 pb-20">
+    <div className="flex flex-col gap-14 sm:gap-20 pb-20">
       {/* ── 1. Hero Section: Sovereign Command Capsule ─────────────────────── */}
       <section className="flex flex-col items-start gap-6 pt-2">
         {/* Precision Status Capsule */}
@@ -193,9 +285,75 @@ export default function Home() {
         <GoldenHourCurveCard />
       </section>
 
-      {/* ── 3. Unified Cognitive Defense Terminal (Tabbed Dual-Engine) ──────── */}
-      <section id="interactive-deck" aria-label="Interactive Defense Deck" className="w-full">
-        <UnifiedDefenseDeck />
+      {/* ── 3. The Defense Hub Bento Matrix (Dedicated Routes Showcase) ──────── */}
+      <section id="defense-hub" aria-labelledby="defense-hub-title" className="flex flex-col gap-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+          <div className="flex flex-col gap-1.5">
+            <div className="text-xs font-mono font-bold uppercase tracking-wider text-brand flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan" />
+              </span>
+              <span>Sovereign Citizen Capabilities</span>
+            </div>
+            <h2 id="defense-hub-title" className="text-2xl sm:text-4xl font-extrabold tracking-tight text-fg">
+              The Defense Hub
+            </h2>
+            <p className="text-xs sm:text-sm text-fg-muted max-w-3xl leading-relaxed">
+              Explore our complete suite of on-device cyber defense modules. Hover over any capability to experience real-time optical mouse tracking and tactile audio feedback.
+            </p>
+          </div>
+        </div>
+
+        {/* 6-Card Commutative Bento Grid with Mouse-Following Spotlight Physics */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {DEFENSE_MODULES.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="group block h-full focus:outline-none"
+              >
+                <AwsSpotlightCard
+                  colorAccent={item.colorAccent}
+                  sound={true}
+                  className="flex flex-col justify-between h-full gap-5 cursor-pointer hover:-translate-y-1"
+                >
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-surface-2 border border-border/80 text-fg-muted group-hover:text-fg transition-colors">
+                        {item.badge}
+                      </span>
+                      <span className="text-xs font-mono font-bold text-brand">
+                        {item.metric}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2.5 mt-1">
+                      <div className="w-9 h-9 rounded-xl bg-surface-2 border border-border/80 flex items-center justify-center text-brand shrink-0 group-hover:scale-105 transition-transform">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <h3 className="text-base font-extrabold text-fg group-hover:text-brand transition-colors">
+                        {item.title}
+                      </h3>
+                    </div>
+
+                    <p className="text-xs text-fg-muted leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+
+                  {/* Card Action Link Bar */}
+                  <div className="pt-3 border-t border-border/60 flex items-center justify-between text-xs font-bold text-fg group-hover:text-brand transition-colors">
+                    <span>{item.actionText}</span>
+                    <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </AwsSpotlightCard>
+              </Link>
+            );
+          })}
+        </div>
       </section>
 
       {/* ── 4. Commutative Indian Scam Vector Playbooks ──────────────────────── */}
@@ -216,10 +374,11 @@ export default function Home() {
           {SCAM_VECTORS.map((vector, idx) => {
             const Icon = vector.icon;
             return (
-              <div
+              <AwsSpotlightCard
                 key={idx}
-                style={{ contain: 'paint layout' }}
-                className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col justify-between gap-4 hover:border-brand/40 transition-colors"
+                colorAccent={vector.colorAccent}
+                sound={true}
+                className="flex flex-col justify-between gap-4"
               >
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
@@ -253,7 +412,7 @@ export default function Home() {
                     &ldquo;{vector.disprovingTruth}&rdquo;
                   </p>
                 </div>
-              </div>
+              </AwsSpotlightCard>
             );
           })}
         </div>
@@ -277,10 +436,11 @@ export default function Home() {
           {PILLARS.map((pillar, idx) => {
             const Icon = pillar.icon;
             return (
-              <div
+              <AwsSpotlightCard
                 key={idx}
-                style={{ contain: 'paint layout' }}
-                className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col justify-between gap-4"
+                colorAccent={pillar.colorAccent}
+                sound={true}
+                className="flex flex-col justify-between gap-4"
               >
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center justify-between">
@@ -306,7 +466,7 @@ export default function Home() {
                   <ShieldCheck className="w-4 h-4 text-brand" />
                   <span>Verified Client-Side Sandbox</span>
                 </div>
-              </div>
+              </AwsSpotlightCard>
             );
           })}
         </div>

@@ -33,7 +33,8 @@ interface DropdownItem {
 const DEFENSE_MODULES: DropdownItem[] = [
   { href: '/report', label: '1930 Emergency Report', icon: BoltIcon, badge: '<60s Triage', desc: 'Instant OCR receipt extraction & telephonic script' },
   { href: '/verify', label: 'Repeat Deposit Brake', icon: ScaleIcon, badge: 'Stop Loss', desc: 'Brake against extortionate withdrawal & bail fees' },
-  { href: '/#decoder', label: 'Manipulation Decoder', icon: BookOpenIcon, badge: '10s Pause', desc: 'Decompile urgency traps & deceptive links' },
+  { href: '/decode', label: 'Manipulation Decoder', icon: BookOpenIcon, badge: '10s Pause', desc: 'Decompile urgency traps, deceptive links & tactics' },
+  { href: '/simulator', label: 'Attack Simulator Arena', icon: LightbulbIcon, badge: 'Live Drills', desc: 'Realistic drills for Digital Arrest, APKs & UPI fraud' },
   { href: '/about', label: 'Surakshit Bharat Specs', icon: LayoutGridIcon, badge: 'SFIC 2026', desc: 'IISc / MoE Level 3 sovereign architecture' },
 ];
 
@@ -130,49 +131,8 @@ export function Header() {
             </Link>
           </div>
 
-          {/* ── Center Navigation Items: Home + Showcase Bento Popover ── */}
-          <div className="flex items-center gap-1.5 sm:gap-2 text-xs font-semibold">
-            {/* 1. Report (Emergency Hero) */}
-            <Link
-              href="/report"
-              onClick={handleNavClick}
-              className={`rounded-xl px-3 py-1.5 transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
-                pathname === '/report'
-                  ? 'text-danger font-bold bg-danger/10 shadow-xs border border-danger/30'
-                  : 'text-fg-muted hover:text-danger hover:bg-danger/5'
-              }`}
-            >
-              <span className="w-2 h-2 rounded-full bg-danger" />
-              <span>Report (1930)</span>
-            </Link>
-
-            {/* 2. Before You Pay (Verify Brake) */}
-            <Link
-              href="/verify"
-              onClick={handleNavClick}
-              className={`rounded-xl px-3 py-1.5 transition-all duration-200 cursor-pointer ${
-                pathname === '/verify'
-                  ? 'text-fg font-bold bg-surface-2 shadow-xs border border-border/80'
-                  : 'text-fg-muted hover:text-fg hover:bg-surface-2/80'
-              }`}
-            >
-              Before You Pay
-            </Link>
-
-            {/* 3. Decode Tab */}
-            <Link
-              href="/"
-              onClick={handleNavClick}
-              className={`rounded-xl px-3 py-1.5 transition-all duration-200 cursor-pointer ${
-                pathname === '/'
-                  ? 'text-fg font-bold bg-surface-2 shadow-xs border border-border/80'
-                  : 'text-fg-muted hover:text-fg hover:bg-surface-2/80'
-              }`}
-            >
-              Decode
-            </Link>
-
-            {/* 2. Showcase Dropdown Tab */}
+          {/* ── Center Navigation Item: Streamlined Unified Defense Hub ── */}
+          <div className="flex items-center text-xs font-semibold">
             <div
               onMouseEnter={handleOpenShowcase}
               onMouseLeave={handleCloseShowcase}
@@ -187,13 +147,17 @@ export function Header() {
                 }}
                 aria-expanded={showcaseOpen}
                 aria-haspopup="true"
-                className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 transition-all duration-200 cursor-pointer ${
+                className={`flex items-center gap-2 rounded-xl px-4 py-2 transition-all duration-200 cursor-pointer ${
                   isShowcaseActive || showcaseOpen
-                    ? 'text-fg font-bold bg-surface-2 shadow-xs border border-border/80'
-                    : 'text-fg-muted hover:text-fg hover:bg-surface-2/80'
+                    ? 'text-brand font-bold bg-brand/10 shadow-xs border border-brand/40'
+                    : 'text-fg-muted hover:text-fg hover:bg-surface-2/80 border border-transparent'
                 }`}
               >
-                <span>Defense Hub</span>
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan" />
+                </span>
+                <span className="tracking-wide">Defense Hub</span>
                 <svg
                   className={`h-3 w-3 transition-transform duration-200 ${
                     showcaseOpen ? 'rotate-180 text-cyan' : 'rotate-0 text-fg-muted'
