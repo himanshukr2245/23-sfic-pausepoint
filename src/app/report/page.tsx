@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ReportFlow } from '@/components/report/ReportFlow.tsx';
+import { ReportFlow } from '@/components/report/ReportFlow';
 
 export const metadata: Metadata = {
   title: 'The Golden Hour: 1930 Cyber Fraud Report · PausePoint',

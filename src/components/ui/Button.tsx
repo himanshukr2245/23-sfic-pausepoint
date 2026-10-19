@@ -6,6 +6,7 @@ import {
   forwardRef,
   useState,
   type ButtonHTMLAttributes,
+  type AnchorHTMLAttributes,
   type ReactNode,
   type PointerEvent,
 } from 'react';
@@ -15,11 +16,12 @@ import {
   playSuccessChime,
   playSubBassThud,
   playLaserZip,
+  playPop,
   unlockAudio,
 } from '@/lib/audio/synthesizer';
 
 export type LatencyMode = 'scale-top' | 'scale-tap' | 'glow-flare' | 'spring-pop' | 'none';
-export type SoundType = 'tick' | 'chime' | 'thud' | 'laser' | 'none';
+export type SoundType = 'tick' | 'chime' | 'thud' | 'laser' | 'pop' | 'none';
 export type ButtonVariant =
   | 'primary'
   | 'secondary'
@@ -188,6 +190,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       else if (sound === 'chime') playSuccessChime();
       else if (sound === 'thud') playSubBassThud();
       else if (sound === 'laser') playLaserZip();
+      else if (sound === 'pop') playPop();
     }
 
     onPointerDown?.(e);
@@ -231,6 +234,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   );
 });
 
+export type ButtonLinkProps = Omit<ButtonProps, 'onClick' | 'type'> &
+  AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
+
 /** A LINK that looks like a Button — for navigation. Never wrap <Button> in <Link>: a button inside a link is invalid HTML,
  *  gives keyboard users two tab stops and confuses screen readers (axe "nested-interactive"). Soft navigation + Top Loader stay. */
 export function ButtonLink({
@@ -242,11 +248,16 @@ export function ButtonLink({
   size = 'md',
   font,
   className = '',
-}: Omit<ButtonProps, 'onClick' | 'type'> & { href: string }) {
+  target,
+  rel,
+  ...rest
+}: ButtonLinkProps) {
   const classes = buttonClassName({ variant, latencyMode, size, font, className });
   return (
     <Link
       href={href}
+      target={target}
+      rel={rel}
       onPointerDown={() => {
         if (sound === 'none') return;
         unlockAudio();
@@ -254,8 +265,10 @@ export function ButtonLink({
         else if (sound === 'chime') playSuccessChime();
         else if (sound === 'thud') playSubBassThud();
         else if (sound === 'laser') playLaserZip();
+        else if (sound === 'pop') playPop();
       }}
       className={classes}
+      {...rest}
     >
       <span aria-hidden="true" className="pointer-events-none absolute inset-x-3 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-sheen/60 to-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-100 rounded-full" />
       {children}

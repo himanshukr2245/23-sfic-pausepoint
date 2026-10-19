@@ -2,8 +2,11 @@
 
 import React, { useState } from 'react';
 import { FileText, Copy, Check, ExternalLink, CheckCircle2, MessageSquare } from 'lucide-react';
-import { extractAck, complaintDraft, type Txn, type Category } from '@/lib/engine/golden.ts';
+import { extractAck, complaintDraft, type Txn, type Category } from '@/lib/engine/golden';
 import { useTranslation } from '@/lib/i18n';
+import { Button, ButtonLink } from '@/components/ui/Button';
+import { AwsSpotlightCard } from '@/components/ui/AwsSpotlightCard';
+import { unlockAudio, playPop } from '@/lib/audio/synthesizer';
 
 interface AckSmsParserProps {
   txns: Txn[];
@@ -22,19 +25,25 @@ export const AckSmsParser: React.FC<AckSmsParserProps> = ({ txns, category }) =>
   });
 
   const handleCopyDraft = () => {
+    unlockAudio();
+    playPop();
     navigator.clipboard.writeText(draftText);
     setCopiedDraft(true);
     setTimeout(() => setCopiedDraft(false), 2000);
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-surface p-5 shadow-xs flex flex-col gap-4">
+    <AwsSpotlightCard
+      colorAccent="cyan"
+      sound={true}
+      className="p-6 flex flex-col gap-4"
+    >
       <div className="flex items-start gap-3">
-        <div className="w-10 h-10 rounded-xl bg-brand/10 text-brand flex items-center justify-center shrink-0">
+        <div className="w-10 h-10 rounded-xl bg-brand/10 text-brand border border-brand/30 flex items-center justify-center shrink-0">
           <MessageSquare className="w-5 h-5" />
         </div>
         <div>
-          <h4 className="text-base font-bold text-fg">{t.ackSmsStageTitle}</h4>
+          <h4 className="text-base font-extrabold text-fg tracking-tight">{t.ackSmsStageTitle}</h4>
           <p className="text-xs text-fg-muted">
             {t.ackSmsSub}
           </p>
@@ -53,7 +62,7 @@ export const AckSmsParser: React.FC<AckSmsParserProps> = ({ txns, category }) =>
         {ackNumber && (
           <div className="mt-2 flex items-center gap-2 p-2.5 rounded-lg bg-success/10 border border-success/30 text-success text-xs font-semibold">
             <CheckCircle2 className="w-4 h-4 shrink-0" />
-            <span>NCRP Acknowledgement ID: <span className="font-mono tracking-wider">{ackNumber.ack}</span></span>
+            <span>NCRP Acknowledgement ID: <span className="font-mono tracking-wider font-bold">{ackNumber.ack}</span></span>
           </div>
         )}
       </div>
@@ -79,13 +88,17 @@ export const AckSmsParser: React.FC<AckSmsParserProps> = ({ txns, category }) =>
             <FileText className="w-3.5 h-3.5 text-brand" />
             {t.officialComplaintLabel}
           </span>
-          <button
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            sound="tick"
             onClick={handleCopyDraft}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg bg-surface border border-border hover:bg-surface-3 text-fg transition-colors"
+            className="flex items-center gap-1.5"
           >
             {copiedDraft ? <Check className="w-3.5 h-3.5 text-success" /> : <Copy className="w-3.5 h-3.5" />}
             <span>{copiedDraft ? t.copiedFeedback : t.copyDraftButton}</span>
-          </button>
+          </Button>
         </div>
 
         <pre className="text-xs font-sans leading-relaxed text-fg-muted whitespace-pre-wrap select-text max-h-48 overflow-y-auto">
@@ -95,16 +108,19 @@ export const AckSmsParser: React.FC<AckSmsParserProps> = ({ txns, category }) =>
 
       {/* Action links */}
       <div className="flex items-center gap-3 pt-1">
-        <a
+        <ButtonLink
           href="https://cybercrime.gov.in"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 h-11 rounded-xl bg-brand text-brand-fg font-semibold text-xs flex items-center justify-center gap-2 hover:bg-brand/90 transition-colors shadow-xs"
+          variant="primary"
+          size="md"
+          sound="laser"
+          className="w-full flex items-center justify-center gap-2"
         >
           <span>{t.portalLink}</span>
           <ExternalLink className="w-4 h-4" />
-        </a>
+        </ButtonLink>
       </div>
-    </div>
+    </AwsSpotlightCard>
   );
 };

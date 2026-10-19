@@ -72,14 +72,14 @@ export const FieldCard: React.FC<FieldCardProps> = ({
       />
 
       {warning && (
-        <p className="mt-2 text-xs font-medium text-warning flex items-start gap-1">
-          <span>⚠️</span>
+        <p className="mt-2 text-xs font-medium text-warning flex items-start gap-1.5">
+          <AlertCircle className="w-3.5 h-3.5 text-warning shrink-0 mt-0.5" />
           <span>{warning}</span>
         </p>
       )}
 
       {helperText && !warning && (
-        <p className="mt-1.5 text-[11px] text-fg-muted">{helperText}</p>
+        <p className="mt-1.5 text-[11px] text-fg-muted font-medium">{helperText}</p>
       )}
     </div>
   );

@@ -1,9 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ShieldCheck, FileCheck, Download, Copy, Check, Hash } from 'lucide-react';
-import { evidenceManifest, type EvidenceItem } from '@/lib/engine/golden.ts';
+import { evidenceManifest, type EvidenceItem } from '@/lib/engine/golden';
 import { useTranslation } from '@/lib/i18n';
+import { Button } from '@/components/ui/Button';
+import { AwsSpotlightCard } from '@/components/ui/AwsSpotlightCard';
+import { unlockAudio, playPop, playHapticTick, playLaserZip } from '@/lib/audio/synthesizer';
 
 interface AttachedFile {
   name: string;
@@ -16,6 +19,7 @@ export const EvidenceDocket: React.FC = () => {
   const [items, setItems] = useState<AttachedFile[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [copied, setCopied] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileAttach = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -32,11 +36,12 @@ export const EvidenceDocket: React.FC = () => {
 
       const manifest = await evidenceManifest(fileBuffers);
       setItems((prev) => [...prev, ...manifest.items]);
+      unlockAudio();
+      playLaserZip();
     } catch (err) {
       console.error('Evidence hashing error:', err);
     } finally {
       setIsProcessing(false);
-      // Reset input value
       e.target.value = '';
     }
   };
@@ -60,12 +65,16 @@ export const EvidenceDocket: React.FC = () => {
   };
 
   const handleCopyManifest = () => {
+    unlockAudio();
+    playPop();
     navigator.clipboard.writeText(getManifestText());
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   const handleDownloadManifest = () => {
+    unlockAudio();
+    playHapticTick();
     const text = getManifestText();
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
@@ -77,16 +86,20 @@ export const EvidenceDocket: React.FC = () => {
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col gap-4">
-      <div className="flex items-start justify-between gap-3">
+    <AwsSpotlightCard
+      colorAccent="emerald"
+      sound={true}
+      className="p-6 flex flex-col gap-4"
+    >
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-xl bg-success/10 text-success flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-success/10 text-success border border-success/30 flex items-center justify-center shrink-0">
             <ShieldCheck className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="text-base font-bold text-fg flex items-center gap-2">
+            <h4 className="text-base font-extrabold text-fg tracking-tight flex flex-wrap items-center gap-2">
               <span>{t.evidenceDocketTitle}</span>
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-surface-2 text-fg-muted border border-border">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-success/10 text-success border border-success/20">
                 {t.bsaIntegrityBadge}
               </span>
             </h4>
@@ -96,10 +109,9 @@ export const EvidenceDocket: React.FC = () => {
           </div>
         </div>
 
-        <label className="cursor-pointer shrink-0 inline-flex items-center gap-1.5 h-9 px-3.5 rounded-xl bg-surface-2 hover:bg-surface-3 text-fg text-xs font-semibold border border-border transition-colors">
-          <FileCheck className="w-4 h-4 text-brand" />
-          <span>{isProcessing ? t.hashingInProgress : t.attachScreenshotsButton}</span>
+        <div className="shrink-0">
           <input
+            ref={fileInputRef}
             type="file"
             multiple
             accept="image/*,application/pdf"
@@ -107,7 +119,19 @@ export const EvidenceDocket: React.FC = () => {
             disabled={isProcessing}
             className="hidden"
           />
-        </label>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            sound="laser"
+            disabled={isProcessing}
+            onClick={() => fileInputRef.current?.click()}
+            className="flex items-center gap-1.5"
+          >
+            <FileCheck className="w-4 h-4 text-brand" />
+            <span>{isProcessing ? t.hashingInProgress : t.attachScreenshotsButton}</span>
+          </Button>
+        </div>
       </div>
 
       {items.length > 0 ? (
@@ -132,25 +156,33 @@ export const EvidenceDocket: React.FC = () => {
             ))}
           </div>
 
-          <div className="flex items-center justify-between gap-3 pt-2 border-t border-border/60">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-border/60">
             <span className="text-xs text-fg-muted font-medium">
               {items.length} file{items.length > 1 ? 's' : ''} cryptographically sealed
             </span>
             <div className="flex items-center gap-2">
-              <button
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                sound="tick"
                 onClick={handleCopyManifest}
-                className="h-8 px-2.5 rounded-lg border border-border bg-surface hover:bg-surface-2 text-fg text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                className="flex items-center gap-1.5"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-success" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copied ? t.copiedFeedback : t.copyManifestButton}</span>
-              </button>
-              <button
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                sound="laser"
                 onClick={handleDownloadManifest}
-                className="h-8 px-2.5 rounded-lg border border-border bg-surface hover:bg-surface-2 text-fg text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                className="flex items-center gap-1.5"
               >
                 <Download className="w-3.5 h-3.5 text-brand" />
                 <span>{t.downloadDocketButton}</span>
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -159,6 +191,6 @@ export const EvidenceDocket: React.FC = () => {
           {t.evidenceDocketSub}
         </div>
       )}
-    </div>
+    </AwsSpotlightCard>
   );
 };
