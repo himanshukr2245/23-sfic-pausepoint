@@ -217,43 +217,120 @@ export default function Home() {
           </p>
         </div>
 
-        {/* ── Dual-Crisis Actions: The 3-Second Rule ── */}
-        <div className="flex flex-wrap items-center gap-3.5 pt-1 w-full max-w-3xl">
-          {/* Action 1: Primary Emergency Action (Lost Money) — Pure Electric Emergency Red */}
-          <div className="flex-1 min-w-[280px]">
-            <ButtonLink
-              href="/report"
-              variant="cyber-danger"
-              latencyMode="spring-pop"
-              sound="laser"
-              size="lg"
-              className="w-full flex items-center justify-between"
-            >
-              <div className="flex flex-col items-start text-left">
-                <span className="text-sm font-extrabold tracking-wider">REPORT FRAUD [1930]</span>
-                <span className="text-[11px] font-normal tracking-normal font-sans opacity-90">Just lost money? Stop mule dispersion</span>
+        {/* ── "Am I Protected?" Shield Status Card ── */}
+        <AwsSpotlightCard
+          colorAccent="emerald"
+          className="w-full max-w-4xl p-5 sm:p-6"
+        >
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-border/80">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-success/10 text-success border border-success/30 flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-5 h-5" />
               </div>
-              <ArrowRight className="w-5 h-5 ml-2 shrink-0 group-hover:translate-x-1 transition-transform" />
-            </ButtonLink>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono font-bold text-success uppercase tracking-wider">
+                    PAUSEPOINT SHIELD ACTIVE
+                  </span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-surface-2 text-fg-muted border border-border">
+                    100% On-Device · Zero Cloud
+                  </span>
+                </div>
+                <h3 className="text-sm sm:text-base font-extrabold text-fg">
+                  Yes, your phone is protected by the on-device scam firewall.
+                </h3>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 self-end sm:self-auto">
+              <ButtonLink
+                href="/cases"
+                variant="secondary"
+                size="sm"
+                className="text-xs font-mono flex items-center gap-1.5"
+              >
+                <span>Shield Vault</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </ButtonLink>
+              <ButtonLink
+                href="/welcome"
+                variant="quiet"
+                size="sm"
+                className="text-xs font-mono text-fg-muted hover:text-fg"
+              >
+                Setup Guide
+              </ButtonLink>
+            </div>
           </div>
 
-          {/* Action 2: Secondary Preventive Action (Repeat Demand Brake) — Protective Shield */}
-          <div className="flex-1 min-w-[280px]">
-            <ButtonLink
-              href="/verify"
-              variant="cyber-outline"
-              latencyMode="spring-pop"
-              sound="tick"
-              size="lg"
-              className="w-full flex items-center justify-between border-brand/50"
-            >
-              <div className="flex flex-col items-start text-left">
-                <span className="text-sm font-extrabold tracking-wider">BEFORE YOU PAY AGAIN</span>
-                <span className="text-[11px] font-normal tracking-normal font-sans text-fg-muted">Suspicious demand or withdrawal fee</span>
-              </div>
-              <ShieldCheck className="w-5 h-5 ml-2 text-brand shrink-0 group-hover:scale-110 transition-transform" />
-            </ButtonLink>
+          {/* 3 Active Defense Modules Strip */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 text-xs font-mono">
+            <div className="p-3 rounded-xl bg-surface-2/60 border border-border/60 flex items-center justify-between">
+              <span className="text-fg-muted">Message Guard:</span>
+              <span className="text-success font-bold flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-success animate-pulse" /> ON (SMS &amp; Chat)
+              </span>
+            </div>
+            <div className="p-3 rounded-xl bg-surface-2/60 border border-border/60 flex items-center justify-between">
+              <span className="text-fg-muted">Call Guard:</span>
+              <span className="text-cyan font-bold">1600 Series Active</span>
+            </div>
+            <div className="p-3 rounded-xl bg-surface-2/60 border border-border/60 flex items-center justify-between">
+              <span className="text-fg-muted">Money Watch:</span>
+              <span className="text-brand font-bold">72h Debit Armed</span>
+            </div>
           </div>
+        </AwsSpotlightCard>
+
+        {/* ── The 3 Primary Action Doors ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1 w-full max-w-4xl">
+          {/* Door 1: Lost Money Emergency Action */}
+          <ButtonLink
+            href="/report"
+            variant="cyber-danger"
+            latencyMode="spring-pop"
+            sound="laser"
+            size="lg"
+            className="w-full flex items-center justify-between"
+          >
+            <div className="flex flex-col items-start text-left">
+              <span className="text-xs font-extrabold tracking-wider">I PAID A SCAMMER</span>
+              <span className="text-[11px] font-normal tracking-normal font-sans opacity-90">1930 Golden Hour report</span>
+            </div>
+            <ArrowRight className="w-4 h-4 ml-2 shrink-0 group-hover:translate-x-1 transition-transform" />
+          </ButtonLink>
+
+          {/* Door 2: Someone Wants Me to Pay */}
+          <ButtonLink
+            href="/verify"
+            variant="cyber-outline"
+            latencyMode="spring-pop"
+            sound="tick"
+            size="lg"
+            className="w-full flex items-center justify-between border-brand/50"
+          >
+            <div className="flex flex-col items-start text-left">
+              <span className="text-xs font-extrabold tracking-wider">SOMEONE WANTS ME TO PAY</span>
+              <span className="text-[11px] font-normal tracking-normal font-sans text-fg-muted">Fee brake &amp; truth check</span>
+            </div>
+            <ShieldCheck className="w-4 h-4 ml-2 text-brand shrink-0 group-hover:scale-110 transition-transform" />
+          </ButtonLink>
+
+          {/* Door 3: Check Something */}
+          <ButtonLink
+            href="/decode"
+            variant="secondary"
+            latencyMode="spring-pop"
+            sound="tick"
+            size="lg"
+            className="w-full flex items-center justify-between"
+          >
+            <div className="flex flex-col items-start text-left">
+              <span className="text-xs font-extrabold tracking-wider text-fg">CHECK SOMETHING</span>
+              <span className="text-[11px] font-normal tracking-normal font-sans text-fg-muted">Scan text, link or screenshot</span>
+            </div>
+            <Search className="w-4 h-4 ml-2 text-cyan shrink-0 group-hover:scale-110 transition-transform" />
+          </ButtonLink>
         </div>
 
         {/* ── Hairline Micro-Telemetry Status Strip ── */}
