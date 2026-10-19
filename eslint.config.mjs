@@ -38,6 +38,7 @@ const eslintConfig = defineConfig([
     "coverage/**",
     "playwright-report/**",
     "test-results/**",
+    "android/**",
   ]),
 ]);
 

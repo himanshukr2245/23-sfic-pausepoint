@@ -32,3 +32,9 @@ next-env.d.ts
 .DS_Store
 npm-debug.log*
 .vercel
+
+# capacitor generated assets
+android/app/src/main/assets/public/
+android/app/src/main/assets/capacitor.config.json
+android/app/build/
+android/.gradle/
