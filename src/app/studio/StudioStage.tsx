@@ -311,8 +311,8 @@ Generated on-device via PausePoint Sovereign Citizen Cognitive Firewall.`;
             <div className="flex items-center gap-2.5">
               <ShieldCheck className="w-5 h-5 text-cyan shrink-0" />
               <div>
-                <h4 className="text-sm font-bold text-fg">Court Certificate (BSA 2023)</h4>
-                <p className="text-[11px] text-fg-muted">Sec 63 Bharatiya Sakshya Adhiniyam certified hash & QR code.</p>
+                <h4 className="text-sm font-bold text-fg">Evidence Summary Certificate</h4>
+                <p className="text-[11px] text-fg-muted">Cryptographic SHA-256 integrity hash &amp; verification QR code.</p>
               </div>
             </div>
             <Button

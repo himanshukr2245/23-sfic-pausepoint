@@ -34,7 +34,7 @@ const DEFENSE_MODULES: DropdownItem[] = [
   { href: '/verify', label: 'Repeat Deposit Brake', icon: ScaleIcon, badge: 'Stop Loss', desc: 'Brake against extortionate withdrawal & bail fees' },
   { href: '/decode', label: 'Manipulation Decoder', icon: BookOpenIcon, badge: '10s Pause', desc: 'Decompile urgency traps, deceptive links & tactics' },
   { href: '/simulator', label: 'Attack Simulator Arena', icon: LightbulbIcon, badge: 'Live Drills', desc: 'Realistic drills for Digital Arrest, APKs & UPI fraud' },
-  { href: '/studio', label: 'Evidence Studio', icon: ScaleIcon, badge: 'BSA 2023', desc: 'Court-grade Section 63 cryptographic certificate & timeline' },
+  { href: '/studio', label: 'Evidence Studio', icon: ScaleIcon, badge: 'Evidence', desc: 'Evidence summary with SHA-256 fingerprints & chronological timeline' },
 ];
 
 export function Header() {

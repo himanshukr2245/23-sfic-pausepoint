@@ -89,10 +89,10 @@ export function JudgeCheatSheetModal({ isOpen, onClose }: JudgeCheatSheetModalPr
             <div className="rounded-xl border border-border/80 bg-surface-2/50 p-3.5 flex flex-col gap-1">
               <div className="flex items-center gap-2 text-xs font-bold text-brand">
                 <Scale className="w-4 h-4" />
-                <span>Section 63 BSA 2023 Evidence Hash</span>
+                <span>Evidence Summary &amp; File Fingerprints</span>
               </div>
               <p className="text-xs text-fg-muted">
-                Computes on-device SHA-256 electronic evidence hashes compliant with the Bharatiya Sakshya Adhiniyam, 2023.
+                Computes on-device SHA-256 electronic evidence hashes to verify the incident record has not been tampered with.
               </p>
             </div>
 

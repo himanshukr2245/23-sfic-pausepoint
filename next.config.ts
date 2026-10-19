@@ -13,6 +13,8 @@ const securityHeaders = [
   { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
 ];
 
+const isCap = process.env.CAP === '1' || process.env.BUILD_TARGET === 'android';
+
 const config: NextConfig = {
   // Next 16 keeps `next dev` output in .next/dev, separate from `next build` — no distDir split needed.
   poweredByHeader: false,
@@ -21,22 +23,36 @@ const config: NextConfig = {
   // Release id for /api/health and telemetry, inlined at build time. Workers Builds injects WORKERS_CI_COMMIT_SHA (OPS-5).
   env: { NEXT_PUBLIC_RELEASE: (process.env.WORKERS_CI_COMMIT_SHA ?? 'local').slice(0, 12) },
   images: { unoptimized: true },                                   // pre-sized images (PRF-3); no image optimizer on Workers
-  async headers() { return [{ source: '/:path*', headers: securityHeaders }]; },
-  async redirects() {
-    return [
-      { source: '/abt', destination: '/about', permanent: false },
-      { source: '/idle', destination: '/studio', permanent: false },
-      { source: '/ambient', destination: '/ai', permanent: false },
-      { source: '/minimal', destination: '/ai', permanent: false },
-      { source: '/ai_chat', destination: '/ai', permanent: false },
-      { source: '/ai-chat', destination: '/ai', permanent: false },
-      { source: '/showcase/ide', destination: '/studio', permanent: false },
-      { source: '/showcase/editorial', destination: '/editorial', permanent: false },
-      { source: '/showcase/conversational', destination: '/ai', permanent: false },
-    ];
-  },
+  pageExtensions: isCap
+    ? ['ts', 'tsx']
+    : ['web.ts', 'web.tsx', 'ts', 'tsx'],
+  ...(isCap
+    ? {
+        output: 'export',
+        trailingSlash: true,
+        distDir: 'out',
+      }
+    : {
+        async headers() { return [{ source: '/:path*', headers: securityHeaders }]; },
+        async redirects() {
+          return [
+            { source: '/abt', destination: '/about', permanent: false },
+            { source: '/idle', destination: '/studio', permanent: false },
+            { source: '/ambient', destination: '/ai', permanent: false },
+            { source: '/minimal', destination: '/ai', permanent: false },
+            { source: '/ai_chat', destination: '/ai', permanent: false },
+            { source: '/ai-chat', destination: '/ai', permanent: false },
+            { source: '/showcase/ide', destination: '/studio', permanent: false },
+            { source: '/showcase/editorial', destination: '/editorial', permanent: false },
+            { source: '/showcase/conversational', destination: '/ai', permanent: false },
+          ];
+        },
+      }),
 };
 
 export default config;
 
-initOpenNextCloudflareForDev();                                    // lets `next dev` use Cloudflare bindings
+if (!isCap) {
+  initOpenNextCloudflareForDev();                                  // lets `next dev` use Cloudflare bindings
+}
+

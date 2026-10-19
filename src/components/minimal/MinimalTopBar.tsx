@@ -44,10 +44,11 @@ export interface MinimalTopBarProps {
 
 const GO_TO_ROUTES = [
   { href: '/', label: 'Home Page', icon: HomeIcon },
-  { href: '/showcase', label: 'Showcase Directory', icon: PaletteIcon },
-  { href: '/studio', label: 'Studio Workspace', icon: LayoutGridIcon },
-  { href: '/ai', label: 'AI Chat', icon: BoltIcon },
-  { href: '/editorial', label: 'Editorial Typography', icon: BookOpenIcon },
+  { href: '/report', label: '1930 Emergency Report', icon: BoltIcon },
+  { href: '/verify', label: 'Repeat Deposit Brake', icon: PaletteIcon },
+  { href: '/decode', label: 'Manipulation Decoder', icon: BookOpenIcon },
+  { href: '/simulator', label: 'Simulator Arena', icon: LayoutGridIcon },
+  { href: '/studio', label: 'Evidence Studio', icon: LayoutGridIcon },
   { href: '/settings', label: 'Settings', icon: SettingsIcon },
   { href: '/about', label: 'About', icon: InfoIcon },
   { href: '/support', label: 'Support', icon: HeadphonesIcon },

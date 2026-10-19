@@ -51,7 +51,8 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<'/'>) {
-  const nonce = (await headers()).get('x-nonce') ?? undefined;
+  const isCap = process.env.CAP === '1' || process.env.BUILD_TARGET === 'android';
+  const nonce = isCap ? undefined : (await headers()).get('x-nonce') ?? undefined;
   return (
     <html lang="en" suppressHydrationWarning>
       <head>

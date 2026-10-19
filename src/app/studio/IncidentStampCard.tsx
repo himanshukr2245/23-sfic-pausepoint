@@ -131,7 +131,7 @@ export const IncidentStampCard: React.FC<IncidentStampCardProps> = ({ incident }
           <div>
             <div className="flex items-center gap-2">
               <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-brand/15 text-brand border border-brand/30 print:border-black print:text-black">
-                Section 63 · BSA 2023
+                Evidence Digest · SHA-256
               </span>
               <span className="text-[11px] font-mono text-fg-muted flex items-center gap-1">
                 <Lock className="w-3 h-3 text-success" />
@@ -139,7 +139,7 @@ export const IncidentStampCard: React.FC<IncidentStampCardProps> = ({ incident }
               </span>
             </div>
             <h3 className="text-base font-extrabold text-fg tracking-tight print:text-black">
-              Digital Evidence Certificate of Authenticity
+              Digital Evidence Summary &amp; Audit Trail
             </h3>
           </div>
         </div>
@@ -217,9 +217,9 @@ export const IncidentStampCard: React.FC<IncidentStampCardProps> = ({ incident }
         </div>
       </div>
 
-      {/* ── Section 63 Statutory Compliance Note ── */}
+      {/* ── Evidence Integrity Note ── */}
       <p className="text-[11px] text-fg-muted leading-relaxed border-t border-border pt-3 print:text-black print:border-black">
-        <strong>Statutory Notice (Section 63, BSA 2023):</strong> This electronic certificate describes the contemporaneous hashing of cyber financial fraud evidence generated on-device via Web Crypto. Admissible in judicial and police proceedings as proof that the underlying electronic record was not modified.
+        <strong>Evidence Integrity Notice:</strong> This summary details the contemporaneous cryptographic hashing of cyber financial fraud evidence generated on-device via Web Crypto SHA-256. Provides a verifiable fingerprint that the underlying incident record has not been altered.
       </p>
 
       {/* ── Actions Bar ── */}

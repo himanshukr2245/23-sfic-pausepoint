@@ -303,7 +303,7 @@ export const ReportFlow: React.FC = () => {
               <span>{t.clientPrivacyBadge}</span>
             </span>
             <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-cyan bg-cyan/10 border border-cyan/30 px-2.5 py-0.5 rounded-full">
-              <span>Section 63 BSA 2023 Compliant</span>
+              <span>Evidence Summary &amp; SHA-256</span>
             </span>
           </div>
 
