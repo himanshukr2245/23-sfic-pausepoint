@@ -215,12 +215,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       className={buttonClassName({ variant, latencyMode, size, font, className })}
       {...rest}
     >
-      {/* Specular Top Light Rail (Active during hover on scale-top and glass modes) */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-3 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-sheen/60 to-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-100 rounded-full"
-      />
-
       {/* Internal Radial Shimmer on Click */}
       {isPressed && (
         <span
@@ -270,7 +264,6 @@ export function ButtonLink({
       className={classes}
       {...rest}
     >
-      <span aria-hidden="true" className="pointer-events-none absolute inset-x-3 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-sheen/60 to-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-100 rounded-full" />
       {children}
     </Link>
   );

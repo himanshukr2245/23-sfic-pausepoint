@@ -284,7 +284,11 @@ export const ReportFlow: React.FC = () => {
   return (
     <div className="flex flex-col gap-8 pb-24">
       {/* ── 1. Executive Crisis Command Header ──────────────────────────── */}
-      <div className="rounded-2xl border border-border/80 bg-surface/95 p-6 shadow-sm backdrop-blur-xl flex flex-col md:flex-row md:items-center justify-between gap-5">
+      <AwsSpotlightCard
+        colorAccent="cyan"
+        sound={false}
+        className="flex flex-col md:flex-row md:items-center justify-between gap-5 p-6"
+      >
         <div className="flex flex-col gap-2 max-w-2xl">
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider bg-danger/10 text-danger border border-danger/30 shadow-xs">
@@ -353,7 +357,7 @@ export const ReportFlow: React.FC = () => {
             <span>{t.panicPurgeButton}</span>
           </Button>
         </div>
-      </div>
+      </AwsSpotlightCard>
 
       {/* Panic Purge Feedback Toast */}
       {purgeToast && (
