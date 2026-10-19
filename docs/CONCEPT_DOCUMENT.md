@@ -3,7 +3,7 @@
 **Theme 05:** Surakshit Bharat (Digital Public Infrastructure & Cyber Security)  
 **Track 1:** Product / Technology Solution · Level 3 Open (Colleges & Universities)  
 **Institution:** JAIN (Deemed-to-be University), Faculty of Engineering and Technology, Bengaluru  
-**Team DELTA:** Himanshu Kumar (Lead Architect), Ayush Kumar, Sachin Dwivedi, Kunal Tiwari  
+**Team DELTA:** Himanshu Kumar (Lead Architect), Naga Bhavitha, Deekshitha Chithaluru, Komal Verma, A Sachchit  
 **Live Production Web App:** https://pausepoint.hkr.dpdns.org/  
 **Source Code Repository:** https://github.com/himanshukr2245/23-sfic-pausepoint  
 **Date:** October 2026  

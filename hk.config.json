@@ -18,6 +18,7 @@
       "public/fonts/**",
       "public/og.png",
       "public/brand/og*",
+      "public/brand/original/**",
       "public/sw.js",
       "public/_headers"
     ],

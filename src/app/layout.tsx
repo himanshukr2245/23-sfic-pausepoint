@@ -22,6 +22,18 @@ export const metadata: Metadata = {
   title: { default: SITE.name, template: `%s · ${SITE.name}` },
   description: SITE.description,
   applicationName: SITE.name,
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
+      { url: '/brand/app-logo.png', sizes: '256x256', type: 'image/png' },
+      { url: '/brand/app-logo.webp', sizes: '256x256', type: 'image/webp' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
+  manifest: '/manifest.webmanifest',
   openGraph: { type: 'website', siteName: SITE.name, title: SITE.name, description: SITE.description, url: '/',
     images: [{ url: '/og.png', width: 1200, height: 630, alt: SITE.name }] },
   twitter: { card: 'summary_large_image', title: SITE.name, description: SITE.description, images: ['/og.png'] },

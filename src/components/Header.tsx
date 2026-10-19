@@ -95,21 +95,38 @@ export function Header() {
           aria-label="Main Navigation Bar"
           className="relative flex items-center justify-between gap-2 sm:gap-4 rounded-2xl border border-border/80 bg-surface/95 p-2 px-3 sm:px-5 shadow-md backdrop-blur-xl transition-all"
         >
-          {/* ── Brand Lead: AWS Console Style with Live Pulsing Indicator ── */}
+          {/* ── Brand Lead: Hand-Crafted Adaptive Sovereign Brand Logo ── */}
           <div className="flex items-center gap-3 shrink-0">
             <Link
               href="/"
               onClick={handleNavClick}
-              aria-label="Home"
-              className="flex items-center gap-2.5 pr-3 sm:pr-4 border-r border-border hover:opacity-90 transition-opacity cursor-pointer group"
+              aria-label="PausePoint Golden Hour Defence"
+              className="flex items-center gap-2 pr-3 sm:pr-4 border-r border-border hover:opacity-90 transition-opacity cursor-pointer group"
             >
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan opacity-75" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-cyan" />
-              </span>
-              <span className="text-sm font-extrabold tracking-tight text-fg group-hover:text-cyan transition-colors">
-                {SITE.shortName}
-              </span>
+              <div className="relative h-7 sm:h-8 flex items-center">
+                <picture className="hidden dark:block">
+                  <source srcSet="/brand/logo-dark.webp" type="image/webp" />
+                  <img
+                    src="/brand/logo-dark.png"
+                    alt={`${SITE.name} Golden Hour Defence`}
+                    width={150}
+                    height={50}
+                    className="h-7 sm:h-8 w-auto object-contain transition-all"
+                    loading="eager"
+                  />
+                </picture>
+                <picture className="block dark:hidden">
+                  <source srcSet="/brand/logo-light.webp" type="image/webp" />
+                  <img
+                    src="/brand/logo-light.png"
+                    alt={`${SITE.name} Golden Hour Defence`}
+                    width={150}
+                    height={50}
+                    className="h-7 sm:h-8 w-auto object-contain transition-all"
+                    loading="eager"
+                  />
+                </picture>
+              </div>
             </Link>
           </div>
 
