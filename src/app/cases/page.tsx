@@ -3,11 +3,12 @@
 // app/cases/page.tsx — PausePoint Shield Local Case Vault & Flagged History Screen.
 // Static export compatible wrapped in Suspense.
 // Manages local flagged messages, active cases, and individual deletion triggers with zero network access.
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { AwsSpotlightCard } from '@/components/ui/AwsSpotlightCard';
 import { Button, ButtonLink } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { playHapticTick, unlockAudio } from '@/lib/audio/synthesizer';
+import { shieldBridge, type CaseSummary } from '@/lib/native/shield';
 import {
   Trash2,
   ShieldAlert,
@@ -18,50 +19,20 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 
-interface CaseItem {
-  id: string;
-  source: 'sms' | 'whatsapp' | 'telegram' | 'manual';
-  sender: string;
-  preview: string;
-  playbook: string;
-  timestamp: string;
-  status: 'flagged' | 'reported' | 'dismissed';
-}
-
-const INITIAL_CASES: CaseItem[] = [
-  {
-    id: 'case-8401',
-    source: 'whatsapp',
-    sender: '+91 98765 43210',
-    preview: 'Your task commission Rs 8,400 is ready. Pay Rs 5,000 to unlock withdrawal immediately.',
-    playbook: 'Task / Part-Time Job Scam',
-    timestamp: 'Just now',
-    status: 'flagged',
-  },
-  {
-    id: 'case-8399',
-    source: 'sms',
-    sender: '+91 98123 45678',
-    preview: 'Dear consumer your electricity will be disconnected tonight at 9.30 pm. Contact officer immediately.',
-    playbook: 'Electricity Disconnection Scam',
-    timestamp: '2 hours ago',
-    status: 'flagged',
-  },
-  {
-    id: 'case-8350',
-    source: 'sms',
-    sender: '+91 99887 76655',
-    preview: 'SBI alert: Account blocked due to missing KYC. Update immediately on http://sbi-kyc.top',
-    playbook: 'Bank / SIM KYC Block Trap',
-    timestamp: 'Yesterday',
-    status: 'reported',
-  },
-];
-
 function CasesContent() {
-  const [cases, setCases] = useState<CaseItem[]>(INITIAL_CASES);
+  const [cases, setCases] = useState<CaseSummary[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    shieldBridge.listCases().then((res) => {
+      if (mounted) setCases(res);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   function handleDeleteItem(id: string) {
     unlockAudio();
@@ -70,9 +41,10 @@ function CasesContent() {
     showToast(`Case ${id} deleted from device`);
   }
 
-  function handleClearAll() {
+  async function handleClearAll() {
     unlockAudio();
     playHapticTick();
+    await shieldBridge.deleteEverything();
     setCases([]);
     showToast('All case records deleted from local database');
   }
@@ -157,7 +129,7 @@ function CasesContent() {
                     </span>
                     <span className="text-[11px] font-mono text-fg-muted flex items-center gap-1 ml-auto sm:ml-0">
                       <Clock className="w-3 h-3" />
-                      {item.timestamp}
+                      {new Date(item.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
                   <p className="text-xs text-fg-muted font-sans line-clamp-2 leading-relaxed">
