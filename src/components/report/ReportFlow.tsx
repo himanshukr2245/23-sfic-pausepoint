@@ -7,6 +7,7 @@
 // Master Balanced-Minimalist Super-Fast Crisis Workflow with Golden Hour Telemetry & Radial Spotlight Physics.
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import Link from 'next/link';
 import {
   Upload,
   Clock,
@@ -18,6 +19,8 @@ import {
   Sparkles,
   ShieldCheck,
   Check,
+  ArrowLeft,
+  Landmark,
 } from 'lucide-react';
 import {
   type Txn,
@@ -82,6 +85,14 @@ T2610181530123456789
 Debited from
 XXXXXXXX4321
 UTR: 612345678901`;
+
+const BANK_HOTLINES = [
+  { bank: 'SBI', number: '1800111109' },
+  { bank: 'HDFC', number: '18002586161' },
+  { bank: 'ICICI', number: '18001080' },
+  { bank: 'Axis', number: '18604195555' },
+  { bank: 'PNB', number: '18001802222' },
+];
 
 export const ReportFlow: React.FC = () => {
   const { t } = useTranslation();
@@ -282,10 +293,28 @@ export const ReportFlow: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-8 pb-24">
+    <div className="flex flex-col gap-6 pb-24">
+      {/* ── Top Bar Navigation ── */}
+      <div className="flex items-center justify-between gap-4">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-xs font-mono font-bold text-fg-muted hover:text-fg transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>BACK TO HOME</span>
+        </Link>
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-success/10 border border-success/30 text-[11px] font-mono font-bold text-success">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
+          </span>
+          <span>100% OFFLINE · ON-DEVICE PRIVACY</span>
+        </div>
+      </div>
+
       {/* ── 1. Executive Crisis Command Header ──────────────────────────── */}
       <AwsSpotlightCard
-        colorAccent="cyan"
+        colorAccent="rose"
         sound={false}
         className="flex flex-col md:flex-row md:items-center justify-between gap-5 p-6"
       >
@@ -303,7 +332,7 @@ export const ReportFlow: React.FC = () => {
               <span>{t.clientPrivacyBadge}</span>
             </span>
             <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-cyan bg-cyan/10 border border-cyan/30 px-2.5 py-0.5 rounded-full">
-              <span>Evidence Summary &amp; SHA-256</span>
+              <span>MHA 1930 &amp; CFCFRMS Sentry</span>
             </span>
           </div>
 
@@ -351,13 +380,39 @@ export const ReportFlow: React.FC = () => {
             sound="thud"
             onClick={handlePanicPurge}
             title={t.panicPurgeTitle}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 cursor-pointer"
           >
             <Trash2 className="w-4 h-4 shrink-0" />
             <span>{t.panicPurgeButton}</span>
           </Button>
         </div>
       </AwsSpotlightCard>
+
+      {/* ── One-Tap Bank Fraud Hotlines Bar (Direct Dial) ── */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-surface border border-border flex flex-col gap-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-fg uppercase">
+            <Landmark className="w-4 h-4 text-cyan" />
+            <span>Direct Bank Cyber-Fraud Freeze Hotlines</span>
+          </div>
+          <span className="text-[11px] font-mono text-fg-muted">Toll-Free 24/7</span>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5">
+          {BANK_HOTLINES.map((b) => (
+            <a
+              key={b.bank}
+              href={`tel:${b.number}`}
+              className="p-2.5 rounded-xl bg-surface-2 border border-border/80 hover:border-cyan/50 hover:bg-cyan/5 transition-colors flex flex-col gap-0.5 group"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-fg group-hover:text-cyan">{b.bank}</span>
+                <Phone className="w-3 h-3 text-fg-muted group-hover:text-cyan" />
+              </div>
+              <span className="text-[11px] font-mono text-fg-muted group-hover:text-fg">{b.number}</span>
+            </a>
+          ))}
+        </div>
+      </div>
 
       {/* Panic Purge Feedback Toast */}
       {purgeToast && (

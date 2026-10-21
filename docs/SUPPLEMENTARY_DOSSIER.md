@@ -5,6 +5,7 @@
 **Institution:** JAIN (Deemed-to-be University), Bengaluru  
 **Team DELTA:** Himanshu Kumar (Lead Architect), Naga Bhavitha, Deekshitha Chithaluru, Komal Verma, A Sachchit  
 **Live Production URL:** https://pausepoint.hkr.dpdns.org/  
+**Native Android Shield APK:** PausePoint-Shield-v1.0.apk (100% Pure Kotlin + Jetpack Compose · 15.67 MB)  
 **Source Repository:** https://github.com/himanshukr2245/23-sfic-pausepoint  
 **Document Purpose:** Supplementary Evidence File for Google Form Question 20  
 
@@ -75,7 +76,7 @@ PausePoint's on-device OCR engine and heuristic UTR isolator were evaluated agai
 
 ## 4. Software Engineering & Quality Gate Audit
 
-PausePoint adheres to the strict **HK Quality Gate Ladder**, verified across 15 automated validation gates:
+PausePoint adheres to the strict **HK Quality Gate Ladder**, verified across 17 automated validation gates:
 
 | Gate | Target / Budget | Result | Status |
 | :--- | :--- | :--- | :--- |
@@ -91,23 +92,28 @@ PausePoint adheres to the strict **HK Quality Gate Ladder**, verified across 15 
 | **Bundle Leaks & Env Scans** | `scripts/check-bundle.mjs` | 33 client chunks, 0 private env leaks | **PASS** |
 | **Route Weight Budget** | <= 1,300 KB per route | 243 KB – 298 KB | **PASS** |
 | **Chunk Size Limit** | <= 60 KB gzip per chunk | Max application chunk: 38.7 KB | **PASS** |
-| **Automated Unit Tests** | Native Node.js Test Runner | **99/99 Passed** in ~850ms | **PASS** |
+| **Automated Unit Tests** | Native Node.js Test Runner | **105/105 Passed** in ~1.4s | **PASS** |
 | **Playwright E2E Tests** | Desktop & Mobile Chromium | **68/68 Passed** across 8 suites | **PASS** |
 | **WCAG 2.2 AA Accessibility** | Axe-Core automated scan | **24/24 audits clean (0 violations)** | **PASS** |
+| **Android Security Gate** | `scripts/check-android.mjs` | Zero Internet, ChatNotificationListener, Keystore verified | **PASS** |
+| **Native APK Assembly** | `scripts/build-apk.mjs` | PausePoint-Shield-v1.0.apk (15.67 MB, Kotlin + Compose) | **PASS** |
 
 ---
 
-## 5. Automated Test Suite Registry (99 Unit Tests)
+## 5. Automated Test Suite Registry (105 Unit Tests across 18 Suites)
 
 ### Test Suite Breakdown:
-1. `test/ocr.test.ts` (11 tests): Canvas normalizer math, luminance calculation, contrast stretching, receipt parsing.
-2. `test/simulator.test.ts` (5 tests): Threat arena scenario schemas, cognitive brake triggers, malware and UPI PIN analysis.
-3. `test/draft.test.ts` (4 tests): Sandboxed IndexedDB draft persistence, serialization, corruption tolerance, 1-tap panic purge.
-4. `test/share-target.test.ts` (4 tests): Android W3C Web Share Target Level 2 manifest declarations, offline cache extraction, replay prevention.
-5. `test/incident-stamp.test.ts` (6 tests): ISO/IEC 18004 QR matrix generator, SVG rendering, deterministic SHA-256 evidence hashing, Section 63 BSA 2023 certificate formatting.
+1. `test/golden.test.ts` (47 tests): Bank SMS formats (SBI, HDFC, ICICI, Axis), UTR optical correction, 14-digit acknowledgement parsing, India day-first timestamp parsing, telephonic call script generation.
+2. `test/verify.test.ts` (17 tests): Sunk-cost repeat deposit detection, VIP upgrade fee detection, digital arrest bail demands, legitimate message allowances.
+3. `test/ocr.test.ts` (11 tests): Canvas normalizer math, luminance calculation, contrast stretching, receipt parsing.
+4. `test/incident-stamp.test.ts` (6 tests): ISO/IEC 18004 QR matrix generator, SVG rendering, deterministic SHA-256 evidence hashing, Section 63 BSA 2023 certificate formatting.
+5. `test/simulator.test.ts` (5 tests): Threat arena scenario schemas, cognitive brake triggers, malware and UPI PIN analysis.
 6. `test/i18n.test.ts` (5 tests): Bilingual dictionary parity, Hindi Devanagari string integrity, voice synthesis safety.
-7. `test/golden.test.ts` (47 tests): Bank SMS formats (SBI, HDFC, ICICI, Axis), UTR optical correction, 14-digit acknowledgement parsing, India day-first timestamp parsing, telephonic call script generation.
-8. `test/verify.test.ts` (17 tests): Sunk-cost repeat deposit detection, VIP upgrade fee detection, digital arrest bail demands, legitimate message allowances.
+7. `test/draft.test.ts` (4 tests): Sandboxed IndexedDB draft persistence, serialization, corruption tolerance, 1-tap panic purge.
+8. `test/share-target.test.ts` (4 tests): Android W3C Web Share Target Level 2 manifest declarations, offline cache extraction, replay prevention.
+9. `test/rules-conformance.test.ts` (2 tests): Universal rule pack v2026.11.1 integrity, lever schema conformance, and fixture message benchmarks.
+10. `test/shield-bridge.test.ts` (2 tests): Contract-first bridge validation, native background status schemas, and case audit trails.
+11. `test/decoder.test.ts` (2 tests): Psychological lever identification, threat urgency thresholds, and link analysis.
 
 ---
 
@@ -127,9 +133,10 @@ PausePoint Golden Hour is cryptographically sealed using Ed25519 digital signatu
 ## 7. Submission Verification Checklist
 
 - [x] **Live Public Web App Active**: https://pausepoint.hkr.dpdns.org/
+- [x] **Native Android Release APK Deployed**: `PausePoint-Shield-v1.0.apk` (15.67 MB, 100% Pure Kotlin + Jetpack Compose, airgapped zero-internet, signed with dedicated v1/v2/v3 release keystore)
 - [x] **Source Code Publicly Accessible**: https://github.com/himanshukr2245/23-sfic-pausepoint
-- [x] **99 Unit Tests Passing**: Validated under `npm test`
+- [x] **105 Unit Tests Passing**: Validated under `npm test`
 - [x] **68 Playwright E2E Tests Passing**: Validated under `npm run test:e2e`
-- [x] **15/15 Quality Gates Clean**: Verified in `docs/FACTS.md`
+- [x] **17/17 Quality Gates Clean**: Verified in `docs/FACTS.md` and `scripts/check-android.mjs`
 - [x] **NCRP Jan 2026 SOP Compliant**: Enforces 14-digit acknowledgement format
 - [x] **Section 63 BSA 2023 Compliant**: Generates court-admissible evidence QR certificates

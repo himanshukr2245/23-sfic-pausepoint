@@ -19,7 +19,12 @@ class ChatNotificationListener : NotificationListenerService() {
         "com.whatsapp",
         "com.whatsapp.w4b",
         "org.telegram.messenger",
-        "org.telegram.plus"
+        "org.telegram.plus",
+        "com.google.android.apps.messaging",
+        "com.samsung.android.messaging",
+        "com.miui.sms",
+        "com.android.mms",
+        "com.truecaller"
     )
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {

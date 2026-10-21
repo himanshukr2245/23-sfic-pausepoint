@@ -24,6 +24,7 @@ import {
   Search,
   ShieldAlert,
   LayoutGrid,
+  PhoneCall,
 } from 'lucide-react';
 
 interface DefenseModule {
@@ -41,10 +42,10 @@ const DEFENSE_MODULES: DefenseModule[] = [
   {
     href: '/report',
     title: '1930 Emergency Report',
-    badge: 'GOLDEN HOUR TRIAGE',
-    metric: '<60s P99',
+    badge: 'GOLDEN HOUR HELP',
+    metric: '<60s Triage',
     description:
-      'Instant on-device OCR payment receipt extraction, 1-tap telephonic script, and automated NCRP portal draft before bank funds disperse.',
+      'Instant payment receipt extraction, 1-tap phone script, and automated cyber fraud portal draft before bank funds disperse.',
     colorAccent: 'rose',
     icon: Zap,
     actionText: 'Open 1930 Triage',
@@ -52,57 +53,57 @@ const DEFENSE_MODULES: DefenseModule[] = [
   {
     href: '/verify',
     title: 'Before You Pay Again',
-    badge: 'STOP LOSS BRAKE',
-    metric: 'Cognitive Brake',
+    badge: 'STOP-LOSS BRAKE',
+    metric: 'Truth Check',
     description:
-      'Halts compounding financial losses from fake task withdrawals, crypto release taxes, and digital arrest bail demands with 3 Immutable Truth Cards.',
+      'Stops compounding financial losses from fake task withdrawals, investment traps, and digital arrest bail demands.',
     colorAccent: 'amber',
     icon: ShieldAlert,
     actionText: 'Test Verification Brake',
   },
   {
-    href: '/decode',
-    title: 'Manipulation Decoder',
-    badge: '10S COGNITIVE PAUSE',
-    metric: '12 Tactics & Links',
+    href: '/xray',
+    title: 'X-Ray Scam Decoder',
+    badge: 'INSTANT SCANNER',
+    metric: '0ms On-Device',
     description:
-      'Decompiles fear, urgency, and fake authority levers from WhatsApp messages and SMS alerts. Includes forensic link X-ray and immunity drills.',
+      'Inspects suspicious WhatsApp messages, fake police threats, and APK download links directly in your browser.',
     colorAccent: 'cyan',
     icon: Search,
-    actionText: 'Launch Decoder',
+    actionText: 'Launch X-Ray',
   },
   {
     href: '/simulator',
     title: 'Attack Simulator Arena',
-    badge: 'INTERACTIVE DRILLS',
-    metric: '4 Threat Scenarios',
+    badge: 'INTERACTIVE PRACTICE',
+    metric: '4 Common Scams',
     description:
-      'Experience live interactive drills for Digital Arrest video calls, Electricity APKs, and UPI PIN scams to watch PausePoint disarm each vector.',
+      'Experience realistic simulations of Digital Arrest calls and UPI PIN traps so you and your family learn how to spot them.',
     colorAccent: 'indigo',
     icon: Video,
     actionText: 'Enter Simulator Arena',
   },
   {
     href: '/studio',
-    title: 'Electronic Evidence Studio',
-    badge: 'BSA 2023 COMPLIANT',
-    metric: 'SHA-256 Digest',
+    title: 'Evidence Certificate Studio',
+    badge: 'POLICE & COURT READY',
+    metric: 'BSA 2023 Valid',
     description:
-      'Generates tamper-evident cryptographic incident certificates and printable statutory evidence dockets with verifiable QR matrices for court proceedings.',
+      'Generates official digital evidence dockets with verifiable QR codes for police investigations under Section 63 BSA 2023.',
     colorAccent: 'emerald',
     icon: Scale,
     actionText: 'Open Evidence Studio',
   },
   {
     href: '/about',
-    title: 'Surakshit Bharat Specs',
-    badge: 'SFIC 2026 LEVEL 3',
-    metric: 'IISc Bengaluru',
+    title: 'Security & Privacy Specs',
+    badge: '100% PRIVATE',
+    metric: 'Zero Cloud',
     description:
-      'Review technical architecture, JAIN University Team DELTA whitepaper, and National Cybercrime Reporting Portal Level 3 compliance specifications.',
+      'Learn how PausePoint permanently protects your personal data with zero external cloud tracking or network leakage.',
     colorAccent: 'neutral',
     icon: LayoutGrid,
-    actionText: 'Read System Specs',
+    actionText: 'Read Security Specs',
   },
 ];
 
@@ -194,14 +195,12 @@ export default function Home() {
       {/* ── 1. Hero Section: Sovereign Command Capsule ─────────────────────── */}
       <section className="flex flex-col items-start gap-6 pt-2">
         {/* Precision Status Capsule */}
-        <div className="inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-fg-muted shadow-xs backdrop-blur-md">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan opacity-75" />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-cyan" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-mono font-bold text-success shadow-xs backdrop-blur-md">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
           </span>
-          <span className="text-fg font-bold">SFIC 2026 · Theme 05 Surakshit Bharat</span>
-          <span className="opacity-40">·</span>
-          <span className="text-fg-muted font-mono">Level 3 Open · IISc Bengaluru</span>
+          <span>100% OFFLINE · NO INTERNET NEEDED</span>
         </div>
 
         {/* Title & Core Proposition */}
@@ -209,11 +208,11 @@ export default function Home() {
           <h1 className="text-4xl font-extrabold tracking-tight text-fg sm:text-6xl sm:leading-[1.1]">
             PausePoint
             <span className="block text-2xl sm:text-4xl text-brand font-bold mt-1">
-              Golden Hour Defense Engine
+              Check Before You Get Scammed
             </span>
           </h1>
           <p className="text-base sm:text-xl text-fg-muted leading-relaxed font-sans max-w-3xl">
-            The sovereign citizen cognitive firewall. From panic to a complete 1930 helpline report in under 60 seconds, on your own device, completely offline.
+            A free, completely private on-device tool to check suspicious messages, disarm fake police calls, and report directly to the 1930 helpline in under 60 seconds.
           </p>
         </div>
 
@@ -230,14 +229,14 @@ export default function Home() {
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-mono font-bold text-success uppercase tracking-wider">
-                    PAUSEPOINT SHIELD ACTIVE
+                    PROTECTION ACTIVE
                   </span>
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-surface-2 text-fg-muted border border-border">
                     100% On-Device · Zero Cloud
                   </span>
                 </div>
                 <h3 className="text-sm sm:text-base font-extrabold text-fg">
-                  Yes, your phone is protected by the on-device scam firewall.
+                  Your device is protected against fake police calls, task scams, and payment traps.
                 </h3>
               </div>
             </div>
@@ -273,18 +272,69 @@ export default function Home() {
             </div>
             <div className="p-3 rounded-xl bg-surface-2/60 border border-border/60 flex items-center justify-between">
               <span className="text-fg-muted">Call Guard:</span>
-              <span className="text-cyan font-bold">1600 Series Active</span>
+              <span className="text-cyan font-bold">Fake Call Screener Active</span>
             </div>
             <div className="p-3 rounded-xl bg-surface-2/60 border border-border/60 flex items-center justify-between">
               <span className="text-fg-muted">Money Watch:</span>
-              <span className="text-brand font-bold">72h Debit Armed</span>
+              <span className="text-brand font-bold">Debit Alert Armed</span>
             </div>
           </div>
         </AwsSpotlightCard>
 
-        {/* ── The 3 Primary Action Doors ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1 w-full max-w-4xl">
-          {/* Door 1: Lost Money Emergency Action */}
+        {/* ── The 4 Situational Action Doors (LAW-13 Master Parity) ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-1 w-full max-w-5xl">
+          {/* Door 1: Check Message/Link */}
+          <ButtonLink
+            href="/xray"
+            variant="secondary"
+            latencyMode="spring-pop"
+            sound="tick"
+            size="lg"
+            className="w-full flex items-center justify-between border-cyan/40 hover:border-cyan"
+          >
+            <div className="flex flex-col items-start text-left">
+              <span className="text-[10px] font-mono font-bold text-cyan uppercase tracking-wider">SCANNER</span>
+              <span className="text-xs font-extrabold text-fg">CHECK A MESSAGE / LINK</span>
+              <span className="text-[11px] font-normal font-sans text-fg-muted">Scan SMS, WhatsApp or APK</span>
+            </div>
+            <Search className="w-4 h-4 ml-2 text-cyan shrink-0 group-hover:scale-110 transition-transform" />
+          </ButtonLink>
+
+          {/* Door 2: Scammer Called Me */}
+          <ButtonLink
+            href="/simulator?scam=digital-arrest"
+            variant="cyber-outline"
+            latencyMode="spring-pop"
+            sound="tick"
+            size="lg"
+            className="w-full flex items-center justify-between border-amber/40 hover:border-amber"
+          >
+            <div className="flex flex-col items-start text-left">
+              <span className="text-[10px] font-mono font-bold text-amber uppercase tracking-wider">CALL DEFENSE</span>
+              <span className="text-xs font-extrabold text-fg">SCAMMER CALLED ME</span>
+              <span className="text-[11px] font-normal font-sans text-fg-muted">Fake police &amp; Digital Arrest</span>
+            </div>
+            <PhoneCall className="w-4 h-4 ml-2 text-amber shrink-0 group-hover:scale-110 transition-transform" />
+          </ButtonLink>
+
+          {/* Door 3: Someone Wants Me to Pay */}
+          <ButtonLink
+            href="/verify"
+            variant="cyber-outline"
+            latencyMode="spring-pop"
+            sound="tick"
+            size="lg"
+            className="w-full flex items-center justify-between border-brand/50 hover:border-brand"
+          >
+            <div className="flex flex-col items-start text-left">
+              <span className="text-[10px] font-mono font-bold text-brand uppercase tracking-wider">PAYMENT BRAKE</span>
+              <span className="text-xs font-extrabold text-fg">TOLD TO SEND MONEY</span>
+              <span className="text-[11px] font-normal font-sans text-fg-muted">Task deposit &amp; UPI PIN trap</span>
+            </div>
+            <ShieldCheck className="w-4 h-4 ml-2 text-brand shrink-0 group-hover:scale-110 transition-transform" />
+          </ButtonLink>
+
+          {/* Door 4: Lost Money Emergency Action */}
           <ButtonLink
             href="/report"
             variant="cyber-danger"
@@ -294,42 +344,11 @@ export default function Home() {
             className="w-full flex items-center justify-between"
           >
             <div className="flex flex-col items-start text-left">
-              <span className="text-xs font-extrabold tracking-wider">I PAID A SCAMMER</span>
-              <span className="text-[11px] font-normal tracking-normal font-sans opacity-90">1930 Golden Hour report</span>
+              <span className="text-[10px] font-mono font-bold text-danger-fg/80 uppercase tracking-wider">EMERGENCY</span>
+              <span className="text-xs font-extrabold text-danger-fg">I PAID MONEY</span>
+              <span className="text-[11px] font-normal font-sans text-danger-fg/90">Call 1930 &amp; freeze bank</span>
             </div>
             <ArrowRight className="w-4 h-4 ml-2 shrink-0 group-hover:translate-x-1 transition-transform" />
-          </ButtonLink>
-
-          {/* Door 2: Someone Wants Me to Pay */}
-          <ButtonLink
-            href="/verify"
-            variant="cyber-outline"
-            latencyMode="spring-pop"
-            sound="tick"
-            size="lg"
-            className="w-full flex items-center justify-between border-brand/50"
-          >
-            <div className="flex flex-col items-start text-left">
-              <span className="text-xs font-extrabold tracking-wider">SOMEONE WANTS ME TO PAY</span>
-              <span className="text-[11px] font-normal tracking-normal font-sans text-fg-muted">Fee brake &amp; truth check</span>
-            </div>
-            <ShieldCheck className="w-4 h-4 ml-2 text-brand shrink-0 group-hover:scale-110 transition-transform" />
-          </ButtonLink>
-
-          {/* Door 3: Check Something */}
-          <ButtonLink
-            href="/decode"
-            variant="secondary"
-            latencyMode="spring-pop"
-            sound="tick"
-            size="lg"
-            className="w-full flex items-center justify-between"
-          >
-            <div className="flex flex-col items-start text-left">
-              <span className="text-xs font-extrabold tracking-wider text-fg">CHECK SOMETHING</span>
-              <span className="text-[11px] font-normal tracking-normal font-sans text-fg-muted">Scan text, link or screenshot</span>
-            </div>
-            <Search className="w-4 h-4 ml-2 text-cyan shrink-0 group-hover:scale-110 transition-transform" />
           </ButtonLink>
         </div>
 

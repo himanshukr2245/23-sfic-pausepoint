@@ -5,6 +5,7 @@
 **Institution:** JAIN (Deemed-to-be University), Faculty of Engineering and Technology, Bengaluru  
 **Team DELTA:** Himanshu Kumar (Lead Architect), Naga Bhavitha, Deekshitha Chithaluru, Komal Verma, A Sachchit  
 **Live Production Web App:** https://pausepoint.hkr.dpdns.org/  
+**Native Android Shield:** PausePoint-Shield-v1.0.apk (100% Pure Kotlin + Jetpack Compose)  
 **Source Code Repository:** https://github.com/himanshukr2245/23-sfic-pausepoint  
 **Date:** October 2026  
 
@@ -18,14 +19,17 @@ Under the National Cybercrime Reporting Portal (NCRP) framework, inter-bank fund
 
 However, victims in the immediate aftermath of an attack suffer acute cognitive paralysis. In our campus research across 154 students and faculty families at JAIN (Deemed-to-be University), **71.4% did not know what a 12-digit Bank Unique Transaction Reference (UTR) was**, frequently trying to report irrelevant app-internal transaction IDs that police operators cannot use to trace inter-bank settlements. Furthermore, **83.3% of victims faced compound extortion demands** ("withdrawal taxes" or "clearance deposits") that multiplied their financial ruin.
 
-**PausePoint Golden Hour** is an offline-first, sovereign citizen cognitive firewall engineered to take a panicking victim from shock to a structured, report-ready 1930 submission in under 60 seconds. Operating 100% client-side inside the mobile browser with zero cloud data transmission, PausePoint combines:
+**PausePoint Golden Hour** is an offline-first, sovereign citizen cognitive firewall engineered to take a panicking victim from shock to a structured, report-ready 1930 submission in under 60 seconds. Operating client-side with zero cloud data transmission, PausePoint combines:
 1. **On-Device OCR & Bank UTR Isolation** (slashing Time-to-Report-Ready from 11m 45s to 48.2s).
 2. **"Before You Pay Again" Repeat-Deposit Cognitive Brake** (halting secondary extortion with immutable statutory truths).
 3. **Psychological Manipulation Decoder** (disarming urgency, fear, fake authority, and link fraud).
 4. **Section 63 BSA 2023 Forensic Evidence Studio** (generating tamper-evident cryptographic SHA-256 evidence digests and offline court QR certificates).
 5. **Universal Accessibility** (Senior Citizen Mode, bilingual English/Hindi, and voice readouts).
 
-PausePoint is not a theoretical proposal. It is a **fully working, production-hardened Progressive Web App (PWA)** deployed live on Cloudflare edge infrastructure at `https://pausepoint.hkr.dpdns.org/`, backed by 99 automated unit tests, 68 Playwright end-to-end tests, a 40-receipt real UPI testing corpus, and an empirical N=154 university field study.
+PausePoint is not a theoretical proposal. It is a **dual-platform sovereign defense system**:
+* **Public Web / Edge Deployment**: A production-hardened Progressive Web App (PWA) deployed live on Cloudflare edge infrastructure at `https://pausepoint.hkr.dpdns.org/` for zero-install instant crisis access via any mobile browser or emergency QR code.
+* **Android Native Security App**: A **100% Pure Kotlin + Jetpack Compose** native Android application (`PausePoint-Shield-v1.0.apk`) modeled after the Xiaomi / MIUI Security Center paradigm, providing real-time background scam interception (`ChatNotificationListener`) and incoming call screening (`CallGuardService`) with zero high-risk telephony permissions.
+Backed by 105 automated unit tests across 18 test suites, 68 Playwright end-to-end tests, a 40-receipt real UPI testing corpus, and an empirical N=154 university field study.
 
 ---
 
@@ -114,10 +118,15 @@ PausePoint is architected around the principle of **Client-Side Digital Sovereig
 * **Deterministic Hashing**: Computes in-browser Web Crypto SHA-256 hashes of the original receipt screenshot, timestamp, and parsed fields.
 * **Zero-Dependency Court QR Stamp**: Renders an offline ISO/IEC 18004 QR code matrix with Galois Field GF(256) Reed-Solomon error correction directly into SVG, producing a court-admissible certificate that officers or judges can verify without third-party proprietary software.
 
-#### Module 5: Sovereign Privacy & Inclusive Design
+#### Module 5: Dual-Platform Sovereignty & Native Android Architecture
 * **100% Offline PWA Shell**: Registered Service Worker caches all core routes and WebAssembly assets, enabling full crisis reporting in airplane mode or zero-connectivity zones.
-* **Senior Citizen Mode**: 22px high-definition typography, 64px touch target floors, and high-contrast calm color palettes for elderly citizens.
-* **Bilingual Localisation**: Complete Hindi (`hi-IN`) and English interface with calm, rate-controlled Web Speech API voice playback.
+* **100% Pure Kotlin + Jetpack Compose Android Application**:
+  - Replaces WebViews entirely with pure native Jetpack Compose UI (Material 3).
+  - Modeled after the Xiaomi / MIUI Security Center: dynamic Canvas animated Circular Security Dial (0–100 score), 2x3 tactile tool grid (Message Shield, Call Guard, Money Watch, Scam Decoder, 1930 Helpline Kit, Shield Vault), emergency 1930 action card, and defense toolbox row.
+  - Native background protection: `ChatNotificationListener` (`NotificationListenerService`) monitors incoming SMS and chat notifications (Google Messages, Samsung Messages, Xiaomi SMS, WhatsApp, Telegram) for scam patterns without high-risk telephony permissions (`RECEIVE_SMS`).
+  - Google Play Protect Friendly: Signed with custom RSA 2048-bit release keystore enabling APK Signature Scheme v1, v2, and v3.
+  - Airgapped Zero-Internet Policy: Enforces `<uses-permission android:name="android.permission.INTERNET" tools:node="remove" />`.
+* **Universal Accessibility**: Senior Citizen Mode (22px typography, 64px touch target floors) and bilingual English/Hindi interface with pace-controlled voice narration.
 
 ---
 
@@ -128,7 +137,7 @@ PausePoint is architected around the principle of **Client-Side Digital Sovereig
 | **Campus Field Survey** | N = 154 (Students, Faculty, Senior Citizens at JAIN University) | • **78.6%** had received task scam messages in the last 90 days.<br>• **89.1%** experienced severe cognitive paralysis during cyber threats.<br>• **71.4%** did not know what a bank UTR was.<br>• **83.3%** of past victims faced secondary extortion demands. |
 | **Paired Timed Reporting Drill** | 20 Undergraduate Students (10 Control vs 10 PausePoint) | • Control condition: Mean **11 minutes 45 seconds** to produce a 1930 script.<br>• PausePoint condition: Mean **48.2 seconds** (**-93.1% reduction**).<br>• 14/20 control participants reported wrong internal IDs; PausePoint achieved **100% UTR precision**. |
 | **Real UPI Testing Corpus** | 40 Real & Synthetic Receipts (Google Pay, PhonePe, Paytm, BHIM) | • **100% 12-digit UTR recovery** across all payment apps.<br>• Successfully corrected optical noise (e.g., `%` for `Rs`, `I` for `1`, `O` for `0`). |
-| **Automated Unit Test Suite** | 99 Tests across 18 Test Suites (`npm test`) | • 100% passing in ~850ms, validating canvas math, OCR heuristics, draft persistence, QR math, and bilingual dictionary parity. |
+| **Automated Unit Test Suite** | 105 Tests across 18 Test Suites (`npm test`) | • 100% passing in ~1.4s, validating canvas math, OCR heuristics, draft persistence, QR math, bilingual dictionary parity, rule pack schemas, and native shield bridge contracts. |
 | **Playwright E2E Test Suite** | 68 Automated End-to-End Tests (`playwright test`) | • 100% passing across Desktop and Mobile Chromium viewports.<br>• 24/24 WCAG 2.2 AA accessibility audits passed with zero critical/serious violations. |
 | **Proven Team Pedigree** | Human Firewall 2026 Hackathon | • Core team won **3rd Prize** for the prototype psychological manipulation engine. |
 
@@ -151,7 +160,7 @@ PausePoint is architected around the principle of **Client-Side Digital Sovereig
 ## 6. Implementation & Rollout Roadmap
 
 * **Phase 1: University Pilot (Months 1–2)**:
-  Deploy PausePoint emergency QR standees across JAIN University campuses (FET, CMS, SGS campuses), integrate into mandatory first-year student orientation, and distribute via student union WhatsApp safety networks.
+  Deploy PausePoint emergency QR standees across JAIN University campuses (FET, CMS, SGS campuses), integrate into mandatory first-year student orientation, and distribute the native Android Shield APK (`PausePoint-Shield-v1.0.apk`) via student union safety channels.
 * **Phase 2: Police Station & Bank Integration (Months 3–5)**:
   Partner with Bengaluru City Police Cybercrime Division and Karnataka CID to display PausePoint QR posters in reception areas, enabling arriving complainants to generate structured 1930 dockets while queuing. Embed links in retail bank SMS alert footers.
 * **Phase 3: National Digital Public Good (Months 6+)**:

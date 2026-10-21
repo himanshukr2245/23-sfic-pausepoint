@@ -16,6 +16,7 @@
     "build:next": "next build",
     "build:cap": "node scripts/build-cap.mjs",
     "build:apk": "node scripts/build-apk.mjs",
+    "phone:run": "node scripts/phone-run.mjs",
     "build:worker": "opennextjs-cloudflare build",
     "start": "next start",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
