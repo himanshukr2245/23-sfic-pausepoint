@@ -172,6 +172,57 @@ class ShieldViewModel(application: Application) : AndroidViewModel(application) 
         _uiState.value = _uiState.value.copy(isDarkMode = enabled)
     }
 
+    private val _pendingScanText = MutableStateFlow<String?>(null)
+    val pendingScanText: StateFlow<String?> = _pendingScanText.asStateFlow()
+
+    fun setPendingScanText(text: String?) {
+        _pendingScanText.value = text
+    }
+
+    fun injectSimulatedTaskScam() {
+        val simulated = ThreatCase(
+            id = "sim-${System.currentTimeMillis()}",
+            source = "WhatsApp",
+            sender = "+91 98110 54321",
+            preview = "Telegram Part-Time Task: Your commission ₹8,400 is frozen. Transfer ₹5,000 security deposit to unlock payout immediately.",
+            playbook = "Part-Time Task Job Scam (Advance Fee)",
+            timestamp = System.currentTimeMillis(),
+            threatScore = 95,
+            status = "flagged"
+        )
+        val simulatedDebit = DebitItem(
+            id = "deb-${System.currentTimeMillis()}",
+            amount = "₹5,000",
+            bank = "State Bank of India (A/c **9124)",
+            timestamp = System.currentTimeMillis(),
+            isAcknowledged = false
+        )
+        _uiState.value = _uiState.value.copy(
+            cases = listOf(simulated) + _uiState.value.cases,
+            debits = listOf(simulatedDebit) + _uiState.value.debits,
+            activeThreatCount = _uiState.value.activeThreatCount + 1,
+            totalInterceptedCount = _uiState.value.totalInterceptedCount + 1
+        )
+    }
+
+    fun injectSimulatedElectricityApk() {
+        val simulated = ThreatCase(
+            id = "sim-${System.currentTimeMillis()}",
+            source = "SMS",
+            sender = "BP-DHBVN",
+            preview = "URGENT: Electricity power will be disconnected at 9:30 PM due to unpaid bill. Update bill via http://power-update.org/bill.apk",
+            playbook = "Utility Bill Dropper Malware (APK Trap)",
+            timestamp = System.currentTimeMillis(),
+            threatScore = 98,
+            status = "flagged"
+        )
+        _uiState.value = _uiState.value.copy(
+            cases = listOf(simulated) + _uiState.value.cases,
+            activeThreatCount = _uiState.value.activeThreatCount + 1,
+            totalInterceptedCount = _uiState.value.totalInterceptedCount + 1
+        )
+    }
+
     private fun isNotificationAccessGranted(context: Context): Boolean {
         val pkgName = context.packageName
         val flat = Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")

@@ -1,21 +1,42 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# ==============================================================================
+# PausePoint Shield — Production R8 Obfuscation & Bytecode Hardening Rules
+# ==============================================================================
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# 1. Bytecode Obfuscation & Repackaging (Flattens packages to conceal code structure)
+-repackageclasses ''
+-allowaccessmodification
+-dontusemixedcaseclassnames
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# 2. Keep Core Android Lifecycle Entry Points declared in AndroidManifest.xml
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# 3. Explicitly Protect Native Background Security Services
+-keep class org.pausepoint.app.shield.service.ChatNotificationListener { *; }
+-keep class org.pausepoint.app.shield.service.CallGuardService { *; }
+
+# 4. Preserve Jetpack Compose Runtime and Composable Functions
+-keep class androidx.compose.runtime.** { *; }
+-keepclassmembers class * {
+    @androidx.compose.runtime.Composable *;
+}
+
+# 5. ViewModel Reflection Compatibility
+-keepclassmembers class * extends androidx.lifecycle.ViewModel {
+    <init>(...);
+}
+
+# 6. Keep State Models & Threat Data Schemas
+-keepclassmembers class org.pausepoint.app.viewmodel.** {
+    *;
+}
+-keepclassmembers class org.pausepoint.app.shield.core.** {
+    *;
+}
+
+# 7. Retain Critical Annotations and Generic Signatures for Coroutines / Serialization
+-keepattributes *Annotation*,Signature,InnerClasses,EnclosingMethod
+

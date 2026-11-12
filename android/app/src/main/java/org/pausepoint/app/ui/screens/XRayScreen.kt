@@ -35,6 +35,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.ContentPaste
@@ -62,6 +63,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -149,6 +152,14 @@ fun XRayScreen(
         if (sessionHistory.none { it.text == textToScan }) {
             sessionHistory.add(0, ScannedHistoryItem(System.currentTimeMillis(), textToScan, result))
             if (sessionHistory.size > 8) sessionHistory.removeLast()
+        }
+    }
+
+    val pendingText by viewModel.pendingScanText.collectAsState()
+    LaunchedEffect(pendingText) {
+        pendingText?.let { text ->
+            executeScan(text)
+            viewModel.setPendingScanText(null)
         }
     }
 
@@ -518,6 +529,7 @@ fun XRayScreen(
                         Spacer(modifier = Modifier.height(6.dp))
 
                         val samples = listOf(
+                            Pair("🎓 WhatsApp Internship", "*Congratulations! Your Selection is Confirmed*\nYour profile has been selected for the Internship Program at Unified Mentor Pvt. Ltd.\n\n📅 Induction: Today\n⏰ Time: 06:00 PM\n⏱️ Duration: 30 Minutes\n💻 Mode: Work From Home\n\nInternship Highlights:\n• Duration: Up to 6 Months\n• Stipend: UP TO 7500 RS\n• Practical Industry Projects\n• Mentorship & Career Support\n\n📲 Join WhatsApp Group: https://chat.whatsapp.com/Hhik3W6mTKlF7QvDtEqrpD\n\n⚠️ Important: Please join the WhatsApp group and attend the induction session on time.\n\nThe session will cover the internship process and next steps.\n\nRegards,\nEshika Rana\nUnified Mentor Pvt. Ltd."),
                             Pair("⚡ Electricity Cut", "Dear consumer, your electricity power will be disconnected tonight at 9:30 PM because your bill was not updated. Please call our power officer immediately at 9821045920 or install http://bescom-bill.xyz/update.apk to avoid disconnection."),
                             Pair("👮 Digital Arrest (CBI)", "CBI HQ New Delhi Notice: An arrest warrant has been issued against you under Narcotics Act. Narcotics seized in FedEx parcel sent from Mumbai to Taiwan in your name. Connect on Skype video call immediately for asset verification or face instant arrest."),
                             Pair("💼 Telegram Task Job", "Part-Time Job Offer: Earn ₹3,000 to ₹8,000 daily working from home! Simply like YouTube videos and write reviews. Telegram group: https://t.me/vip_tasks_daily. Pay ₹500 prepaid deposit to unlock your withdrawal commission."),
@@ -742,11 +754,38 @@ private fun LinkSafetyCapsule(
     links: List<LinkDissection>,
     context: Context
 ) {
+    val hasDangerousLink = links.any { it.hasDangerousExtension || it.isSuspiciousTld || it.isImpersonatingBank || it.isRawIpAddress || it.isShortener }
+    val allVerified = links.isNotEmpty() && links.all { it.isVerifiedPlatform }
+
+    val capsuleThemeColor = when {
+        hasDangerousLink -> AlertCrimson
+        allVerified -> BrandEmerald
+        else -> WarningAmber
+    }
+
+    val headerTitle = when {
+        hasDangerousLink -> "HARMFUL LINK DETECTED"
+        allVerified -> "VERIFIED PLATFORM DETECTED"
+        else -> "EXTERNAL LINK ANALYZED"
+    }
+
+    val headerBadge = when {
+        hasDangerousLink -> "DO NOT OPEN"
+        allVerified -> "AUTHENTIC DOMAIN"
+        else -> "UNVERIFIED"
+    }
+
+    val headerIcon = when {
+        hasDangerousLink -> Icons.Default.Warning
+        allVerified -> Icons.Default.CheckCircle
+        else -> Icons.Default.Link
+    }
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = DarkSurface),
-        border = BorderStroke(1.dp, AlertCrimson.copy(alpha = 0.5f))
+        border = BorderStroke(1.dp, capsuleThemeColor.copy(alpha = 0.5f))
     ) {
         Column(modifier = Modifier.padding(14.dp)) {
             Row(
@@ -759,17 +798,17 @@ private fun LinkSafetyCapsule(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Link,
+                        imageVector = headerIcon,
                         contentDescription = null,
-                        tint = AlertCrimson,
+                        tint = capsuleThemeColor,
                         modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "HARMFUL LINK DETECTED",
+                        text = headerTitle,
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Black,
-                        color = AlertCrimson,
+                        color = capsuleThemeColor,
                         letterSpacing = 0.6.sp,
                         maxLines = 1,
                         softWrap = false,
@@ -781,13 +820,13 @@ private fun LinkSafetyCapsule(
 
                 Surface(
                     shape = RoundedCornerShape(6.dp),
-                    color = AlertCrimson.copy(alpha = 0.15f)
+                    color = capsuleThemeColor.copy(alpha = 0.15f)
                 ) {
                     Text(
-                        text = "DO NOT OPEN",
+                        text = headerBadge,
                         fontSize = 9.sp,
                         fontWeight = FontWeight.Black,
-                        color = AlertCrimson,
+                        color = capsuleThemeColor,
                         softWrap = false,
                         modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)
                     )
@@ -800,7 +839,7 @@ private fun LinkSafetyCapsule(
                 Surface(
                     shape = RoundedCornerShape(10.dp),
                     color = DarkBackground,
-                    border = BorderStroke(0.5.dp, BorderSubtle),
+                    border = BorderStroke(0.5.dp, if (link.isVerifiedPlatform) BrandEmerald.copy(alpha = 0.35f) else BorderSubtle),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(modifier = Modifier.padding(10.dp)) {
@@ -813,7 +852,7 @@ private fun LinkSafetyCapsule(
                                 text = link.domain,
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Black,
-                                color = TextPrimary,
+                                color = if (link.isVerifiedPlatform) BrandEmerald else TextPrimary,
                                 fontFamily = FontFamily.Monospace,
                                 modifier = Modifier.weight(1f, fill = false),
                                 maxLines = 1,
@@ -822,21 +861,53 @@ private fun LinkSafetyCapsule(
 
                             Spacer(modifier = Modifier.width(6.dp))
 
-                            // Red Flag Badges
+                            // Verification / Red Flag Badges
                             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                                for (flag in link.redFlags.take(2)) {
+                                if (link.isVerifiedPlatform) {
                                     Surface(
                                         shape = RoundedCornerShape(4.dp),
-                                        color = AlertCrimson.copy(alpha = 0.2f)
+                                        color = BrandEmerald.copy(alpha = 0.18f),
+                                        border = BorderStroke(0.5.dp, BrandEmerald.copy(alpha = 0.4f))
                                     ) {
                                         Text(
-                                            text = flag,
+                                            text = link.platformLabel.ifEmpty { "OFFICIAL" }.uppercase(),
                                             fontSize = 9.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = AlertCrimson,
-                                            modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp),
+                                            color = BrandEmerald,
+                                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
                                             softWrap = false
                                         )
+                                    }
+                                } else {
+                                    for (flag in link.redFlags.take(2)) {
+                                        Surface(
+                                            shape = RoundedCornerShape(4.dp),
+                                            color = AlertCrimson.copy(alpha = 0.2f)
+                                        ) {
+                                            Text(
+                                                text = flag,
+                                                fontSize = 9.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = AlertCrimson,
+                                                modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp),
+                                                softWrap = false
+                                            )
+                                        }
+                                    }
+                                    if (link.redFlags.isEmpty()) {
+                                        Surface(
+                                            shape = RoundedCornerShape(4.dp),
+                                            color = WarningAmber.copy(alpha = 0.15f)
+                                        ) {
+                                            Text(
+                                                text = "UNVERIFIED",
+                                                fontSize = 9.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = WarningAmber,
+                                                modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp),
+                                                softWrap = false
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -856,10 +927,10 @@ private fun LinkSafetyCapsule(
                         Spacer(modifier = Modifier.height(6.dp))
 
                         Text(
-                            text = "⚠️ ${link.riskSummary}",
+                            text = if (link.isVerifiedPlatform) "✓ ${link.riskSummary}" else "⚠️ ${link.riskSummary}",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Medium,
-                            color = WarningAmber
+                            color = if (link.isVerifiedPlatform) BrandEmerald else WarningAmber
                         )
                     }
                 }
@@ -883,13 +954,28 @@ private fun VerdictCard(
     onToggleDocket: () -> Unit,
     context: Context
 ) {
+    val isHighThreat = result.isScam || result.score >= 60
+    val isCaution = !isHighThreat && result.score in 25..59
+
+    val statusColor = when {
+        isHighThreat -> AlertCrimson
+        isCaution -> WarningAmber
+        else -> BrandEmerald
+    }
+
+    val statusLabel = when {
+        isHighThreat -> "SCAM DETECTED"
+        isCaution -> "CAUTION / ADVISORY"
+        else -> "CLEAN / LOW RISK"
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .animateContentSize(),
         shape = RoundedCornerShape(18.dp),
         colors = CardDefaults.cardColors(containerColor = DarkSurface),
-        border = BorderStroke(1.5.dp, if (result.isScam) AlertCrimson.copy(alpha = 0.6f) else BrandEmerald.copy(alpha = 0.6f))
+        border = BorderStroke(1.5.dp, statusColor.copy(alpha = 0.6f))
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             // Header: Threat Status + Score
@@ -900,8 +986,8 @@ private fun VerdictCard(
             ) {
                 Surface(
                     shape = RoundedCornerShape(8.dp),
-                    color = if (result.isScam) AlertCrimson.copy(alpha = 0.15f) else BrandEmerald.copy(alpha = 0.15f),
-                    border = BorderStroke(0.5.dp, if (result.isScam) AlertCrimson.copy(alpha = 0.4f) else BrandEmerald.copy(alpha = 0.4f))
+                    color = statusColor.copy(alpha = 0.15f),
+                    border = BorderStroke(0.5.dp, statusColor.copy(alpha = 0.4f))
                 ) {
                     Row(
                         modifier = Modifier.padding(horizontal = 9.dp, vertical = 5.dp),
@@ -909,15 +995,15 @@ private fun VerdictCard(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            color = if (result.isScam) AlertCrimson else BrandEmerald,
+                            color = statusColor,
                             modifier = Modifier.size(7.dp)
                         ) {}
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = if (result.isScam) "SCAM DETECTED" else "CLEAN / SAFE",
+                            text = statusLabel,
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Black,
-                            color = if (result.isScam) AlertCrimson else BrandEmerald,
+                            color = statusColor,
                             letterSpacing = 0.5.sp,
                             softWrap = false
                         )
@@ -928,7 +1014,7 @@ private fun VerdictCard(
                     text = "${result.score}% RISK",
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Black,
-                    color = if (result.isScam) AlertCrimson else BrandEmerald,
+                    color = statusColor,
                     fontFamily = FontFamily.Monospace
                 )
             }
@@ -941,7 +1027,7 @@ private fun VerdictCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(5.dp),
-                color = if (result.isScam) AlertCrimson else BrandEmerald,
+                color = statusColor,
                 trackColor = SurfaceElevated
             )
 
@@ -987,29 +1073,47 @@ private fun VerdictCard(
             Spacer(modifier = Modifier.height(12.dp))
 
             // ── THE 3 PILLARS OF TRUTH (HIGH-LEGIBILITY BENTO CAPSULES) ──
+            val pillar1Color = when {
+                isHighThreat -> AlertCrimson
+                isCaution -> WarningAmber
+                else -> BrandEmerald
+            }
+            val pillar1Title = when {
+                isHighThreat -> "THE TRAP"
+                isCaution -> "POTENTIAL RISK FACTOR"
+                else -> "SAFETY ASSESSMENT"
+            }
+            val pillar1Emoji = when {
+                isHighThreat -> "🛑"
+                isCaution -> "⚠️"
+                else -> "🛡️"
+            }
+            val pillar2Title = if (isHighThreat) "WHY IT IS FAKE" else "THE REALITY / TRUTH"
+            val pillar3Title = if (isHighThreat) "WHAT YOU MUST DO" else "RECOMMENDED ACTION"
+
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // Pillar 1: The Trap
+                // Pillar 1: The Trap / Safety Assessment
                 Surface(
                     shape = RoundedCornerShape(14.dp),
-                    color = AlertCrimson.copy(alpha = 0.12f),
-                    border = BorderStroke(1.dp, AlertCrimson.copy(alpha = 0.45f)),
+                    color = pillar1Color.copy(alpha = 0.12f),
+                    border = BorderStroke(1.dp, pillar1Color.copy(alpha = 0.45f)),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
                         modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
                         verticalAlignment = Alignment.Top
                     ) {
-                        Text(text = "🛑", fontSize = 18.sp)
+                        Text(text = pillar1Emoji, fontSize = 18.sp)
                         Spacer(modifier = Modifier.width(10.dp))
                         Column {
                             Text(
-                                text = "THE TRAP",
+                                text = pillar1Title,
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Black,
-                                color = AlertCrimson,
+                                color = pillar1Color,
                                 letterSpacing = 0.8.sp
                             )
                             Spacer(modifier = Modifier.height(4.dp))
@@ -1039,7 +1143,7 @@ private fun VerdictCard(
                         Spacer(modifier = Modifier.width(10.dp))
                         Column {
                             Text(
-                                text = "WHY IT IS FAKE",
+                                text = pillar2Title,
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Black,
                                 color = BrandCyan,
@@ -1072,7 +1176,7 @@ private fun VerdictCard(
                         Spacer(modifier = Modifier.width(10.dp))
                         Column {
                             Text(
-                                text = "WHAT YOU MUST DO",
+                                text = pillar3Title,
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Black,
                                 color = BrandEmerald,

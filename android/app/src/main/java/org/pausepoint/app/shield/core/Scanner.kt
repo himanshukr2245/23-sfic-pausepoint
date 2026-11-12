@@ -25,6 +25,8 @@ data class LinkDissection(
     val isSuspiciousTld: Boolean,
     val isImpersonatingBank: Boolean,
     val isRawIpAddress: Boolean,
+    val isVerifiedPlatform: Boolean = false,
+    val platformLabel: String = "",
     val riskSummary: String,
     val redFlags: List<String>
 )
@@ -75,10 +77,44 @@ object Scanner {
         "xyz", "top", "live", "work", "click", "link", "cc", "icu", "vip", "ru", "cn", "site", "online", "club"
     )
 
+    // Authenticated, Official Platform Domains (Never flagged as malware)
+    private val VERIFIED_PLATFORMS = mapOf(
+        "chat.whatsapp.com" to "Official WhatsApp Group",
+        "whatsapp.com" to "Official WhatsApp",
+        "wa.me" to "Official WhatsApp Direct",
+        "meet.google.com" to "Google Meet",
+        "drive.google.com" to "Google Drive",
+        "docs.google.com" to "Google Docs",
+        "forms.gle" to "Google Forms",
+        "google.com" to "Google Services",
+        "teams.microsoft.com" to "Microsoft Teams",
+        "microsoft.com" to "Microsoft Portal",
+        "zoom.us" to "Zoom Video",
+        "linkedin.com" to "LinkedIn",
+        "internshala.com" to "Internshala",
+        "unstop.com" to "Unstop Platform",
+        "naukri.com" to "Naukri",
+        "cybercrime.gov.in" to "National Cybercrime Portal",
+        "sancharsaathi.gov.in" to "DoT Sanchar Saathi",
+        "mca.gov.in" to "Ministry of Corporate Affairs",
+        "incometax.gov.in" to "Income Tax Department",
+        "uidai.gov.in" to "UIDAI Aadhaar Official",
+        "sbi.co.in" to "State Bank of India",
+        "onlinesbi.sbi" to "SBI NetBanking",
+        "hdfcbank.com" to "HDFC Bank",
+        "icicibank.com" to "ICICI Bank",
+        "axisbank.com" to "Axis Bank",
+        "kotak.com" to "Kotak Mahindra Bank",
+        "pnbindia.in" to "Punjab National Bank",
+        "bankofbaroda.in" to "Bank of Baroda",
+        "canarabank.com" to "Canara Bank",
+        "npci.org.in" to "NPCI / UPI Official"
+    )
+
     private val OFFICIAL_ALLOWLIST = setOf(
         "sbi.co.in", "onlinesbi.sbi", "hdfcbank.com", "icicibank.com", "axisbank.com",
         "pnbindia.in", "kotak.com", "canarabank.com", "bankofbaroda.in", "npci.org.in",
-        "gov.in", "cybercrime.gov.in", "sancharsaathi.gov.in", "incometax.gov.in", "uidai.gov.in"
+        "gov.in", "cybercrime.gov.in", "sancharsaathi.gov.in", "incometax.gov.in", "uidai.gov.in", "mca.gov.in"
     )
 
     private val BANK_KEYWORDS = listOf(
@@ -120,7 +156,7 @@ object Scanner {
         PlaybookDef(
             category = "DIGITAL ARREST / FAKE POLICE",
             headline = "Digital Arrest / Fake Police Extortion",
-            pattern = Pattern.compile("\\b(digital arrest|skype|video call|cbi|ed officer|narcotics|ncb|mumbai police|crime branch|warrant|customs parcel)\\b", Pattern.CASE_INSENSITIVE),
+            pattern = Pattern.compile("\\b(digital arrest|skype|cbi|ed officer|narcotics|ncb|mumbai police|crime branch)\\b.*?\\b(video call|warrant|customs parcel|money laundering|arrested?|drugs)\\b|\\b(video call|skype)\\b.*?\\b(cbi|police|arrest|warrant)\\b", Pattern.CASE_INSENSITIVE),
             weight = 96,
             trap = "Threatens fake criminal arrest via video call to panic you into transferring funds to a 'safe verification account'.",
             truth = "Indian police, CBI, and courts NEVER conduct trials or issue arrest warrants over Skype or WhatsApp video calls. 'Digital Arrest' does not legally exist.",
@@ -138,7 +174,7 @@ object Scanner {
         PlaybookDef(
             category = "PART-TIME TASK & PREPAID DEPOSIT",
             headline = "Part-Time Task & Telegram Deposit Trap",
-            pattern = Pattern.compile("\\b(part[- ]time|work from home|daily income|telegram task|youtube like|rating task|prepaid task|deposit.*commission)\\b", Pattern.CASE_INSENSITIVE),
+            pattern = Pattern.compile("\\b(telegram task|youtube like|rating task|prepaid task|prepaid deposit|deposit.*commission|crypto.*deposit|daily.*commission.*transfer)\\b|\\b(?:part[- ]time|work from home|daily income)\\b.*?(?:prepaid|security deposit|transfer ₹|deposit ₹|pay ₹|pay commission|unlock withdrawal|recharge to earn)", Pattern.CASE_INSENSITIVE),
             weight = 92,
             trap = "Lures you with small initial payouts for simple tasks, then demands escalating 'prepaid deposits' or 'crypto taxes' to unlock earnings.",
             truth = "Legitimate employers never demand upfront security deposits or gas fees to release earned wages. Paying more will NEVER unlock trapped money.",
@@ -154,9 +190,27 @@ object Scanner {
             whatToDo = "1. Do NOT download or install the file. 2. If downloaded, delete immediately from Downloads folder without opening."
         ),
         PlaybookDef(
+            category = "CAREER / INTERNSHIP OFFER",
+            headline = "Internship Selection Notice (Official WhatsApp Link)",
+            pattern = Pattern.compile("\\b(?:internship|selected for|profile has been selected|selection is confirmed|induction session|stipend)\\b", Pattern.CASE_INSENSITIVE),
+            weight = 15,
+            trap = "Unsolicited recruitment groups sometimes later ask students for paid certificates or task security deposits during induction.",
+            truth = "The invite link is on the official WhatsApp domain (chat.whatsapp.com). Legitimate internships pay stipends and never charge students fees to join.",
+            whatToDo = "1. You can safely join the WhatsApp induction. 2. If the organizer asks for any payment, registration fee, or security deposit, exit and block immediately."
+        ),
+        PlaybookDef(
+            category = "OFFICIAL BANK TRANSACTION / OTP",
+            headline = "Authentic Bank Notification / OTP Security Passcode",
+            pattern = Pattern.compile("\\b(?:dear (?:sbi|hdfc|icici|axis|pnb|kotak|customer|user)|your otp is|otp for (?:txn|transaction)|valid for \\d+ (?:mins?|minutes?)|never share otp)\\b", Pattern.CASE_INSENSITIVE),
+            weight = 10,
+            trap = "Never disclose or forward this OTP to anyone calling or messaging you.",
+            truth = "This is a legitimate one-time authentication code generated for your banking transaction.",
+            whatToDo = "Keep this code private. Do NOT share it with anyone, even if they claim to be a bank officer."
+        ),
+        PlaybookDef(
             category = "BANK / KYC BLOCK PHISHING",
             headline = "Bank / SIM KYC Suspension Phishing",
-            pattern = Pattern.compile("\\b(kyc|account (?:blocked|suspended)|de-?activated|pan card|sim (?:block|blocked)|update immediately|yono|netbanking)\\b", Pattern.CASE_INSENSITIVE),
+            pattern = Pattern.compile("\\b(kyc|account (?:blocked|suspended)|de-?activated|pan card|sim (?:block|blocked)|yono|netbanking)\\b.*?\\b(update immediately|click here|visit|link|http)\\b", Pattern.CASE_INSENSITIVE),
             weight = 91,
             trap = "Sends frantic warnings that your bank account or SIM is blocked, prompting you to enter NetBanking credentials on a fake phishing portal.",
             truth = "Banks and telecom operators NEVER suspend accounts via SMS links (.xyz, .top, .live) with 24-hour ultimatums.",
@@ -284,19 +338,28 @@ object Scanner {
         if (matchedPlaybook != null) {
             threatScore = matchedPlaybook.weight
         } else {
-            threatScore += detectedLevers.size * 14
+            threatScore += detectedLevers.size * 12
         }
 
-        // Link risk amplifiers
-        val hasDangerousLink = extractedLinks.any { it.isShortener || it.hasDangerousExtension || it.isSuspiciousTld || it.isImpersonatingBank || it.isRawIpAddress }
+        // Link risk amplifiers: only genuinely dangerous links amplify risk!
+        val hasDangerousLink = extractedLinks.any { it.hasDangerousExtension || it.isSuspiciousTld || it.isImpersonatingBank || it.isRawIpAddress }
         if (hasDangerousLink) {
             threatScore = maxOf(threatScore, 92)
+        } else if (extractedLinks.any { it.isShortener }) {
+            threatScore = maxOf(threatScore, 65)
+        }
+
+        // If all extracted links are verified platform links (e.g. chat.whatsapp.com, meet.google.com),
+        // ensure educational or authentic communication is not falsely amplified to high danger.
+        val allLinksVerified = extractedLinks.isNotEmpty() && extractedLinks.all { it.isVerifiedPlatform }
+        if (allLinksVerified && (matchedPlaybook?.category == "CAREER / INTERNSHIP OFFER" || matchedPlaybook?.category == "OFFICIAL BANK TRANSACTION / OTP")) {
+            threatScore = matchedPlaybook.weight
         }
 
         // Suspicious phone detection (personal 10-digit mobile claimed as official)
         val suspiciousPhones = mutableListOf<String>()
         val hasAuthorityOrThreat = detectedLevers.contains("Fake Authority") || detectedLevers.contains("Fear / Threat")
-        if (hasAuthorityOrThreat) {
+        if (hasAuthorityOrThreat && matchedPlaybook?.category != "CAREER / INTERNSHIP OFFER") {
             for (p in extractedPhones) {
                 val digits = p.replace("\\D".toRegex(), "")
                 if (digits.length == 10 && (digits.startsWith("6") || digits.startsWith("7") || digits.startsWith("8") || digits.startsWith("9"))) {
@@ -330,17 +393,30 @@ object Scanner {
 
         // WhatsApp Family Warning Advisory
         val warningBuilder = StringBuilder()
-        warningBuilder.append("🚨 *SCAM ALERT via PausePoint Shield*\n\n")
-        warningBuilder.append("I checked this message and it is identified as a *${category}*:\n")
-        warningBuilder.append("─────────────────────\n")
-        warningBuilder.append("⚠️ *Trap:* $trap\n")
-        warningBuilder.append("🛡️ *Truth:* $truth\n")
-        warningBuilder.append("👉 *Action:* $whatToDo\n")
-        if (extractedLinks.isNotEmpty()) {
-            warningBuilder.append("❌ *Dangerous Link:* ${extractedLinks.first().rawUrl}\n")
+        if (isScam) {
+            warningBuilder.append("🚨 *SCAM ALERT via PausePoint Shield*\n\n")
+            warningBuilder.append("I checked this message and it is identified as a *${category}*:\n")
+            warningBuilder.append("─────────────────────\n")
+            warningBuilder.append("⚠️ *Trap:* $trap\n")
+            warningBuilder.append("🛡️ *Truth:* $truth\n")
+            warningBuilder.append("👉 *Action:* $whatToDo\n")
+            if (extractedLinks.isNotEmpty() && hasDangerousLink) {
+                warningBuilder.append("❌ *Dangerous Link:* ${extractedLinks.first().rawUrl}\n")
+            }
+            warningBuilder.append("─────────────────────\n")
+            warningBuilder.append("Please do not click any links or send money!")
+        } else {
+            warningBuilder.append("✅ *VERIFIED via PausePoint Shield*\n\n")
+            warningBuilder.append("Message checked: *${category}*\n")
+            warningBuilder.append("─────────────────────\n")
+            warningBuilder.append("🛡️ *Truth:* $truth\n")
+            warningBuilder.append("👉 *Advisory:* $whatToDo\n")
+            if (extractedLinks.isNotEmpty() && allLinksVerified) {
+                warningBuilder.append("🔗 *Verified Link:* ${extractedLinks.first().rawUrl}\n")
+            }
+            warningBuilder.append("─────────────────────\n")
+            warningBuilder.append("Protected by PausePoint Sovereign Cyber Defense.")
         }
-        warningBuilder.append("─────────────────────\n")
-        warningBuilder.append("Please do not click any links or send money!")
 
         return DetailedScanResult(
             score = threatScore,
@@ -369,22 +445,31 @@ object Scanner {
         val lower = urlStr.lowercase()
         val cleanDomain = extractDomain(lower)
 
-        val isShortener = SHORTENER_DOMAINS.any { cleanDomain.contains(it) }
+        // 1. Verified Official Platform Check
+        val matchedPlatform = VERIFIED_PLATFORMS.entries.firstOrNull { (k, _) ->
+            cleanDomain == k || cleanDomain.endsWith(".$k")
+        }
+        val isVerifiedPlatform = matchedPlatform != null
+        val platformLabel = matchedPlatform?.value ?: ""
+
+        // 2. High-Risk Threat Markers
+        val isShortener = SHORTENER_DOMAINS.any { cleanDomain == it || cleanDomain.endsWith(".$it") }
         val hasDangerousExtension = lower.endsWith(".apk") || lower.contains(".apk?") || lower.endsWith(".exe") || lower.endsWith(".scr")
-        val isSuspiciousTld = SUSPICIOUS_TLDS.any { cleanDomain.endsWith(".$it") }
+        val isSuspiciousTld = !isVerifiedPlatform && SUSPICIOUS_TLDS.any { cleanDomain.endsWith(".$it") }
         val isRawIpAddress = Pattern.compile("\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b").matcher(cleanDomain).find()
 
-        val isOfficial = OFFICIAL_ALLOWLIST.any { cleanDomain.endsWith(it) }
-        val isImpersonatingBank = !isOfficial && BANK_KEYWORDS.any { cleanDomain.contains(it) }
+        val isOfficialBank = OFFICIAL_ALLOWLIST.any { cleanDomain == it || cleanDomain.endsWith(".$it") }
+        val isImpersonatingBank = !isOfficialBank && !isVerifiedPlatform && BANK_KEYWORDS.any { cleanDomain.contains(it) }
 
         val redFlags = mutableListOf<String>()
+        if (hasDangerousExtension) redFlags.add("Dangerous .APK Dropper")
         if (isShortener) redFlags.add("URL Shortener")
-        if (hasDangerousExtension) redFlags.add("Dangerous .APK File")
         if (isSuspiciousTld) redFlags.add("Untrusted TLD")
         if (isImpersonatingBank) redFlags.add("Fake Official Domain")
         if (isRawIpAddress) redFlags.add("Raw IP Address")
 
         val riskSummary = when {
+            isVerifiedPlatform -> "$platformLabel ($cleanDomain). Domain is authenticated and safe. Verify group admins before sharing confidential documents."
             hasDangerousExtension -> "Hides a Trojan Android APK file that steals banking OTPs and mirrors screen."
             isShortener -> "Shortened link masks real malicious phishing or malware server."
             isImpersonatingBank -> "Typosquatting domain impersonating official bank or government body."
@@ -401,6 +486,8 @@ object Scanner {
             isSuspiciousTld = isSuspiciousTld,
             isImpersonatingBank = isImpersonatingBank,
             isRawIpAddress = isRawIpAddress,
+            isVerifiedPlatform = isVerifiedPlatform,
+            platformLabel = platformLabel,
             riskSummary = riskSummary,
             redFlags = redFlags
         )

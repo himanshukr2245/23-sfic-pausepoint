@@ -9,9 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.awaitEachGesture
-import androidx.compose.foundation.gestures.calculatePan
-import androidx.compose.foundation.gestures.calculateZoom
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -20,8 +18,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ZoomIn
@@ -37,21 +33,18 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
-import kotlinx.coroutines.launch
 import org.pausepoint.app.shield.core.SpeechManager
 import org.pausepoint.app.ui.components.BottomNavBar
 import org.pausepoint.app.ui.screens.CallDefenseScreen
@@ -118,27 +111,11 @@ fun MainAppHost(
     var lastBackAt by remember { mutableLongStateOf(0L) }
     val uiState by viewModel.uiState.collectAsState()
 
-    val pagerState = rememberPagerState(initialPage = 0, pageCount = { 3 })
-    val coroutineScope = rememberCoroutineScope()
-
     // 2-Finger Force Zoom State (Chrome-Style)
     var zoomScale by remember { mutableFloatStateOf(1f) }
     var zoomOffset by remember { mutableStateOf(Offset.Zero) }
 
     val context = androidx.compose.ui.platform.LocalContext.current
-
-    // Synchronize pager page with bottom nav route
-    androidx.compose.runtime.LaunchedEffect(pagerState.currentPage) {
-        val targetRoute = when (pagerState.currentPage) {
-            0 -> "security"
-            1 -> "xray"
-            else -> "crisis"
-        }
-        if (currentRoute in listOf("security", "xray", "crisis") && currentRoute != targetRoute) {
-            SpeechManager.stop()
-            currentRoute = targetRoute
-        }
-    }
 
     // Double-back to exit guard
     BackHandler(enabled = true) {
@@ -146,10 +123,9 @@ fun MainAppHost(
             // First back resets zoom if currently magnified
             zoomScale = 1f
             zoomOffset = Offset.Zero
-        } else if (currentRoute !in listOf("security", "xray", "crisis")) {
+        } else if (currentRoute != "security") {
+            SpeechManager.stop()
             currentRoute = "security"
-        } else if (pagerState.currentPage != 0) {
-            coroutineScope.launch { pagerState.animateScrollToPage(0) }
         } else {
             val now = System.currentTimeMillis()
             if (now - lastBackAt < 2000L) {
@@ -173,15 +149,6 @@ fun MainAppHost(
                             currentRoute = newRoute
                             zoomScale = 1f
                             zoomOffset = Offset.Zero
-                            val targetPage = when (newRoute) {
-                                "security" -> 0
-                                "xray" -> 1
-                                "crisis" -> 2
-                                else -> 0
-                            }
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(targetPage)
-                            }
                         }
                     }
                 )
@@ -197,41 +164,21 @@ fun MainAppHost(
             val zoomModifier = if (uiState.forceZoomEnabled) {
                 Modifier
                     .pointerInput(Unit) {
-                        awaitEachGesture {
-                            do {
-                                val event = awaitPointerEvent(PointerEventPass.Initial)
-                                val activePointers = event.changes.filter { it.pressed }
-                                if (activePointers.size >= 2) {
-                                    val zoomChange = event.calculateZoom()
-                                    val panChange = event.calculatePan()
-                                    if (zoomChange != 1f || panChange != Offset.Zero) {
-                                        val newScale = (zoomScale * zoomChange).coerceIn(1f, 3.5f)
-                                        zoomScale = newScale
-                                        if (newScale > 1f) {
-                                            val maxPan = 600f * (newScale - 1f)
-                                            val newOffset = zoomOffset + panChange
-                                            zoomOffset = Offset(
-                                                newOffset.x.coerceIn(-maxPan, maxPan),
-                                                newOffset.y.coerceIn(-maxPan, maxPan)
-                                            )
-                                        } else {
-                                            zoomOffset = Offset.Zero
-                                        }
-                                        event.changes.forEach { it.consume() }
-                                    }
-                                } else if (zoomScale > 1.05f && activePointers.size == 1) {
-                                    val panChange = event.calculatePan()
-                                    if (panChange != Offset.Zero) {
-                                        val maxPan = 600f * (zoomScale - 1f)
-                                        val newOffset = zoomOffset + panChange
-                                        zoomOffset = Offset(
-                                            newOffset.x.coerceIn(-maxPan, maxPan),
-                                            newOffset.y.coerceIn(-maxPan, maxPan)
-                                        )
-                                        event.changes.forEach { it.consume() }
-                                    }
+                        detectTransformGestures { _, pan, zoom, _ ->
+                            if (zoom != 1f || pan != Offset.Zero) {
+                                val newScale = (zoomScale * zoom).coerceIn(1f, 3.5f)
+                                zoomScale = newScale
+                                if (newScale > 1f) {
+                                    val maxPan = 600f * (newScale - 1f)
+                                    val newOffset = zoomOffset + pan
+                                    zoomOffset = Offset(
+                                        newOffset.x.coerceIn(-maxPan, maxPan),
+                                        newOffset.y.coerceIn(-maxPan, maxPan)
+                                    )
+                                } else {
+                                    zoomOffset = Offset.Zero
                                 }
-                            } while (event.changes.any { it.pressed })
+                            }
                         }
                     }
                     .graphicsLayer {
@@ -247,68 +194,58 @@ fun MainAppHost(
                     .fillMaxSize()
                     .then(zoomModifier)
             ) {
-                if (currentRoute in listOf("security", "xray", "crisis")) {
-                    HorizontalPager(
-                        state = pagerState,
-                        userScrollEnabled = zoomScale <= 1.05f,
-                        beyondViewportPageCount = 1,
-                        modifier = Modifier.fillMaxSize()
-                    ) { page ->
-                        when (page) {
-                            0 -> SecurityDashboardScreen(
-                                viewModel = viewModel,
-                                onNavigate = { target ->
-                                    when (target) {
-                                        "xray" -> coroutineScope.launch { pagerState.animateScrollToPage(1) }
-                                        "crisis" -> coroutineScope.launch { pagerState.animateScrollToPage(2) }
-                                        else -> currentRoute = target
-                                    }
-                                    zoomScale = 1f
-                                    zoomOffset = Offset.Zero
-                                }
-                            )
-                            1 -> XRayScreen(
-                                viewModel = viewModel,
-                                onBack = {
-                                    coroutineScope.launch { pagerState.animateScrollToPage(0) }
-                                    zoomScale = 1f
-                                    zoomOffset = Offset.Zero
-                                }
-                            )
-                            2 -> CrisisScreen(
-                                onBack = {
-                                    coroutineScope.launch { pagerState.animateScrollToPage(0) }
-                                    zoomScale = 1f
-                                    zoomOffset = Offset.Zero
-                                }
-                            )
+                when (currentRoute) {
+                    "security" -> SecurityDashboardScreen(
+                        viewModel = viewModel,
+                        onNavigate = { target ->
+                            SpeechManager.stop()
+                            currentRoute = target
+                            zoomScale = 1f
+                            zoomOffset = Offset.Zero
                         }
-                    }
-                } else {
-                    when (currentRoute) {
-                        "calls" -> CallDefenseScreen(
-                            onBack = {
-                                currentRoute = "security"
-                                zoomScale = 1f
-                                zoomOffset = Offset.Zero
-                            }
-                        )
-                        "brake" -> PaymentBrakeScreen(
-                            onBack = {
-                                currentRoute = "security"
-                                zoomScale = 1f
-                                zoomOffset = Offset.Zero
-                            }
-                        )
-                        "settings" -> SettingsScreen(
-                            viewModel = viewModel,
-                            onBack = {
-                                currentRoute = "security"
-                                zoomScale = 1f
-                                zoomOffset = Offset.Zero
-                            }
-                        )
-                    }
+                    )
+                    "xray" -> XRayScreen(
+                        viewModel = viewModel,
+                        onBack = {
+                            SpeechManager.stop()
+                            currentRoute = "security"
+                            zoomScale = 1f
+                            zoomOffset = Offset.Zero
+                        }
+                    )
+                    "crisis" -> CrisisScreen(
+                        onBack = {
+                            SpeechManager.stop()
+                            currentRoute = "security"
+                            zoomScale = 1f
+                            zoomOffset = Offset.Zero
+                        }
+                    )
+                    "calls" -> CallDefenseScreen(
+                        onBack = {
+                            SpeechManager.stop()
+                            currentRoute = "security"
+                            zoomScale = 1f
+                            zoomOffset = Offset.Zero
+                        }
+                    )
+                    "brake" -> PaymentBrakeScreen(
+                        onBack = {
+                            SpeechManager.stop()
+                            currentRoute = "security"
+                            zoomScale = 1f
+                            zoomOffset = Offset.Zero
+                        }
+                    )
+                    "settings" -> SettingsScreen(
+                        viewModel = viewModel,
+                        onBack = {
+                            SpeechManager.stop()
+                            currentRoute = "security"
+                            zoomScale = 1f
+                            zoomOffset = Offset.Zero
+                        }
+                    )
                 }
             }
 

@@ -17,6 +17,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,10 +33,12 @@ import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Emergency
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PanTool
 import androidx.compose.material.icons.filled.PhoneInTalk
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Shield
@@ -55,6 +62,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -287,6 +295,12 @@ fun SecurityDashboardScreen(
                 .padding(horizontal = 16.dp, vertical = 4.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            // 0. SIFC JURY DEMO ARENA (Collapsible Card - Default Expanded)
+            JuryDemoArenaCard(
+                viewModel = viewModel,
+                onNavigate = onNavigate
+            )
+
             // 1. HERO SCANNER CHAMBER (Live Forensics)
             HeroScannerCard(
                 onClick = {
@@ -776,6 +790,253 @@ private fun MenuActionRow(
                 tint = TextMuted,
                 modifier = Modifier.size(14.dp)
             )
+        }
+    }
+}
+
+@Composable
+private fun JuryDemoArenaCard(
+    viewModel: ShieldViewModel,
+    onNavigate: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var isExpanded by rememberSaveable { mutableStateOf(true) }
+    val haptic = LocalHapticFeedback.current
+
+    Surface(
+        shape = RoundedCornerShape(16.dp),
+        color = DarkSurfaceVariant,
+        border = BorderStroke(1.dp, BrandCyan.copy(alpha = 0.45f)),
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            // Collapsible Header Row (Tap anywhere to expand / collapse)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        isExpanded = !isExpanded
+                    }
+                    .padding(horizontal = 14.dp, vertical = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Surface(
+                        shape = CircleShape,
+                        color = BrandCyan.copy(alpha = 0.15f),
+                        modifier = Modifier.size(28.dp)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                imageVector = Icons.Default.PlayArrow,
+                                contentDescription = null,
+                                tint = BrandCyan,
+                                modifier = Modifier.size(16.dp)
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Column {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = "SIFC Jury Demo Arena",
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Black,
+                                color = TextPrimary
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Surface(
+                                shape = RoundedCornerShape(6.dp),
+                                color = BrandEmerald.copy(alpha = 0.15f),
+                                border = BorderStroke(0.5.dp, BrandEmerald.copy(alpha = 0.35f))
+                            ) {
+                                Text(
+                                    text = "OFFLINE",
+                                    fontSize = 8.sp,
+                                    fontWeight = FontWeight.Black,
+                                    color = BrandEmerald,
+                                    fontFamily = FontFamily.Monospace,
+                                    modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp)
+                                )
+                            }
+                        }
+                        Text(
+                            text = if (isExpanded) "1-Tap Threat Simulation for Live Evaluation" else "Tap to expand 3 live simulation triggers",
+                            fontSize = 10.sp,
+                            color = TextSecondary
+                        )
+                    }
+                }
+
+                // Expand/Collapse Chevron Indicator
+                Surface(
+                    shape = CircleShape,
+                    color = DarkSurface,
+                    border = BorderStroke(0.5.dp, BorderHairline),
+                    modifier = Modifier.size(26.dp)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            imageVector = if (isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                            contentDescription = if (isExpanded) "Collapse" else "Expand",
+                            tint = BrandCyan,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
+                }
+            }
+
+            // Expandable Content Body
+            AnimatedVisibility(
+                visible = isExpanded,
+                enter = expandVertically() + fadeIn(),
+                exit = shrinkVertically() + fadeOut()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 14.dp, end = 14.dp, bottom = 14.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    // Thin Separator Hairline
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(0.5.dp)
+                            .background(BorderHairline)
+                    )
+
+                    // Simulation 1: Task Scam Advance Fee Trap
+                    Surface(
+                        shape = RoundedCornerShape(10.dp),
+                        color = DarkSurface,
+                        border = BorderStroke(0.5.dp, WarningAmber.copy(alpha = 0.35f)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                viewModel.injectSimulatedTaskScam()
+                                viewModel.setPendingScanText(
+                                    "Telegram Task: Your part-time commission ₹8,400 is ready. Transfer ₹5,000 security deposit immediately to unlock withdrawal."
+                                )
+                                onNavigate("xray")
+                            }
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 9.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "1. Simulate Task Scam SMS (₹8,400)",
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = WarningAmber
+                                )
+                                Text(
+                                    text = "Triggers Advance-Fee Trap & Money Watch Correlation",
+                                    fontSize = 10.sp,
+                                    color = TextMuted
+                                )
+                            }
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                contentDescription = null,
+                                tint = WarningAmber,
+                                modifier = Modifier.size(14.dp)
+                            )
+                        }
+                    }
+
+                    // Simulation 2: Fake CBI Digital Arrest Call
+                    Surface(
+                        shape = RoundedCornerShape(10.dp),
+                        color = DarkSurface,
+                        border = BorderStroke(0.5.dp, AlertCrimson.copy(alpha = 0.35f)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                onNavigate("calls")
+                            }
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 9.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "2. Simulate Fake Police / CBI Call",
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = AlertCrimson
+                                )
+                                Text(
+                                    text = "Triggers Call Guard 1600 verification rules",
+                                    fontSize = 10.sp,
+                                    color = TextMuted
+                                )
+                            }
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                contentDescription = null,
+                                tint = AlertCrimson,
+                                modifier = Modifier.size(14.dp)
+                            )
+                        }
+                    }
+
+                    // Simulation 3: Electricity Dropper Malware APK
+                    Surface(
+                        shape = RoundedCornerShape(10.dp),
+                        color = DarkSurface,
+                        border = BorderStroke(0.5.dp, BrandCyan.copy(alpha = 0.35f)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                viewModel.injectSimulatedElectricityApk()
+                                viewModel.setPendingScanText(
+                                    "URGENT: Electricity bill unpaid. Power will be disconnected tonight 9:30 PM. Download & update via http://power-update.org/bill.apk"
+                                )
+                                onNavigate("xray")
+                            }
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 9.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "3. Simulate Electricity Dropper APK",
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = BrandCyan
+                                )
+                                Text(
+                                    text = "Triggers malware dissection & reverse-engineering link warnings",
+                                    fontSize = 10.sp,
+                                    color = TextMuted
+                                )
+                            }
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                contentDescription = null,
+                                tint = BrandCyan,
+                                modifier = Modifier.size(14.dp)
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }

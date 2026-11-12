@@ -39,14 +39,11 @@ if (mainManifest.includes('android.permission.RECEIVE_SMS') || mainManifest.incl
 }
 console.log('  ✓ Zero high-risk telephony permissions (Play Protect friendly)');
 
-// 3. Verify native background security services
-if (!mainManifest.includes('ChatNotificationListener')) {
-  fail('AndroidManifest.xml must declare ChatNotificationListener (NotificationListenerService)');
+// 3. Verify Play Protect compliance: No BIND_NOTIFICATION_LISTENER_SERVICE or BIND_SCREENING_SERVICE in public release manifest
+if (mainManifest.includes('BIND_NOTIFICATION_LISTENER_SERVICE') || mainManifest.includes('BIND_SCREENING_SERVICE')) {
+  fail('AndroidManifest.xml must NOT declare BIND_NOTIFICATION_LISTENER_SERVICE or BIND_SCREENING_SERVICE (causes Google Play Protect Financial Fraud hard-block)');
 }
-if (!mainManifest.includes('CallGuardService')) {
-  fail('AndroidManifest.xml must declare CallGuardService (CallScreeningService)');
-}
-console.log('  ✓ Native firewall background services declared (ChatNotificationListener + CallGuardService)');
+console.log('  ✓ Zero sensitive background listener bindings (100% Google Play Protect safe)');
 
 // 4. Verify dedicated release keystore
 const keystorePath = path.join(rootDir, 'android', 'keystore', 'pausepoint-release.keystore');

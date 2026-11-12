@@ -2,7 +2,7 @@ import sharp from 'sharp';
 import { resolve, join } from 'node:path';
 import { existsSync, mkdirSync } from 'node:fs';
 
-const SOURCE_LOGO = resolve('d:/VS Code Workspaces/7. Google ai.studio/4-Projects/00-Assets_Original/23-sifc-pausepoint/PausePoint_App_logo.png');
+const SOURCE_LOGO = resolve('d:/VS Code Workspaces/7. Google ai.studio/3-Assests/23-sifc-pausepoint/PausePoint_App_logo.png');
 const RES_DIR = resolve('android/app/src/main/res');
 
 const MIPMAP_SPECS = [
@@ -14,36 +14,80 @@ const MIPMAP_SPECS = [
 ];
 
 async function generate() {
-  console.log(`Generating Android Icons from ${SOURCE_LOGO}...`);
+  console.log(`Generating Perfect Android Icons from ${SOURCE_LOGO}...`);
 
   for (const spec of MIPMAP_SPECS) {
     const dir = join(RES_DIR, spec.folder);
     if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
 
-    // Standard square launcher
-    await sharp(SOURCE_LOGO)
-      .resize(spec.size, spec.size, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
-      .toFile(join(dir, 'ic_launcher.png'));
+    // 1. Adaptive Icon Foreground (Optimized 52% scale for perfect 24% breathing room matching Discord, LinkedIn, Teams)
+    const targetFgLogo = Math.round(spec.fgSize * 0.52);
+    const fgEmblemBuffer = await sharp(SOURCE_LOGO)
+      .resize(targetFgLogo, targetFgLogo, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+      .toBuffer();
 
-    // Round launcher
-    await sharp(SOURCE_LOGO)
-      .resize(spec.size, spec.size, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
-      .toFile(join(dir, 'ic_launcher_round.png'));
+    const fgPadX = Math.round((spec.fgSize - targetFgLogo) / 2);
+    const fgPadY = Math.round((spec.fgSize - targetFgLogo) / 2);
 
-    // Adaptive icon foreground
-    await sharp(SOURCE_LOGO)
-      .resize(Math.round(spec.fgSize * 0.75), Math.round(spec.fgSize * 0.75), { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
-      .extend({
-        top: Math.round(spec.fgSize * 0.125),
-        bottom: Math.round(spec.fgSize * 0.125),
-        left: Math.round(spec.fgSize * 0.125),
-        right: Math.round(spec.fgSize * 0.125),
+    await sharp({
+      create: {
+        width: spec.fgSize,
+        height: spec.fgSize,
+        channels: 4,
         background: { r: 0, g: 0, b: 0, alpha: 0 }
-      })
-      .resize(spec.fgSize, spec.fgSize)
+      }
+    })
+      .composite([{ input: fgEmblemBuffer, left: fgPadX, top: fgPadY }])
+      .png()
       .toFile(join(dir, 'ic_launcher_foreground.png'));
 
-    console.log(`  ✓ Generated ${spec.folder}`);
+    // 2. Legacy Square Launcher Icon (Deep Obsidian Squircle badge with centered emblem)
+    const squircleRadius = Math.round(spec.size * 0.22);
+    const targetLegacyLogo = Math.round(spec.size * 0.58);
+    const legacyEmblemBuffer = await sharp(SOURCE_LOGO)
+      .resize(targetLegacyLogo, targetLegacyLogo, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+      .toBuffer();
+
+    const legacyPad = Math.round((spec.size - targetLegacyLogo) / 2);
+
+    const squircleSvg = Buffer.from(`
+      <svg width="${spec.size}" height="${spec.size}" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="gradSq" cx="50%" cy="50%" r="75%">
+            <stop offset="0%" stop-color="#182747" />
+            <stop offset="60%" stop-color="#0E1629" />
+            <stop offset="100%" stop-color="#060913" />
+          </radialGradient>
+        </defs>
+        <rect width="${spec.size}" height="${spec.size}" rx="${squircleRadius}" ry="${squircleRadius}" fill="url(#gradSq)" />
+      </svg>
+    `);
+
+    await sharp(squircleSvg)
+      .composite([{ input: legacyEmblemBuffer, left: legacyPad, top: legacyPad }])
+      .png()
+      .toFile(join(dir, 'ic_launcher.png'));
+
+    // 3. Legacy Round Launcher Icon (Deep Obsidian Circular badge with centered emblem)
+    const circleSvg = Buffer.from(`
+      <svg width="${spec.size}" height="${spec.size}" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="gradCirc" cx="50%" cy="50%" r="75%">
+            <stop offset="0%" stop-color="#182747" />
+            <stop offset="60%" stop-color="#0E1629" />
+            <stop offset="100%" stop-color="#060913" />
+          </radialGradient>
+        </defs>
+        <circle cx="${spec.size / 2}" cy="${spec.size / 2}" r="${spec.size / 2}" fill="url(#gradCirc)" />
+      </svg>
+    `);
+
+    await sharp(circleSvg)
+      .composite([{ input: legacyEmblemBuffer, left: legacyPad, top: legacyPad }])
+      .png()
+      .toFile(join(dir, 'ic_launcher_round.png'));
+
+    console.log(`  ✓ Generated calibrated ${spec.folder} (fg: ${spec.fgSize}px, legacy: ${spec.size}px)`);
   }
 
   // Generate in-app compose drawable logo
@@ -55,7 +99,7 @@ async function generate() {
     .toFile(join(drawableDir, 'ic_pausepoint_logo.png'));
   console.log(`  ✓ Generated drawable/ic_pausepoint_logo.png (256x256)`);
 
-  console.log('✅ Android Launcher & In-App Brand Icons generated successfully!');
+  console.log('✅ Android Launcher & In-App Brand Icons generated with perfect safe zone ratios!');
 }
 
 generate().catch(err => {
